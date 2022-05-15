@@ -1,10 +1,5 @@
-/*1tg_insert*/
-DELIMITER $$
-CREATE TRIGGER search_history_add_tg
-  BEFORE INSERT ON 
-    search_history
-  FOR EACH ROW
-BEGIN
-	delete from search_history sh where sh.content_date < (SYSDATE() - 30);
-END$$
-DELIMITER ;
+CREATE EVENT sh_deleting_event
+    ON SCHEDULE
+      EVERY 1 DAY
+    DO
+      DELETE FROM search_history WHERE DATEDIFF(content_date, CURRENT_TIMESTAMP) < -29;
