@@ -1,4 +1,4 @@
-package nsu.fit.upprpo.parser;
+package parsing.src;
 
 import java.io.File;
 import java.io.FileNotFoundException;
