@@ -11,7 +11,7 @@
 	</parent>
 
 	<groupId>com.market</groupId>
-    <artifactId>market-backend</artifactId>
+    <artifactId>market-frontend</artifactId>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -29,7 +29,7 @@
                         <version>1.6</version>
                         <configuration>
                             <installDirectory>target</installDirectory>
-                            <!--<npmInheritsProxyConfigFromMaven>false</npmInheritsProxyConfigFromMaven>-->
+                            <!-- <npmInheritsProxyConfigFromMaven>false</npmInheritsProxyConfigFromMaven> -->
                         </configuration>
                         <executions>
                             <execution>
@@ -79,7 +79,7 @@
                                     <arguments>install</arguments>
                                 </configuration>
                             </execution>
-                            <execution>
+                            <!-- <execution>
                                 <id>webpack build</id>
                                 <goals>
                                     <goal>webpack</goal>
@@ -87,10 +87,10 @@
                                 <configuration>
 
                                     <arguments>
-                                        --config webpack.config.prod.js
+                                        ++config webpack.config.js
                                     </arguments>
                                 </configuration>
-                            </execution>
+                            </execution> -->
 
                         </executions>
                     </plugin>
