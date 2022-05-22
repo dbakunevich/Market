@@ -33,7 +33,7 @@ public class DBWorker {
 
     public void addUser(String username, String password) {
         try {
-            statement.execute("insert into  users values (" + "'" + username + "'," + "'" + password + "'" + ")");
+            statement.execute("insert into  users values (" + "'" + username + "'," + "'" + password + "'," + " CURRENT_TIMESTAMP" + ")");
         } catch (SQLException e) {
             e.printStackTrace();
         }
