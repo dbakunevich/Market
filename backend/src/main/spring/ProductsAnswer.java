@@ -1,4 +1,4 @@
-package SpringApp;
+package spring;
 
 import parsing.src.Product;
 

@@ -1,4 +1,4 @@
-package SpringApp;
+package spring;
 
 import org.springframework.boot.*;
 import org.springframework.boot.autoconfigure.*;

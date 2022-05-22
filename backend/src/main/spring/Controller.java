@@ -1,4 +1,4 @@
-package SpringApp;
+package spring;
 
 import com.alibaba.fastjson2.JSON;
 import org.springframework.web.bind.annotation.GetMapping;
