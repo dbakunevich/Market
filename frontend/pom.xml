@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+	<parent>
+		<groupId>com.market</groupId>
+		<artifactId>market</artifactId>
+		<version>0.0.1-SNAPSHOT</version>
+	</parent>
+
+	<groupId>com.market</groupId>
+    <artifactId>market-backend</artifactId>
+
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <java.version>11</java.version>
+    </properties>
+
+    <profiles>
+        <profile>
+            <id>dev</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>com.github.eirslett</groupId>
+                        <artifactId>frontend-maven-plugin</artifactId>
+                        <version>1.6</version>
+                        <configuration>
+                            <installDirectory>target</installDirectory>
+                            <!--<npmInheritsProxyConfigFromMaven>false</npmInheritsProxyConfigFromMaven>-->
+                        </configuration>
+                        <executions>
+                            <execution>
+                                <id>webpack build</id>
+                                <goals>
+                                    <goal>webpack</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+        <profile>
+            <id>prod</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>com.github.eirslett</groupId>
+                        <artifactId>frontend-maven-plugin</artifactId>
+                        <version>1.6</version>
+                        <configuration>
+                            <installDirectory>target</installDirectory>
+                            <!--<npmInheritsProxyConfigFromMaven>false</npmInheritsProxyConfigFromMaven>-->
+                        </configuration>
+                        <executions>
+                            <execution>
+                                <id>install node and npm</id>
+                                <goals>
+                                    <goal>install-node-and-npm</goal>
+                                </goals>
+                                <configuration>
+                                    <nodeVersion>v8.9.4</nodeVersion>
+                                    <npmVersion>5.6.0</npmVersion>
+                                    <nodeDownloadRoot>http://nodejs.org/dist/</nodeDownloadRoot>
+                                </configuration>
+                            </execution>
+                            <execution>
+                                <id>npm install</id>
+                                <goals>
+                                    <goal>npm</goal>
+                                </goals>
+                                <configuration>
+                                    <arguments>install</arguments>
+                                </configuration>
+                            </execution>
+                            <execution>
+                                <id>webpack build</id>
+                                <goals>
+                                    <goal>webpack</goal>
+                                </goals>
+                                <configuration>
+
+                                    <arguments>
+                                        --config webpack.config.prod.js
+                                    </arguments>
+                                </configuration>
+                            </execution>
+
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
+
+    <build>
+    </build>
+
+
+</project>
