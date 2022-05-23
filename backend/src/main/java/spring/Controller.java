@@ -1,10 +1,16 @@
 package spring;
 
 import com.alibaba.fastjson2.JSON;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import parsing.src.Product;
+import parsing.Citilink;
+import parsing.Product;
+
+import java.io.FileNotFoundException;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
@@ -13,11 +19,13 @@ import java.util.stream.Collectors;
 @RestController
 public class Controller {
 
+    @CrossOrigin(origins = "http://localhost:3000")
     @GetMapping("/")
     String home() {
         return "Home";
     }
 
+    @CrossOrigin(origins = "http://localhost:3000")
     @GetMapping("/search")
     public String search(@RequestParam String toSearch,
                          @RequestParam(required = false, name = "lp") Integer low_price,
@@ -25,10 +33,14 @@ public class Controller {
                          @RequestParam(required = false) Boolean price_order,
                          @RequestParam(required = false) Boolean name_order,
                          @RequestParam(required = false, defaultValue = "0") Integer page,
-                         @RequestParam(required = false, defaultValue = "10") Integer page_size) {
+                         @RequestParam(required = false, defaultValue = "10") Integer page_size) throws FileNotFoundException, MalformedURLException {
         List<Product> products = new ArrayList<>();
-        for (int i = 0; i < 10; i++) {
-            products.add(new Product("name " + i + " " + toSearch, i, null, "descr" + i));
+        for (int i = 0; i < 100; i++) {
+            products.add(new Product().
+                    setName(toSearch + "#" + i)
+                    .setPrice((i+50)%100)
+                    .setLink(new URL("https://www.citilink.ru/product/smartfon-apple-iphone-11-mhdn3ru-a-zelenyi-1429424/"))
+                    .addImageUrl("https://cdn.citilink.ru/GGhb_JZUetpBUpicPZ0baKdBy_YjquwvlFDTOCiKIYA/fit/215/170/ce/false/plain/items/1429424_v01_m.jpg"));
         }
 
         int count = products.size();
@@ -71,6 +83,8 @@ public class Controller {
             }
 
             return JSON.toJSONString(new ProductsAnswer(count, products));
-        } else return "0";
+        } else {
+            return "0";
+        }
     }
 }

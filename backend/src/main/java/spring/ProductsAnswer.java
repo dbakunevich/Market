@@ -1,6 +1,6 @@
 package spring;
 
-import parsing.src.Product;
+import parsing.Product;
 
 import java.util.List;
 
@@ -13,9 +13,9 @@ public class ProductsAnswer {
         this.products = products;
     }
 
-    // public int getAmount() {
-    //     return amount;
-    // }
+    public int getAmount() {
+        return amount;
+    }
 
     public List<Product> getProducts() {
         return products;

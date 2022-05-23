@@ -1,4 +1,4 @@
-package parsing.src;
+/*package parsing;
 
 import javax.script.ScriptEngine;
 import javax.script.ScriptEngineManager;
@@ -168,4 +168,4 @@ public class DNS implements Parser{
         System.out.println(res);
         return parseProduct(res);
     }
-}
+}*/
