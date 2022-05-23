@@ -6,10 +6,12 @@
 	<groupId>com.market</groupId>
 	<artifactId>market</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
+	
 	<modules>
         <module>backend</module>
         <module>frontend</module>
     </modules>
+	
     <packaging>pom</packaging>
 
 </project>
