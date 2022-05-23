@@ -1,4 +1,4 @@
-package nsu.fit.upprpo.parser;
+package parsing;
 
 import javax.script.ScriptEngine;
 import javax.script.ScriptEngineManager;

@@ -1,4 +1,4 @@
-package nsu.fit.upprpo.parser;
+package parsing;
 
 import java.net.URL;
 import java.util.ArrayList;
@@ -36,7 +36,6 @@ public class Product {
                 "\nURL: " + link);
         if (specifications != null)
             System.out.println("Spec: " + specifications);
-
     }
 
     public Product addImageUrl(String url) {
@@ -45,7 +44,23 @@ public class Product {
         return this;
     }
 
-    public ArrayList<String> getImages() {
-        return images;
+    public String getName() {
+        return name;
+    }
+
+    public int getPrice() {
+        return price;
+    }
+
+    public URL getLink() {
+        return link;
+    }
+
+    public String getSpecifications() {
+        return specifications;
+    }
+
+    public String getImages() {
+        return images.get(0);
     }
 }
