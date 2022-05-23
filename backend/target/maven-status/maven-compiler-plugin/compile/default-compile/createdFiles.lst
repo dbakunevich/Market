@@ -1,7 +1,7 @@
 database/DBWorker.class
-parsing/src/Product.class
+parsing/Product.class
 spring/Controller.class
-parsing/src/Parser.class
 spring/Main.class
 spring/ProductsAnswer.class
-parsing/src/DNS.class
+parsing/Citilink.class
+parsing/Parser.class
