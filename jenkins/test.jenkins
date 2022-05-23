@@ -8,10 +8,10 @@ pipeline {
         buildDiscarder(logRotator(numToKeepStr: '2', artifactNumToKeepStr: '2'))
         timestamps()
     }
-    tools { 
-        maven 'maven-3.8.5' 
-        jdk 'openjdk-11' 
-    }
+//    tools { 
+//        maven 'maven-3.8.5' 
+//        jdk 'openjdk-11' 
+//    }
     stages {
         stage ('Initialize') {
             steps {
