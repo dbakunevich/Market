@@ -1,61 +1,51 @@
-package parsing.src;
+package nsu.fit.upprpo.parser;
 
 import java.net.URL;
+import java.util.ArrayList;
 
 public class Product {
     String name;
     int price;
     URL link;
-    String description;
+    String specifications;
+    ArrayList<String> images;
 
-    public Product(){}
-
-    public Product(String name, int price, URL link, String description) {
+    public Product setName(String name) {
         this.name = name;
-        this.price = price;
+        return this;
+    }
+
+    public Product setSpecifications(String specifications) {
+        this.specifications = specifications;
+        return this;
+    }
+
+    public Product setLink(URL link) {
         this.link = link;
-        this.description = description;
+        return this;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public void setLink(URL link) {
-        this.link = link;
-    }
-
-    public void setPrice(int price) {
+    public Product setPrice(int price) {
         this.price = price;
+        return this;
     }
 
-    public String getName() {
-        return name;
+    public void printInfo() {
+        System.out.println("Product: " + name +
+                "\nPrice: " + price +
+                "\nURL: " + link);
+        if (specifications != null)
+            System.out.println("Spec: " + specifications);
+
     }
 
-    public int getPrice() {
-        return price;
+    public Product addImageUrl(String url) {
+        if (images == null) images = new ArrayList<String>();
+        images.add(url);
+        return this;
     }
 
-    public URL getLink() {
-        return link;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    @Override
-    public String toString() {
-        return "Product{" +
-                "name='" + name + '\'' +
-                ", price=" + price +
-                ", link=" + link +
-                ", description='" + description + '\'' +
-                '}';
+    public ArrayList<String> getImages() {
+        return images;
     }
 }
