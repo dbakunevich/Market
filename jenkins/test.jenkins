@@ -38,41 +38,43 @@ pipeline {
                     }
             }
         }
-        // stage("create and run docker image for backend") {
-        //     steps {
-        //         echo " ============== start building docker image =================="
-        //         sh 'cp /var/lib/jenkins/workspace/graph-chat/backend/target/backend-0.0.1-SNAPSHOT.jar /var/lib/jenkins/workspace/graph-chat/dockerfiles/backend/backend-0.0.1-SNAPSHOT.jar'
-        //         dir ('dockerfiles/backend') {
-        //             sh 'docker 2>/dev/null 1>&2 stop app_back || true'
-        //             sh 'docker 2>/dev/null 1>&2 rmi backend-app:release || true'
-        //         	sh 'docker build -t backend-app:release . '
-        //         }
-        //     }
-        // }
-        // stage("run docker container for backend") {
-        //     steps {
-        //         echo " ============== run docker container ========================="
-        //         sh 'docker run --rm --name app_back -d -p 8181:8181 backend-app:release'
-        //         sh 'docker ps'
-        //     }
-        // }
-        //  stage("create and run docker image for frontend") {
-        //     steps {
-        //         echo " ============== start building docker image =================="
-        //         dir ('frontend') {
-        //             sh 'docker 2>/dev/null 1>&2 stop app_front || true'
-        //             sh 'docker 2>/dev/null 1>&2 rmi frontend-app:release || true'
-        //         	sh 'docker build -t frontend-app:release . '
-        //         }
-        //     }
-        // }
-        // stage("run docker container for frontend") {
-        //     steps {
-        //         echo " ============== run docker container ========================="
-        //         sh 'docker run --rm --name app_front -d -p 8182:3000 frontend-app:release'
-        //         sh 'docker ps'
-        //     }
-        // }
+        stage("create and run docker image for backend") {
+            steps {
+                echo " ============== start building docker image =================="
+                sh 'cp /var/lib/jenkins/workspace/pipe_1/backend/target/market-backend-0.0.1-SNAPSHOT.jar /var/lib/jenkins/workspace/pipe_1/backend/market-backend-0.0.1-SNAPSHOT.jar'
+                dir ('backend') {
+                    sh 'docker 2>/dev/null 1>&2 stop app_back || true'
+                    sh 'docker 2>/dev/null 1>&2 rmi backend-app:release || true'
+                	sh 'docker build -t backend-app:release . '
+                }
+            }
+        }
+        stage("run docker container for backend") {
+            steps {
+                echo " ============== run docker container ========================="
+                sh 'docker run --restart=always --rm --name app_back -d -p 8181:8181 backend-app:release'
+                sh 'docker ps'
+                sh 'docker logs app_back'
+            }
+        }
+        stage("create and run docker image for frontend") {
+            steps {
+                echo " ============== start building docker image =================="
+                dir ('frontend') {
+                    sh 'docker 2>/dev/null 1>&2 stop app_front || true'
+                    sh 'docker 2>/dev/null 1>&2 rmi frontend-app:release || true'
+                	sh 'docker build -t frontend-app:release . '
+                }
+            }
+        }
+        stage("run docker container for frontend") {
+            steps {
+                echo " ============== run docker container ========================="
+                sh 'docker run --rm --name app_front -d -p 8182:3000 frontend-app:release'
+                sh 'docker ps'
+                sh 'docker logs app_front'
+            }
+        }
 
     }
 }
