@@ -1,6 +1,7 @@
 package database;
 
 import java.sql.*;
+import java.util.ArrayList;
 
 public class DBWorker {
     private static final String URL = "jdbc:mysql://localhost:3306/upprpo";
@@ -53,6 +54,29 @@ public class DBWorker {
             e.printStackTrace();
         }
         return "Неверный логин или пароль!";
+    }
+
+    public void addHistory(String username, String content) {
+        try {
+            statement.execute("insert into  users values (" + "'" + username + "'," + "'" + content + "'," + " CURRENT_TIMESTAMP" + ")");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public ArrayList<String> findHistory(String username) {
+        ArrayList<String> results = new ArrayList<>();
+
+        String query = "select distinct content from search_history where username = " + "'" + username + "'";
+        try {
+            ResultSet resultSet = statement.executeQuery(query);
+            while (resultSet.next()) {
+                results.add(resultSet.getString(1));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return results;
     }
 
     public Connection getConnection() {
