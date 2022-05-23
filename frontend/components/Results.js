@@ -15,7 +15,8 @@ export default class Results extends Component {
     }
 
     componentDidMount() {
-        let response = fetch("http://51.250.108.33:8181/search?toSearch=abc&page_size=5",{
+        fetch("http://51.250.108.33:8181/search?toSearch=abc&page_size=5",{
+            mode: "no-cors"
         })
             .then(result => result.json())
             .then(

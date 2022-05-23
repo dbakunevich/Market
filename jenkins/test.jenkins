@@ -13,12 +13,12 @@ pipeline {
     stages {
         stage("First step") {
             steps {
-                sh 'ssh market@market \'hostname\''
+                sh 'ssh market@market sudo su \'hostname\''
             }
         }
         stage("Second step") {
             steps {
-                sh 'ssh market@market \'uptime\''
+                sh 'ssh market@market sudo su \'uptime\''
             }
         }
     }
