@@ -52,7 +52,7 @@ pipeline {
         stage("run docker container for backend") {
             steps {
                 echo " ============== run docker container ========================="
-                sh 'docker run --restart=always --rm --name app_back -d -p 8181:8181 backend-app:release'
+                sh 'docker run --restart=always --name app_back -d -p 8181:8181 backend-app:release'
                 sh 'docker ps'
                 sh 'docker logs app_back'
             }
@@ -70,7 +70,7 @@ pipeline {
         stage("run docker container for frontend") {
             steps {
                 echo " ============== run docker container ========================="
-                sh 'docker run --rm --name app_front -d -p 8182:3000 frontend-app:release'
+                sh 'docker run --restart=always --name app_front -d -p 8182:3000 frontend-app:release'
                 sh 'docker ps'
                 sh 'docker logs app_front'
             }
