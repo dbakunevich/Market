@@ -47,7 +47,7 @@ public class DBWorker {
         return "Неверный логин или пароль!";
     }
 
-    public void addHistory(String username, String content) {
+    public Boolean addHistory(String username, String content) {
         try {
             statement.execute("insert into  users values (" + "'" + username + "'," + "'" + content + "'," + " CURRENT_TIMESTAMP" + ")");
             return true;
