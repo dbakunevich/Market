@@ -17,26 +17,17 @@ public class DBWorker {
             statement = connection.createStatement();
         } catch (SQLException e) {
             e.printStackTrace();
+            exit(1);
         }
-
-//        try {
-//
-////            ResultSet resultSet = statement.executeQuery(query_user);
-////            while (resultSet.next()) {
-////                System.out.println(resultSet.getString(1));
-////                System.out.println(resultSet.getString(2));
-////
-////            }
-//        } catch (SQLException throwables) {
-//            throwables.printStackTrace();
-//        }
     }
 
-    public void addUser(String username, String password) {
+    public Boolean addUser(String username, String password) {
         try {
             statement.execute("insert into  users values (" + "'" + username + "'," + "'" + password + "'," + " CURRENT_TIMESTAMP" + ")");
+            return true;
         } catch (SQLException e) {
             e.printStackTrace();
+            return false;
         }
     }
 
@@ -59,16 +50,19 @@ public class DBWorker {
     public void addHistory(String username, String content) {
         try {
             statement.execute("insert into  users values (" + "'" + username + "'," + "'" + content + "'," + " CURRENT_TIMESTAMP" + ")");
+            return true;
         } catch (SQLException e) {
             e.printStackTrace();
+            return false;
         }
     }
 
     public ArrayList<String> findHistory(String username) {
-        ArrayList<String> results = new ArrayList<>();
+        ArrayList<String> results = null;
 
         String query = "select distinct content from search_history where username = " + "'" + username + "'";
         try {
+            ArrayList<String> results = new ArrayList<>();
             ResultSet resultSet = statement.executeQuery(query);
             while (resultSet.next()) {
                 results.add(resultSet.getString(1));
@@ -81,9 +75,5 @@ public class DBWorker {
 
     public Connection getConnection() {
         return connection;
-    }
-
-    public Statement getStatement() {
-        return statement;
     }
 }
