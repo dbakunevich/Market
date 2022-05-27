@@ -141,17 +141,15 @@ public class Citilink extends Parser {
         StringBuilder res = new StringBuilder();
         boolean flag = false;
         Matcher subMatcher = PROPERTIES_SUBNAME.matcher(a);
-        if (subMatcher.find()) {
+        if (subMatcher.find()) 
             res.append("\"").append(subMatcher.group(1).strip()).append("\":{");
-        }
+
         subMatcher = PROPERTIES_SUBPROP.matcher(a);
         while (subMatcher.find()) {
-            if (flag) {
+            if (flag)
                 res.append("\"").append(subMatcher.group(1).strip()).append("\",");
-            }
-            else {
+            else
                 res.append("\"").append(subMatcher.group(1).strip()).append("\":");
-            }
             flag = !flag;
         }
         res.append("},");
