@@ -2,21 +2,30 @@ import React, {Component} from "react";
 
 
 
-export default class Results extends Component {
-
+export default class Results extends Component{
 
     constructor(props) {
         super(props);
         this.state = {
             error: null,
             isLoaded: false,
-            items: []
+            items: [],
+            lastName: 'name'
         };
     }
 
     componentDidMount() {
-        fetch("http://51.250.108.33:8181/search?toSearch=abc&page_size=5",{
-            mode: "no-cors"
+        this.lastName = this.props.name;
+        let url = "http://localhost:8181/search?";
+        let search = "toSearch=";
+        if (this.props.name === null)
+            search += "phone&";
+        else
+            search += this.props.name + "&";
+
+        let page_size = "page_size=" + this.props.page_size+ "&";
+        let query = url +  search + page_size;
+        fetch(query,{
         })
             .then(result => result.json())
             .then(
@@ -32,11 +41,12 @@ export default class Results extends Component {
                         error
                     });
                 }
-
             )
     }
 
     render() {
+        if (this.lastName !== this.props.name)
+            this.componentDidMount();
         const {error, isLoaded, items} = this.state;
         if (error) {
             return <p> Error {error.message}</p>
@@ -47,7 +57,9 @@ export default class Results extends Component {
             <ul>
                 {items.map(item => (
                     <li key={item.name}>
+                        <img width='50px' src={item.images}/>
                         {item.name}
+                        {item.descr}
                     </li>
                 ))}
             </ul>
