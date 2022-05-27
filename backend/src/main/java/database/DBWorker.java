@@ -62,7 +62,7 @@ public class DBWorker {
 
         String query = "select distinct content from search_history where username = " + "'" + username + "'";
         try {
-            ArrayList<String> results = new ArrayList<>();
+            results = new ArrayList<>();
             ResultSet resultSet = statement.executeQuery(query);
             while (resultSet.next()) {
                 results.add(resultSet.getString(1));
