@@ -17,7 +17,7 @@ public class DBWorker {
             statement = connection.createStatement();
         } catch (SQLException e) {
             e.printStackTrace();
-            exit(1);
+            System.exit(1);
         }
     }
 
