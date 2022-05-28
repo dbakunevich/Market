@@ -28,6 +28,7 @@
 }
 
 .search-box .search-btn {
+    background-size: 50px;
     position: absolute;
     top: 50%;
     right: 7px;
@@ -40,7 +41,7 @@
     line-height: 50px;
     transform: translateY(-50%);
     cursor: pointer;
-    background: #7400ba url("/src/finder.png");
+    background-image: url("../src/find.png");
 
 
 }

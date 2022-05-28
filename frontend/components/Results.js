@@ -4,18 +4,22 @@ import React, {Component} from "react";
 
 export default class Results extends Component{
 
+
     constructor(props) {
         super(props);
         this.state = {
             error: null,
             isLoaded: false,
             items: [],
-            lastName: 'name'
+            lastName: 'name',
+            lastFilter: ''
         };
     }
 
     componentDidMount() {
         this.lastName = this.props.name;
+        this.lastFilter = this.props.filter;
+
         let url = "http://localhost:8181/search?";
         let search = "toSearch=";
         if (this.props.name === null)
@@ -23,8 +27,12 @@ export default class Results extends Component{
         else
             search += this.props.name + "&";
 
+        if (this.props.filter !== null)
+            search += this.props.filter;
+
+        let page_num = "page=0&";
         let page_size = "page_size=" + this.props.page_size+ "&";
-        let query = url +  search + page_size;
+        let query = url +  search + page_num + page_size;
         fetch(query,{
         })
             .then(result => result.json())
@@ -45,7 +53,7 @@ export default class Results extends Component{
     }
 
     render() {
-        if (this.lastName !== this.props.name)
+        if ((this.lastName !== this.props.name) || (this.lastFilter !== this.props.filter))
             this.componentDidMount();
         const {error, isLoaded, items} = this.state;
         if (error) {
@@ -54,15 +62,17 @@ export default class Results extends Component{
             return <p>Loading...</p>
         } else
             return (
-            <ul>
-                {items.map(item => (
-                    <li key={item.name}>
-                        <img width='50px' src={item.images}/>
-                        {item.name}
-                        {item.descr}
-                    </li>
-                ))}
-            </ul>
+                <>
+                    <ul>
+                        {items.map(item => (
+                            <div key={item.name} className="phoneBlock">
+                                <img width='100px' src={item.images}/>
+                                <div className="name">{item.name}</div>
+                                <div className="price">{item.price}p</div>
+                            </div>
+                        ))}
+                    </ul>
+                </>
             )
     }
 }

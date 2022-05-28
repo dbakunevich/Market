@@ -1,13 +1,29 @@
 import '../styles/globals.css';
 import '../styles/searchButton.css';
+import '../styles/filters.css';
+import '../styles/resultsOfSearch.css'
 import React, {useState} from "react";
 import Results from "../components/Results";
 import Button from "../components/SearchButton";
+import Filters from "../components/Filters";
+import ChangePager from "../components/ChangePager";
+
+
 import Link from "next/link";
+
+
 
 
 const  App = () => {
     const  [search, setSearch] = useState('phone')
+    const  [filter, setFilter] = useState('')
+    const searchQuery = (search) => {
+        setSearch(search)
+    }
+    const searchWithFilters = (filter) => {
+      setFilter(filter)
+    }
+
 
     const searchQuery = (search) => {
         setSearch(search)
@@ -30,16 +46,12 @@ const  App = () => {
                 </div>
             </div>
             <div className="filters">
-                <p>filter</p>
-                <p>filter</p>
-                <p>filter</p>
-                <p>filter</p>
-
-
+                <div className="filters_inner">
+                <Filters ChangeFilters={searchWithFilters}/>
+                    </div>
             </div>
-
             <div className="results">
-                <Results name={search} page_size={5}/>
+                <Results name={search} filter={filter} page_size={100}/>
             </div>
     </>
     )
