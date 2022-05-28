@@ -1,14 +1,10 @@
 package parsing;
 
-import javax.script.ScriptEngine;
-import javax.script.ScriptEngineManager;
+import org.openqa.selenium.firefox.FirefoxDriver;
 import javax.script.ScriptException;
 import java.io.*;
-import java.net.MalformedURLException;
-import java.net.URISyntaxException;
-import java.net.URL;
+import java.net.*;
 import java.util.ArrayList;
-import java.util.regex.Matcher;
 
 abstract public class Parser {
     // Парсинг информации о продукте из файла html
@@ -22,8 +18,6 @@ abstract public class Parser {
 
     // Поиск товаров по заданной строке и формирование списка с товарами
     abstract public ArrayList<Product> search(String str);
-
-
 
     public static String getFileContent(String path) throws FileNotFoundException {
         return getFileContent(new File(path));
@@ -45,14 +39,11 @@ abstract public class Parser {
         return getUrlContent(new URL(link));
     }
 
-    public static String getUrlContent(URL url) throws IOException {
-        BufferedReader in = new BufferedReader(new InputStreamReader(url.openStream()));
-        String inputLine, res = "";
-
-        while ((inputLine = in.readLine()) != null)
-            res += inputLine + "\n";
-        in.close();
-
-        return res;
+    public static String getUrlContent(URL url) {
+        FirefoxDriver firefoxDriver = new FirefoxDriver();
+        firefoxDriver.get(url.toString());
+        String result = firefoxDriver.getPageSource();
+        firefoxDriver.close();
+        return result;
     }
 }
