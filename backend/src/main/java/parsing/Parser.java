@@ -1,6 +1,8 @@
 package parsing;
 
+import org.openqa.selenium.firefox.FirefoxBinary;
 import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.firefox.FirefoxOptions;
 import javax.script.ScriptException;
 import java.io.*;
 import java.net.*;
@@ -40,7 +42,11 @@ abstract public class Parser {
     }
 
     public static String getUrlContent(URL url) {
-        FirefoxDriver firefoxDriver = new FirefoxDriver();
+        FirefoxBinary firefoxBinary = new FirefoxBinary();
+        FirefoxOptions options = new FirefoxOptions();
+        options.setBinary(firefoxBinary);
+        options.setHeadless(true);
+        FirefoxDriver firefoxDriver = new FirefoxDriver(options);
         firefoxDriver.get(url.toString());
         String result = firefoxDriver.getPageSource();
         firefoxDriver.close();
