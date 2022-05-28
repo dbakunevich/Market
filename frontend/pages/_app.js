@@ -23,11 +23,6 @@ const  App = () => {
     const searchWithFilters = (filter) => {
       setFilter(filter)
     }
-
-
-    const searchQuery = (search) => {
-        setSearch(search)
-    }
     console.log(search);
     return (
         <>
