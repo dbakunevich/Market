@@ -77,4 +77,29 @@ public class Controller {
             return "0";
         }
     }
+
+    @CrossOrigin(origins = "http://localhost:3000")
+    @GetMapping("/login")
+    public String login(@RequestParam String login,
+                        @RequestParam String password) {
+        return JSON.toJSONString(login);
+    }
+
+    @CrossOrigin(origins = "http://localhost:3000")
+    @GetMapping("/registration")
+    public String registration( @RequestParam String login,
+                                @RequestParam String password) {
+        if (Main.dbWorker.addUser(login, password))                                     
+            return JSON.toJSONString(Main.dbWorker.findUser(login, password));
+        return JSON.toJSONString("NULL");
+    }
+
+    @CrossOrigin(origins = "http://localhost:3000")
+    @GetMapping("/getHistory")
+    public String getHistory(@RequestParam String login) {
+        ArrayList<String> result = Main.dbWorker.findHistory(login);
+        if (result == null)
+            return JSON.toJSONString("NULL");
+        return JSON.toJSONString(result);
+    }
 }
