@@ -1,0 +1,16 @@
+.filters_inner ul {
+    display: inline-block;
+    padding-left: 0;
+    margin: 0;
+}
+
+.filters_inner p {
+    background-color: #527bcb;
+    background-image: url("../src/Bg.png");
+    padding: 13px 30px;
+    border-radius: 30px;
+    width: 100%;
+    margin-left: 0;
+    font-weight: bold;
+    transition: background-color 0.1s ease-in-out;
+}
