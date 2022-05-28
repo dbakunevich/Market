@@ -24,14 +24,19 @@ public class Controller {
     @CrossOrigin(origins = "http://localhost:3000")
     @GetMapping("/search")
     public String search(@RequestParam String toSearch,
+                         @RequestParam(required = false) String login,
                          @RequestParam(required = false, name = "lp") Integer low_price,
                          @RequestParam(required = false, name = "hp") Integer high_price,
                          @RequestParam(required = false) Boolean price_order,
                          @RequestParam(required = false) Boolean name_order,
                          @RequestParam(required = false, defaultValue = "0") Integer page,
                          @RequestParam(required = false, defaultValue = "10") Integer page_size) {
-        List<Product> products = new ArrayList<>();
+        List<Product> products;
         products = new Citilink().search(toSearch);
+
+        if(login != null){
+            Main.dbWorker.addHistory(login, toSearch);
+        }
 
         int count = products.size();
 
