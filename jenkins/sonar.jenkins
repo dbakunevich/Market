@@ -1,0 +1,39 @@
+#!groovy
+properties([disableConcurrentBuilds()])
+
+pipeline {
+    agent any
+    options {
+        buildDiscarder(logRotator(numToKeepStr: '2', artifactNumToKeepStr: '2'))
+        timestamps()
+    }
+    stages {
+        stage('Code Analysis') {
+            steps {
+                withSonarQubeEnv('sonar') {
+                    dir ('backend') {
+                        sh "mvn sonar:sonar -Dsonar.projectKey=market   -Dsonar.host.url=http://51.250.108.33:9000   -Dsonar.login=eaef52b0d33f7b81f58d0aef4086f045baebf403 -DskipTests=true"
+                    }
+                }
+            }
+        }
+
+        stage("Quality Gate") {
+            steps {
+                timeout(time: 1, unit: 'HOURS') {
+                    script {
+                        withSonarQubeEnv('sonar') {
+                            sleep 20
+                            println("QG: start")
+                            def qg = waitForQualityGate()
+                            println("QG: ${qg.status}")
+                            if (qg.status != 'OK') {
+                                error "Pipeline aborted due to quality gate failure: ${qg.status}"
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
