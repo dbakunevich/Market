@@ -1,6 +1,6 @@
 package parsing;
 
-import org.openqa.selenium.firefox.FirefoxDriver;
+import spring.Main;
 import javax.script.ScriptException;
 import java.io.*;
 import java.net.*;
@@ -40,10 +40,7 @@ abstract public class Parser {
     }
 
     public static String getUrlContent(URL url) {
-        FirefoxDriver firefoxDriver = new FirefoxDriver();
-        firefoxDriver.get(url.toString());
-        String result = firefoxDriver.getPageSource();
-        firefoxDriver.close();
-        return result;
+        Main.firefoxDriver.get(url.toString());
+        return Main.firefoxDriver.getPageSource();
     }
 }

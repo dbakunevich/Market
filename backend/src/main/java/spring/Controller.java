@@ -10,10 +10,14 @@ import parsing.Product;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import java.util.stream.Collectors;
 
 @RestController
 public class Controller {
+
+    static final Logger log = LoggerFactory.getLogger(Controller.class);
 
     @CrossOrigin(origins = "http://localhost:3000")
     @GetMapping("/")
@@ -24,14 +28,23 @@ public class Controller {
     @CrossOrigin(origins = "http://localhost:3000")
     @GetMapping("/search")
     public String search(@RequestParam String toSearch,
+                         @RequestParam(required = false) String login,
                          @RequestParam(required = false, name = "lp") Integer low_price,
                          @RequestParam(required = false, name = "hp") Integer high_price,
                          @RequestParam(required = false) Boolean price_order,
                          @RequestParam(required = false) Boolean name_order,
                          @RequestParam(required = false, defaultValue = "0") Integer page,
                          @RequestParam(required = false, defaultValue = "10") Integer page_size) {
-        List<Product> products = new ArrayList<>();
+        List<Product> products;
+        log.info("Started parsing " + toSearch);
+        long timeStart = System.currentTimeMillis();
         products = new Citilink().search(toSearch);
+        long timeFinish = System.currentTimeMillis();
+        log.info("Parsing of " + toSearch + " finished in " + (timeFinish - timeStart) + " ms");
+
+        if(login != null){
+            Main.dbWorker.addHistory(login, toSearch);
+        }
 
         int count = products.size();
 
@@ -76,5 +89,30 @@ public class Controller {
         } else {
             return "0";
         }
+    }
+
+    @CrossOrigin(origins = "http://localhost:3000")
+    @GetMapping("/login")
+    public String login(@RequestParam String login,
+                        @RequestParam String password) {
+        return JSON.toJSONString(login);
+    }
+
+    @CrossOrigin(origins = "http://localhost:3000")
+    @GetMapping("/registration")
+    public String registration( @RequestParam String login,
+                                @RequestParam String password) {
+        if (Main.dbWorker.addUser(login, password))                                     
+            return JSON.toJSONString(Main.dbWorker.findUser(login, password));
+        return JSON.toJSONString("NULL");
+    }
+
+    @CrossOrigin(origins = "http://localhost:3000")
+    @GetMapping("/getHistory")
+    public String getHistory(@RequestParam String login) {
+        ArrayList<String> result = Main.dbWorker.findHistory(login);
+        if (result == null)
+            return JSON.toJSONString("NULL");
+        return JSON.toJSONString(result);
     }
 }

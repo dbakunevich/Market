@@ -73,7 +73,7 @@ public class DBWorker {
         return results;
     }
 
-    public Connection getConnection() {
+    private Connection getConnection() {
         return connection;
     }
 }
