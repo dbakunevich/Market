@@ -11,9 +11,9 @@ function Lcab () {
 
 
     const enterLCab = async (index) => {
-        console.log(logged);
         if (index === 2) {
             setLogged(0)
+            setUser("Авторизация")
             return;
         }
         if ((login !== "") && (password !== "") && (login.length < 12)) {
@@ -26,9 +26,16 @@ function Lcab () {
             let query = "http://51.250.16.106:8181/" + action + "login=" + login + "&password=" + password;
             let responsePromise = await fetch(query);
             responsePromise = await responsePromise.text();
-            console.log(responsePromise);
-            setLogged(true)
-            setUser(responsePromise);
+            if (responsePromise === '"Неверный логин или пароль!"')
+                console.log(responsePromise)
+            else {
+                if (responsePromise === '"Данный пользователь уже зарегистрирован!"')
+                    console.log(responsePromise)
+                else {
+                    setUser(responsePromise);
+                    setLogged(true);
+                }
+            }
         } else console.log("пустой логин или пароль")
     }
 

@@ -1,4 +1,5 @@
 import React, {Component} from "react";
+import Link from "next/link";
 
 
 
@@ -17,9 +18,6 @@ export default class Results extends Component{
     }
 
     componentDidMount() {
-        this.lastName = this.props.name;
-        this.lastFilter = this.props.filter;
-
         let url = "http://51.250.16.106:8181/search?";
         let search = "toSearch=";
         if (this.props.name === null)
@@ -41,16 +39,19 @@ export default class Results extends Component{
                         isLoaded: true,
                         items: result.products
                     });
-                },
+                    },
                 (error) => {
                     this.setState({
                         isLoaded: true,
                         error
                     });
                 }
-            )
-
+                )
+        this.lastName = this.props.name;
+        this.lastFilter = this.props.filter;
     }
+
+
 
     render() {
         if ((this.lastName !== this.props.name) || (this.lastFilter !== this.props.filter))
@@ -66,7 +67,9 @@ export default class Results extends Component{
                     <ul>
                         {items.map(item => (
                             <div key={item.link} className="phoneBlock">
-                                <img width='100px' src={item.images}/>
+                                <Link href={item.link}>
+                                    <img width='100px' src={item.images}/>
+                                </Link>
                                 <div className="name">{item.name}</div>
                                 <div className="price">{item.price}p</div>
                             </div>
