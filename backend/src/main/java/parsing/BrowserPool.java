@@ -10,7 +10,7 @@ public class BrowserPool {
     private final BlockingQueue<FirefoxDriver> browsers = new LinkedBlockingQueue<>();
     private final FirefoxBinary firefoxBinary = new FirefoxBinary();
     private final FirefoxOptions options = new FirefoxOptions().setBinary(firefoxBinary).setHeadless(true);
-    private final int POOL_SIZE = 3;
+    private final int POOL_SIZE = 5;
     private static BrowserPool singletonPool;
 
     public static BrowserPool getInstance() {
