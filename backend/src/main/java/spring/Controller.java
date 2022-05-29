@@ -10,10 +10,14 @@ import parsing.Product;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import java.util.stream.Collectors;
 
 @RestController
 public class Controller {
+
+    static final Logger log = LoggerFactory.getLogger(Controller.class);
 
     @CrossOrigin(origins = "http://localhost:3000")
     @GetMapping("/")
@@ -32,7 +36,11 @@ public class Controller {
                          @RequestParam(required = false, defaultValue = "0") Integer page,
                          @RequestParam(required = false, defaultValue = "10") Integer page_size) {
         List<Product> products;
+        log.info("Started parsing " + toSearch);
+        long timeStart = System.currentTimeMillis();
         products = new Citilink().search(toSearch);
+        long timeFinish = System.currentTimeMillis();
+        log.info("Parsing of " + toSearch + " finished in " + (timeFinish - timeStart) + " ms");
 
         if(login != null){
             Main.dbWorker.addHistory(login, toSearch);
