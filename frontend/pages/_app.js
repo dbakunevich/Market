@@ -16,7 +16,7 @@ import Link from "next/link";
 
 
 const  App = () => {
-    const  [search, setSearch] = useState('phone')
+    const  [search, setSearch] = useState('телефоны')
     const  [filter, setFilter] = useState('')
     const searchQuery = (search) => {
         setSearch(search)
@@ -25,7 +25,6 @@ const  App = () => {
         setFilter(filter)
     }
 
-    console.log(search);
     return (
         <>
             <div className="header">
@@ -45,7 +44,7 @@ const  App = () => {
                 </div>
             </div>
             <div className="results">
-                <Results name={search} filter={filter} page_size={100}/>
+                <Results name={search} filter={filter} page_size={40}/>
             </div>
         </>
     )
