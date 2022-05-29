@@ -95,7 +95,7 @@ public class Controller {
     @GetMapping("/login")
     public String login(@RequestParam String login,
                         @RequestParam String password) {
-        return JSON.toJSONString(login);
+        return JSON.toJSONString(Main.dbWorker.findUser(login, password));
     }
 
     @CrossOrigin(origins = "http://localhost:3000")
