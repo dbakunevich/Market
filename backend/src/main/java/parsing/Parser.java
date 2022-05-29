@@ -1,12 +1,17 @@
 package parsing;
 
-import spring.Main;
+
+import org.openqa.selenium.firefox.FirefoxDriver;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import javax.script.ScriptException;
 import java.io.*;
 import java.net.*;
 import java.util.ArrayList;
 
 abstract public class Parser {
+
+    static Logger log = LoggerFactory.getLogger(Parser.class);
     // Парсинг информации о продукте из файла html
     abstract public Product parseProduct(File html) throws FileNotFoundException;
 
@@ -40,7 +45,17 @@ abstract public class Parser {
     }
 
     public static String getUrlContent(URL url) {
-        Main.firefoxDriver.get(url.toString());
-        return Main.firefoxDriver.getPageSource();
+        String content = "";
+        try {
+            log.info("Trying to get browser");
+            FirefoxDriver driver = BrowserPool.getInstance().getBrowser();
+            log.info("Got browser: " + driver.toString());
+            driver.get(url.toString());
+            content = driver.getPageSource();
+            BrowserPool.getInstance().returnBrowser(driver);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        return content;
     }
 }
