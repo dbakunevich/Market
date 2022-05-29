@@ -11,7 +11,7 @@ export default class Results extends Component{
             error: null,
             isLoaded: false,
             items: [],
-            lastName: 'name',
+            lastName: '',
             lastFilter: ''
         };
     }
@@ -20,7 +20,7 @@ export default class Results extends Component{
         this.lastName = this.props.name;
         this.lastFilter = this.props.filter;
 
-        let url = "http://localhost:8181/search?";
+        let url = "http://51.250.16.106:8181/search?";
         let search = "toSearch=";
         if (this.props.name === null)
             search += "phone&";
@@ -50,6 +50,7 @@ export default class Results extends Component{
                     });
                 }
             )
+
     }
 
     render() {
@@ -57,7 +58,7 @@ export default class Results extends Component{
             this.componentDidMount();
         const {error, isLoaded, items} = this.state;
         if (error) {
-            return <p> Error {error.message}</p>
+            return <p> Error + {error.message}</p>
         } else if (!isLoaded) {
             return <p>Loading...</p>
         } else
