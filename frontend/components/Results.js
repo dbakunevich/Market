@@ -33,8 +33,7 @@ export default class Results extends Component{
         let page_num = "page=0&";
         let page_size = "page_size=" + this.props.page_size+ "&";
         let query = url +  search + page_num + page_size;
-        fetch(query,{
-        })
+        fetch(query)
             .then(result => result.json())
             .then(
                 (result) => {
@@ -58,7 +57,7 @@ export default class Results extends Component{
             this.componentDidMount();
         const {error, isLoaded, items} = this.state;
         if (error) {
-            return <p> Error + {error.message}</p>
+            return <p> Error  {error.message}</p>
         } else if (!isLoaded) {
             return <p>Loading...</p>
         } else
@@ -66,7 +65,7 @@ export default class Results extends Component{
                 <>
                     <ul>
                         {items.map(item => (
-                            <div key={item.name} className="phoneBlock">
+                            <div key={item.link} className="phoneBlock">
                                 <img width='100px' src={item.images}/>
                                 <div className="name">{item.name}</div>
                                 <div className="price">{item.price}p</div>

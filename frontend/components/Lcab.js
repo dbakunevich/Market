@@ -5,29 +5,31 @@ function Lcab () {
     const[login, setLogin] = React.useState("");
     const[password, setPassword] = React.useState("");
     const[logged, setLogged] = React.useState(0);
+    const[user, setUser] = React.useState("Авторизация")
 
 
 
 
-
-    const enterLCab = (index) => {
+    const enterLCab = async (index) => {
         console.log(logged);
-        if (index === 2){
+        if (index === 2) {
             setLogged(0)
             return;
         }
-        if ((login !== "") && (password !== "")) {
+        if ((login !== "") && (password !== "") && (login.length < 12)) {
             let action;
             if (index === 0) {
                 action = "login?"
             }
             if (index === 1)
                 action = "registration?"
-            let query = "http://localhost:8080/" + action + "login=" + login + "&password=" + password;
-            //let responsePromise = fetch(query);
+            let query = "http://51.250.16.106:8181/" + action + "login=" + login + "&password=" + password;
+            let responsePromise = await fetch(query);
+            responsePromise = await responsePromise.text();
+            console.log(responsePromise);
             setLogged(true)
-        }
-        else console.log("пустой логин или пароль")
+            setUser(responsePromise);
+        } else console.log("пустой логин или пароль")
     }
 
 
@@ -48,7 +50,7 @@ function Lcab () {
             <div className="nav_link" href="../pages/about.js">About</div>
             <div className="nav_link" href="/">About</div>
             <div className="nav_link" href="/">Button</div>
-            <div className="nav_link" onClick={()=>{setActiveIndex(!activeIndex)}} >Авторизация</div>
+            <div className="nav_link" onClick={()=>{setActiveIndex(!activeIndex)}} >{user}</div>
             <div className="LCabWindow">
                 <div className={activeIndex  ? "AuthInner" : "AuthInner active"}>
                     <input type="text" placeholder="Введите логин" onChange={chLogin}/>

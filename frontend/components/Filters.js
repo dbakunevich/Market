@@ -1,7 +1,6 @@
 import React from "react"
 
 function Filters({ChangeFilters}){
-    const [active, setActive] = React.useState("");
     const [cost, setCost] = React.useState(false);
     const [name, setName] = React.useState(false);
 
@@ -9,7 +8,7 @@ function Filters({ChangeFilters}){
         if (index === 0) {
             setCost(false);
             setName(false);
-            ChangeFilters(active);
+            ChangeFilters('');
         }
         if (index === 1){
             setCost(!cost);
@@ -30,13 +29,13 @@ function Filters({ChangeFilters}){
     }
 
     return (
-            <ul>
-                <p onClick={()=>{click(0)}}>Сбросить</p>
-                <p onClick={()=>{click(1)}}>По цене </p>
-                <p onClick={()=>{click(2)}}>По имени</p>
-                <p>Минимальная цена</p>
-                <p>Максимальная цена</p>
-            </ul>
+        <ul>
+            <p onClick={()=>{click(0)}}>Сбросить</p>
+            <p onClick={()=>{click(1)}}>По цене </p>
+            <p onClick={()=>{click(2)}}>По имени</p>
+            <p>Минимальная цена</p>
+            <p>Максимальная цена</p>
+        </ul>
     )
 }
 export default Filters
