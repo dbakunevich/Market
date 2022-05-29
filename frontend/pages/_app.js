@@ -29,8 +29,8 @@ const  App = () => {
         <>
             <div className="header">
                 <div className="header_inner">
-                    <Link href="/">
-                        <a className="logo">Yans</a>
+                    <Link href="http://51.250.108.33:3000/">
+                        <a className="logo">Market</a>
                     </Link>
                     <Button onChange={searchQuery}/>
                     <nav>

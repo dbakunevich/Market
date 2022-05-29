@@ -3,7 +3,7 @@ import React from "react";
 
 function Button ({onChange})  {
     const[activeIndex, setActiveIndex] = React.useState(0);
-    const[search, setSearch] = React.useState('');
+    const[search, setSearch] = React.useState('телефоны');
 
 
 
