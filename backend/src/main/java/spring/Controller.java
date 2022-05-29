@@ -19,13 +19,15 @@ public class Controller {
 
     static final Logger log = LoggerFactory.getLogger(Controller.class);
 
-    @CrossOrigin(origins = "http://localhost:3000")
+    @CrossOrigin(origins = {"http://localhost:3000",
+                            "http://51.250.108.33:3000/"})
     @GetMapping("/")
     String home() {
         return "Home";
     }
 
-    @CrossOrigin(origins = "http://localhost:3000")
+    @CrossOrigin(origins = {"http://localhost:3000",
+                            "http://51.250.108.33:3000/"})
     @GetMapping("/search")
     public String search(@RequestParam String toSearch,
                          @RequestParam(required = false) String login,
@@ -94,14 +96,16 @@ public class Controller {
         }
     }
 
-    @CrossOrigin(origins = "http://localhost:3000")
+    @CrossOrigin(origins = {"http://localhost:3000",
+                            "http://51.250.108.33:3000/"})
     @GetMapping("/login")
     public String login(@RequestParam String login,
                         @RequestParam String password) {
         return JSON.toJSONString(Main.dbWorker.findUser(login, password));
     }
 
-    @CrossOrigin(origins = "http://localhost:3000")
+    @CrossOrigin(origins = {"http://localhost:3000",
+                            "http://51.250.108.33:3000/"})
     @GetMapping("/registration")
     public String registration( @RequestParam String login,
                                 @RequestParam String password) {
@@ -110,7 +114,8 @@ public class Controller {
         return JSON.toJSONString("Данный пользователь уже зарегистрирован!");
     }
 
-    @CrossOrigin(origins = "http://localhost:3000")
+    @CrossOrigin(origins = {"http://localhost:3000",
+                            "http://51.250.108.33:3000/"})
     @GetMapping("/getHistory")
     public String getHistory(@RequestParam String login) {
         ArrayList<String> result = Main.dbWorker.findHistory(login);
