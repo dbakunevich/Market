@@ -35,10 +35,13 @@ public class Controller {
                          @RequestParam(required = false) Boolean name_order,
                          @RequestParam(required = false, defaultValue = "0") Integer page,
                          @RequestParam(required = false, defaultValue = "10") Integer page_size) {
-        List<Product> products;
         log.info("Started parsing " + toSearch);
         long timeStart = System.currentTimeMillis();
-        products = new Citilink().search(toSearch);
+        List<Product> products = Main.requestsMap.get(toSearch);
+        if (products == null) {
+            products = new Citilink().search(toSearch);
+            Main.requestsMap.put(toSearch, products);
+        }
         long timeFinish = System.currentTimeMillis();
         log.info("Parsing of " + toSearch + " finished in " + (timeFinish - timeStart) + " ms");
 
