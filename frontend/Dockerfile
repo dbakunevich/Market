@@ -4,7 +4,6 @@ WORKDIR /usr/app
 RUN chown -R node:node /usr/app
 USER node
 
-
 ARG NPM_TOKEN
 RUN echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" > .npmrc
 
