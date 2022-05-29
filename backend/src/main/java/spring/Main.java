@@ -5,12 +5,17 @@ import org.springframework.boot.*;
 import org.springframework.boot.autoconfigure.*;
 import org.springframework.web.bind.annotation.*;
 import parsing.BrowserPool;
+import parsing.Product;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @SpringBootApplication
 @RestController
 public class Main {
     
     public static DBWorker dbWorker = new DBWorker();
+    public static final Map<String, List<Product>> requestsMap = new HashMap<>();
 
     public static void main(String[] args) {
         String driverPath = "/usr/local/bin/geckodriver";
