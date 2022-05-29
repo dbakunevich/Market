@@ -104,7 +104,7 @@ public class Controller {
                                 @RequestParam String password) {
         if (Main.dbWorker.addUser(login, password))                                     
             return JSON.toJSONString(Main.dbWorker.findUser(login, password));
-        return JSON.toJSONString("NULL");
+        return JSON.toJSONString("Данный пользователь уже зарегистрирован!");
     }
 
     @CrossOrigin(origins = "http://localhost:3000")
@@ -112,7 +112,7 @@ public class Controller {
     public String getHistory(@RequestParam String login) {
         ArrayList<String> result = Main.dbWorker.findHistory(login);
         if (result == null)
-            return JSON.toJSONString("NULL");
+            return JSON.toJSONString("");
         return JSON.toJSONString(result);
     }
 }
