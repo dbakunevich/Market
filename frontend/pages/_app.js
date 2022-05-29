@@ -2,11 +2,12 @@ import '../styles/globals.css';
 import '../styles/searchButton.css';
 import '../styles/filters.css';
 import '../styles/resultsOfSearch.css'
+import '../styles/lcab.css'
 import React, {useState} from "react";
 import Results from "../components/Results";
 import Button from "../components/SearchButton";
 import Filters from "../components/Filters";
-import ChangePager from "../components/ChangePager";
+import Lcab from "../components/Lcab"
 
 
 import Link from "next/link";
@@ -21,8 +22,9 @@ const  App = () => {
         setSearch(search)
     }
     const searchWithFilters = (filter) => {
-      setFilter(filter)
+        setFilter(filter)
     }
+
     console.log(search);
     return (
         <>
@@ -33,22 +35,19 @@ const  App = () => {
                     </Link>
                     <Button onChange={searchQuery}/>
                     <nav>
-                        <a className="nav_link" href="../pages/about.js">About</a>
-                        <a className="nav_link" href="#">About</a>
-                        <a className="nav_link" href="#">Button</a>
-                        <a className="nav_link" href="#">Button</a>
+                        <Lcab/>
                     </nav>
                 </div>
             </div>
             <div className="filters">
                 <div className="filters_inner">
-                <Filters ChangeFilters={searchWithFilters}/>
-                    </div>
+                    <Filters ChangeFilters={searchWithFilters}/>
+                </div>
             </div>
             <div className="results">
                 <Results name={search} filter={filter} page_size={100}/>
             </div>
-    </>
+        </>
     )
 };
 export default App;
