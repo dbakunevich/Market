@@ -39,7 +39,7 @@ public class Product {
     }
 
     public Product addImageUrl(String url) {
-        if (images == null) images = new ArrayList<String>();
+        if (images == null) images = new ArrayList<>();
         images.add(url);
         return this;
     }
