@@ -2,6 +2,9 @@ package database;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.io.*;
 import java.util.Properties;
 
@@ -9,6 +12,8 @@ public class DBWorker {
     private static Connection connection;
     private static Statement statement;
     private static Properties property;
+    static Logger logger;
+
 
     public DBWorker() {
         try {
