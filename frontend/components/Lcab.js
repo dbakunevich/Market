@@ -5,7 +5,8 @@ function Lcab () {
     const[login, setLogin] = React.useState("");
     const[password, setPassword] = React.useState("");
     const[logged, setLogged] = React.useState(0);
-    const[user, setUser] = React.useState("Авторизация")
+    const[user, setUser] = React.useState("Авторизация");
+    const[error, setError] = React.useState(0);
 
 
 
@@ -27,13 +28,14 @@ function Lcab () {
             let responsePromise = await fetch(query);
             responsePromise = await responsePromise.text();
             if (responsePromise === '"Неверный логин или пароль!"')
-                console.log(responsePromise)
+                setError(1);
             else {
                 if (responsePromise === '"Данный пользователь уже зарегистрирован!"')
-                    console.log(responsePromise)
+                    setError(2);
                 else {
                     setUser(responsePromise);
                     setLogged(true);
+                    setActiveIndex(!activeIndex);
                 }
             }
         } else console.log("пустой логин или пароль")
@@ -65,6 +67,8 @@ function Lcab () {
                     <a className={logged === 0 ? "btn active" : "btn"} onClick={()=>{enterLCab(0)}}>Войти</a>
                     <a className={logged === 0 ? "btn active" : "btn"} onClick={()=>{enterLCab(1)}}>Регистрация</a>
                     <a className={logged === 0 ? "btn" : "btn active"}  onClick={()=>{enterLCab(2)}}>Выйти</a>
+                    <a className={error === 1 ? "error active" : "error "}  >Неверный логин или пароль!</a>
+                    <a className={error === 2 ? "error active" : "error "}  >Данный пользователь уже существует!</a>
                 </div>
             </div>
         </>
