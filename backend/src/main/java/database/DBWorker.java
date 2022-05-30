@@ -9,12 +9,12 @@ public class DBWorker {
     private static final String PASSWORD = "root";
 
     private static Connection connection;
-   // private static Statement statement;
+    private static Statement statement;
 
     public DBWorker() {
         try {
             connection = DriverManager.getConnection(URL, USERNAME, PASSWORD);
-            //statement = connection.createStatement();
+            statement = connection.createStatement();
         } catch (SQLException e) {
             e.printStackTrace();
             System.exit(1);
@@ -22,7 +22,7 @@ public class DBWorker {
     }
 
     public Boolean addUser(String username, String password) {
-        try (Statement statement = connection.createStatement()) {
+        try {
             statement.execute("insert into  users values (" + "'" + username + "'," + "'" + password + "'," + " CURRENT_TIMESTAMP" + ")");
             return true;
         } catch (SQLException e) {
@@ -34,8 +34,7 @@ public class DBWorker {
     public String findUser(String username, String password) {
         String result;
         String query = "select username from users where username = " + "'" + username + "'" + " and password = " + "'" + password + "'";
-        try (Statement statement = connection.createStatement()) {
-            ResultSet resultSet = statement.executeQuery(query);
+        try (ResultSet resultSet = statement.executeQuery(query)) {
             while (resultSet.next()) {
                 result = resultSet.getString(1);
                 statement.executeUpdate("update users set last_date = current_timestamp where username = " + "'" + result + "'");
@@ -48,7 +47,7 @@ public class DBWorker {
     }
 
     public Boolean addHistory(String username, String content) {
-        try (Statement statement = connection.createStatement()) {
+        try {
             statement.execute("insert into  users values (" + "'" + username + "'," + "'" + content + "'," + " CURRENT_TIMESTAMP" + ")");
             return true;
         } catch (SQLException e) {
@@ -61,9 +60,8 @@ public class DBWorker {
         ArrayList<String> results = null;
 
         String query = "select distinct content from search_history where username = " + "'" + username + "'";
-        try (Statement statement = connection.createStatement()) {
+        try (ResultSet resultSet = statement.executeQuery(query)) {
             results = new ArrayList<>();
-            ResultSet resultSet = statement.executeQuery(query);
             while (resultSet.next()) {
                 results.add(resultSet.getString(1));
             }
