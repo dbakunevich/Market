@@ -1,5 +1,8 @@
 package parsing;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -11,6 +14,9 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class Citilink extends Parser {
+
+    Logger log = LoggerFactory.getLogger(Citilink.class);
+
     private static final Pattern INFO                = Pattern.compile("\"@context\":([\\w\\W]*?)\\}");
     private static final Pattern PRICE               = Pattern.compile("\"price\": \"(.*?)\"");
     private static final Pattern IMAGE               = Pattern.compile("<img.*?class=\" PreviewList__image Image\".*?alt=\".*?\".*?src=\"(.*?)\"");
@@ -88,7 +94,7 @@ public class Citilink extends Parser {
                             product.addImageUrl(matcher.group(1));
                     }
                 } catch (IOException e) {
-                    e.printStackTrace();
+                    log.error("IOException: ", e);
                 }
             }
         }
@@ -131,7 +137,7 @@ public class Citilink extends Parser {
                 }
             }
         } catch (IOException e) {
-            e.printStackTrace();
+            log.error("IOException: ", e);
         }
 
         return products;

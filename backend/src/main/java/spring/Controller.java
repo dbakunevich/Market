@@ -22,7 +22,7 @@ public class Controller {
     @CrossOrigin(origins = {"http://localhost:3000",
                             "http://51.250.108.33:3000/"})
     @GetMapping("/")
-    String home() {
+    public String home() {
         return "Home";
     }
 
