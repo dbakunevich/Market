@@ -17,8 +17,9 @@ public class DBWorker {
 
     public DBWorker() {
         try {
+            FileInputStream file = new FileInputStream("src/main/resources/db.properties");
             property = new Properties();
-            property.load(new FileInputStream("src/main/resources/db.properties"));
+            property.load(file);
             String host = property.getProperty("db.host");
             String login = property.getProperty("db.login");
             String password = property.getProperty("db.password");
