@@ -13,16 +13,16 @@ abstract public class Parser {
 
     static Logger log = LoggerFactory.getLogger(Parser.class);
     // Парсинг информации о продукте из файла html
-    abstract public Product parseProduct(File html) throws FileNotFoundException;
+    public abstract Product parseProduct(File html) throws FileNotFoundException;
 
     // Парсинг информации о продукте из строки
-    abstract public Product parseProduct(String str);
+    public abstract Product parseProduct(String str);
 
     // Парсинг информации о продукте по его URL
-    abstract public Product parseProduct(URL link) throws IOException, URISyntaxException, ScriptException;
+    public abstract Product parseProduct(URL link) throws IOException, URISyntaxException, ScriptException;
 
     // Поиск товаров по заданной строке и формирование списка с товарами
-    abstract public ArrayList<Product> search(String str);
+    public abstract ArrayList<Product> search(String str);
 
     public static String getFileContent(String path) throws FileNotFoundException {
         return getFileContent(new File(path));
