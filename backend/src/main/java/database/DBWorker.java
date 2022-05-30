@@ -10,6 +10,7 @@ import spring.MyProperties;
 
 public class DBWorker {
     private static Statement statement;
+    private static Connection connection;
     static Logger logger;
 
     String host;
@@ -25,7 +26,7 @@ public class DBWorker {
             host = myProperties.getHost();
             login = myProperties.getLogin();
             password = myProperties.getPassword();
-            Connection connection = DriverManager.getConnection(host, login, password);
+            connection = DriverManager.getConnection(host, login, password);
             statement = connection.createStatement();
         } catch (SQLException e) {
             logger.log(Level.WARNING,"Connection is false!");
@@ -35,7 +36,13 @@ public class DBWorker {
 
     public Boolean addUser(String username, String password) {
         try {
-            statement.execute("insert into  users values (" + "'" + username + "'," + "'" + password + "'," + " CURRENT_TIMESTAMP" + ")");
+            PreparedStatement preparedStatement = null;
+            String insert = "insert into  users values (?, ?, CURRENT_TIMESTAMP)";
+            preparedStatement = connection.prepareStatement(insert);
+            preparedStatement.setString(1, username);
+            preparedStatement.setString(2, password);
+            preparedStatement.execute();
+//            statement.execute("insert into  users values (" + "'" + username + "'," + "'" + password + "'," + " CURRENT_TIMESTAMP" + ")");
             return true;
         } catch (SQLException e) {
             logger.log(Level.WARNING,"Can't create new user!");
