@@ -7,7 +7,7 @@ import org.slf4j.LoggerFactory;
 import javax.script.ScriptException;
 import java.io.*;
 import java.net.*;
-import java.util.ArrayList;
+import java.util.List;
 
 abstract public class Parser {
 
@@ -22,7 +22,7 @@ abstract public class Parser {
     public abstract Product parseProduct(URL link) throws IOException, URISyntaxException, ScriptException;
 
     // Поиск товаров по заданной строке и формирование списка с товарами
-    public abstract ArrayList<Product> search(String str);
+    public abstract List<Product> search(String str);
 
     public static String getFileContent(String path) throws FileNotFoundException {
         return getFileContent(new File(path));
