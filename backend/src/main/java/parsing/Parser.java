@@ -30,11 +30,10 @@ abstract public class Parser {
 
     public static String getFileContent(File file) throws FileNotFoundException {
         char[] a = new char[(int)file.length() / 2 + 1];
-        FileReader reader = new FileReader(file);
-        try {
+        try(FileReader reader = new FileReader(file)) {
             reader.read(a);
         } catch (IOException e) {
-            e.printStackTrace();
+            log.error("IOException: ", e);
             return null;
         }
         return new String(a);
@@ -54,7 +53,8 @@ abstract public class Parser {
             content = driver.getPageSource();
             BrowserPool.getInstance().returnBrowser(driver);
         } catch (InterruptedException e) {
-            e.printStackTrace();
+            log.error("InterruptedException: ", e);
+            Thread.currentThread().interrupt();
         }
         return content;
     }
