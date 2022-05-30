@@ -2,23 +2,25 @@ package database;
 
 import java.sql.*;
 import java.util.ArrayList;
-import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import java.io.*;
+import java.util.Properties;
 
 public class DBWorker {
-    private static final String URL = "jdbc:mysql://localhost:3306/upprpo";
-    private static final String USERNAME = "root";
-    private static final String PAS = "root";
-    static Logger logger;
-
-    private Statement statement;
+    private static Connection connection;
+    private static Statement statement;
+    private static Properties property;
 
     public DBWorker() {
-        try (Connection connection = DriverManager.getConnection(URL, USERNAME, PAS)) {
+        try {
+            property = new Properties();
+            property.load(new FileInputStream("src/main/resources/db.properties"));
+            String host = property.getProperty("db.host");
+            String login = property.getProperty("db.login");
+            String password = property.getProperty("db.password");
+            connection = DriverManager.getConnection(host, login, password);
             statement = connection.createStatement();
-        } catch (SQLException e) {
-            logger.log(Level.WARNING,"Connection is false!");
+        } catch (SQLException | IOException e) {
+            e.printStackTrace();
             System.exit(1);
         }
     }
@@ -63,9 +65,8 @@ public class DBWorker {
         String query = "select distinct content from search_history where username = " + "'" + username + "'";
         try (ResultSet resultSet = statement.executeQuery(query)) {
             results = new ArrayList<>();
-            while (resultSet.next()) {
+            while (resultSet.next())
                 results.add(resultSet.getString(1));
-            }
         } catch (SQLException e) {
             logger.log(Level.WARNING,"Can't find history of search!");
         }
