@@ -5,27 +5,30 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import java.io.*;
-import java.util.Properties;
+import org.springframework.beans.factory.annotation.*;
+import spring.MyProperties;
 
 public class DBWorker {
     private static Connection connection;
     private static Statement statement;
-    private static Properties property;
     static Logger logger;
 
+    String host;
+    String login;
+    String password;
+
+    @Autowired 
+    private MyProperties myProperties; 
 
     public DBWorker() {
         try {
-            FileInputStream file = new FileInputStream("src/main/resources/db.properties");
-            property = new Properties();
-            property.load(file);
-            String host = property.getProperty("db.host");
-            String login = property.getProperty("db.login");
-            String password = property.getProperty("db.password");
+            myProperties = new MyProperties();
+            host = myProperties.getHost();
+            login = myProperties.getLogin();
+            password = myProperties.getPassword();
             connection = DriverManager.getConnection(host, login, password);
             statement = connection.createStatement();
-        } catch (SQLException | IOException e) {
+        } catch (SQLException e) {
             e.printStackTrace();
             System.exit(1);
         }
