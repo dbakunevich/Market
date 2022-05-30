@@ -1,5 +1,6 @@
 import React, {Component} from "react";
 import Link from "next/link";
+import {wait} from "next/dist/build/output/log";
 
 
 
@@ -17,17 +18,13 @@ export default class Results extends Component{
         };
     }
 
-    componentDidMount() {
+    getResults() {
+        this.lastName = this.props.name;
+        this.lastFilter = this.props.filter;
         let url = "http://51.250.16.106:8181/search?";
         let search = "toSearch=";
-        if (this.props.name === null)
-            search += "phone&";
-        else
-            search += this.props.name + "&";
-
-        if (this.props.filter !== null)
-            search += this.props.filter;
-
+        search += this.lastName + "&";
+        search += this.lastFilter + "&";
         let page_num = "page=0&";
         let page_size = "page_size=" + this.props.page_size+ "&";
         let query = url +  search + page_num + page_size;
@@ -47,15 +44,13 @@ export default class Results extends Component{
                     });
                 }
                 )
-        this.lastName = this.props.name;
-        this.lastFilter = this.props.filter;
     }
 
 
 
     render() {
         if ((this.lastName !== this.props.name) || (this.lastFilter !== this.props.filter))
-            this.componentDidMount();
+            this.getResults();
         const {error, isLoaded, items} = this.state;
         if (error) {
             return <p> Error  {error.message}</p>

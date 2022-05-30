@@ -11,13 +11,14 @@ import Lcab from "../components/Lcab"
 
 
 import Link from "next/link";
+import Head from "next/head";
 
 
 
 
 const  App = () => {
     const  [search, setSearch] = useState('телефоны')
-    const  [filter, setFilter] = useState('')
+    const  [filter, setFilter] = useState('price_order=false&name_order=false')
     const searchQuery = (search) => {
         setSearch(search)
     }
@@ -27,6 +28,9 @@ const  App = () => {
 
     return (
         <>
+            <Head>
+                <title>Market</title>
+            </Head>
             <div className="header">
                 <div className="header_inner">
                     <Link href="http://51.250.108.33:3000/">

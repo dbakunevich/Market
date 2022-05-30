@@ -50,3 +50,22 @@
     font-size: 14px;
     transform: scale(1);
 }
+
+
+.AuthInner .error{
+    transform: scale(0);
+    font-size: 0;
+}
+
+.AuthInner .error.active {
+    position: absolute;
+    right: 30px;
+    background-color: red;
+    padding: 13px 25px;
+    border-radius: 30px;
+    width: 50%;
+    margin: 50px;
+    font-weight: bold;
+    font-size: 14px;
+    transform: scale(1);
+}

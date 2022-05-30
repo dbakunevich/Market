@@ -8,22 +8,21 @@ function Filters({ChangeFilters}){
         if (index === 0) {
             setCost(false);
             setName(false);
-            ChangeFilters('');
+            checkFilter();
         }
         if (index === 1){
             setCost(!cost);
             setName(false);
-            chekFilter();
+            checkFilter();
         }
         if (index === 2){
             setName(!name);
             setCost(false);
-            chekFilter()
+            checkFilter()
         }
-        console.log("click");
     }
 
-    const chekFilter = () => {
+    const checkFilter = () => {
         let filter = "price_order=" + cost + "&name_order=" + name + "&";
         ChangeFilters(filter);
     }

@@ -3,7 +3,7 @@ import React from "react";
 
 function Button ({onChange})  {
     const[activeIndex, setActiveIndex] = React.useState(0);
-    const[search, setSearch] = React.useState('телефоны');
+    const[search, setSearch] = React.useState('');
 
 
 
@@ -14,6 +14,7 @@ function Button ({onChange})  {
             setActiveIndex(0)
         else if (index === 2) {
             onChange(search);
+            setActiveIndex(0);
         }
     }
 
