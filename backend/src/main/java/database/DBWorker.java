@@ -17,7 +17,7 @@ public class DBWorker {
         try (Connection connection = DriverManager.getConnection(URL, USERNAME, PAS)) {
             statement = connection.createStatement();
         } catch (SQLException e) {
-            e.printStackTrace();
+            LOGGER.log(Level.WARNING,"Connection is false!");
             System.exit(1);
         }
     }
@@ -27,7 +27,7 @@ public class DBWorker {
             statement.execute("insert into  users values (" + "'" + username + "'," + "'" + password + "'," + " CURRENT_TIMESTAMP" + ")");
             return true;
         } catch (SQLException e) {
-            e.printStackTrace();
+            LOGGER.log(Level.WARNING,"Can't create new user!");
             return false;
         }
     }
@@ -42,7 +42,7 @@ public class DBWorker {
                 return result;
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            LOGGER.log(Level.WARNING,"Can't find this user!");
         }
         return "Неверный логин или пароль!";
     }
@@ -52,7 +52,7 @@ public class DBWorker {
             statement.execute("insert into  users values (" + "'" + username + "'," + "'" + content + "'," + " CURRENT_TIMESTAMP" + ")");
             return true;
         } catch (SQLException e) {
-            e.printStackTrace();
+            LOGGER.log(Level.WARNING,"Cant't add new history of search!");
             return false;
         }
     }
@@ -67,7 +67,7 @@ public class DBWorker {
                 results.add(resultSet.getString(1));
             }
         } catch (SQLException e) {
-            LOGGER.log(Level.WARNING,"Exception");
+            LOGGER.log(Level.WARNING,"Can't find history of search!");
         }
         return results;
     }
