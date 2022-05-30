@@ -8,12 +8,11 @@ public class DBWorker {
     private static final String USERNAME = "root";
     private static final String PAS = "root";
 
-    private static Connection connection;
-    private static Statement statement;
+    private Statement statement;
 
     public DBWorker() {
         try {
-            connection = DriverManager.getConnection(URL, USERNAME, PAS);
+            Connection connection = DriverManager.getConnection(URL, USERNAME, PAS);
             statement = connection.createStatement();
         } catch (SQLException e) {
             e.printStackTrace();
