@@ -9,7 +9,7 @@ import java.io.*;
 import java.net.*;
 import java.util.List;
 
-abstract public class Parser {
+public abstract class Parser {
 
     static Logger log = LoggerFactory.getLogger(Parser.class);
     // Парсинг информации о продукте из файла html
