@@ -11,8 +11,7 @@ public class DBWorker {
     private Statement statement;
 
     public DBWorker() {
-        try {
-            Connection connection = DriverManager.getConnection(URL, USERNAME, PAS);
+        try (Connection connection = DriverManager.getConnection(URL, USERNAME, PAS)) {
             statement = connection.createStatement();
         } catch (SQLException e) {
             e.printStackTrace();
