@@ -117,7 +117,8 @@ public class Citilink extends Parser {
             res = SEARCH_URL + URLEncoder.encode(str, StandardCharsets.UTF_8);
             res = getUrlContent(res);
             Matcher matcher = PRODUCT_CARD.matcher(res);
-            Matcher m2, m3;
+            Matcher m2;
+            Matcher m3;
             while (matcher.find()) {
                 res = matcher.group(1).replaceAll("\n", "");
                 m2 = PRODUCT_LINK.matcher(res);
