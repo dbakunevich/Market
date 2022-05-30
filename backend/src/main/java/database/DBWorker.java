@@ -2,11 +2,14 @@ package database;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class DBWorker {
     private static final String URL = "jdbc:mysql://localhost:3306/upprpo";
     private static final String USERNAME = "root";
     private static final String PAS = "root";
+    static Logger LOGGER;
 
     private Statement statement;
 
@@ -64,7 +67,7 @@ public class DBWorker {
                 results.add(resultSet.getString(1));
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            LOGGER.log(Level.WARNING,"Exception");
         }
         return results;
     }
