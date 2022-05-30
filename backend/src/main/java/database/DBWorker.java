@@ -6,14 +6,14 @@ import java.util.ArrayList;
 public class DBWorker {
     private static final String URL = "jdbc:mysql://localhost:3306/upprpo";
     private static final String USERNAME = "root";
-    private static final String PASSWORD = "root";
+    private static final String PAS = "root";
 
     private static Connection connection;
     private static Statement statement;
 
     public DBWorker() {
         try {
-            connection = DriverManager.getConnection(URL, USERNAME, PASSWORD);
+            connection = DriverManager.getConnection(URL, USERNAME, PAS);
             statement = connection.createStatement();
         } catch (SQLException e) {
             e.printStackTrace();
