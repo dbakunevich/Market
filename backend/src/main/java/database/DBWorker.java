@@ -70,8 +70,4 @@ public class DBWorker {
         }
         return results;
     }
-
-    private Connection getConnection() {
-        return connection;
-    }
 }
