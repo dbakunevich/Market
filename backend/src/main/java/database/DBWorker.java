@@ -41,6 +41,7 @@ public class DBWorker {
                 statement.executeUpdate("update users set last_date = current_timestamp where username = " + "'" + result + "'");
                 return result;
             }
+            resultSet.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -67,6 +68,7 @@ public class DBWorker {
             while (resultSet.next()) {
                 results.add(resultSet.getString(1));
             }
+            resultSet.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
