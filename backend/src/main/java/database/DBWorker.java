@@ -2,6 +2,7 @@ package database;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -9,7 +10,7 @@ public class DBWorker {
     private static final String URL = "jdbc:mysql://localhost:3306/upprpo";
     private static final String USERNAME = "root";
     private static final String PAS = "root";
-    static Logger LOGGER;
+    static Logger logger;
 
     private Statement statement;
 
@@ -17,7 +18,7 @@ public class DBWorker {
         try (Connection connection = DriverManager.getConnection(URL, USERNAME, PAS)) {
             statement = connection.createStatement();
         } catch (SQLException e) {
-            LOGGER.log(Level.WARNING,"Connection is false!");
+            logger.log(Level.WARNING,"Connection is false!");
             System.exit(1);
         }
     }
@@ -27,7 +28,7 @@ public class DBWorker {
             statement.execute("insert into  users values (" + "'" + username + "'," + "'" + password + "'," + " CURRENT_TIMESTAMP" + ")");
             return true;
         } catch (SQLException e) {
-            LOGGER.log(Level.WARNING,"Can't create new user!");
+            logger.log(Level.WARNING,"Can't create new user!");
             return false;
         }
     }
@@ -42,7 +43,7 @@ public class DBWorker {
                 return result;
             }
         } catch (SQLException e) {
-            LOGGER.log(Level.WARNING,"Can't find this user!");
+            logger.log(Level.WARNING,"Can't find this user!");
         }
         return "Неверный логин или пароль!";
     }
@@ -52,14 +53,13 @@ public class DBWorker {
             statement.execute("insert into  users values (" + "'" + username + "'," + "'" + content + "'," + " CURRENT_TIMESTAMP" + ")");
             return true;
         } catch (SQLException e) {
-            LOGGER.log(Level.WARNING,"Cant't add new history of search!");
+            logger.log(Level.WARNING,"Cant't add new history of search!");
             return false;
         }
     }
 
-    public ArrayList<String> findHistory(String username) {
-        ArrayList<String> results = null;
-
+    public List<String> findHistory(String username) {
+        List<String> results = null;
         String query = "select distinct content from search_history where username = " + "'" + username + "'";
         try (ResultSet resultSet = statement.executeQuery(query)) {
             results = new ArrayList<>();
@@ -67,7 +67,7 @@ public class DBWorker {
                 results.add(resultSet.getString(1));
             }
         } catch (SQLException e) {
-            LOGGER.log(Level.WARNING,"Can't find history of search!");
+            logger.log(Level.WARNING,"Can't find history of search!");
         }
         return results;
     }

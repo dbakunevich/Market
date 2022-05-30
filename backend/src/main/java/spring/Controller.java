@@ -118,7 +118,7 @@ public class Controller {
                             "http://51.250.108.33:3000/"})
     @GetMapping("/getHistory")
     public String getHistory(@RequestParam String login) {
-        ArrayList<String> result = Main.dbWorker.findHistory(login);
+        List<String> result = Main.dbWorker.findHistory(login);
         if (result == null)
             return JSON.toJSONString("");
         return JSON.toJSONString(result);
