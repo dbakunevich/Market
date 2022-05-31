@@ -66,6 +66,43 @@ public class Citilink extends Parser {
             "> div.ProductPrice" +
             "> span.ProductPrice__price" +
             "> span.ProductCardVerticalPrice__price-current_current-price";
+    public static final String CITILINK_BASE_2 = "body" +
+            "> div.MainWrapper" +
+            "> div.MainLayout" +
+            "> main.MainLayout__main" +
+            "> div.BrandCategories" +
+            "> div.BrandCategories__content" +
+            "> div.BrandCategories__brand-category-list" +
+            "> div.BrandCategories__brand-header" +
+            "> div.BrandCategories__brand-category-item" +
+            "> div.BrandCategories__brand-category-product-list" +
+            "> div.SubgridScrollable" +
+            "> div.SubgridScrollable__list" +
+            "> div.SubgridScrollable__item" +
+            "> div.product_data__gtm-js" +
+            "> div.ProductCardVerticalLayout";
+    public static final String CITILINK_LINK_2 = CITILINK_BASE_2 +
+            "> div.ProductCardVerticalLayout__header" +
+            "> div.ProductCardVerticalLayout__wrapper-description" +
+            "> div.ProductCardVertical__description" +
+            "> a";
+    public static final String CITILINK_IMAGE_2 = CITILINK_BASE_2 +
+            "> div.ProductCardVerticalLayout__header" +
+            "> div.ProductCardVerticalLayout__wrapper-cover-image" +
+            "> a" +
+            "> div.ProductCardVertical__image-wrapper" +
+            "> div.ProductCardVertical__image-wrap" +
+            "> div.ProductCardVertical__picture-hover_part";
+    public static final String CITILINK_PRICE_2 = CITILINK_BASE_2 +
+            "> div.ProductCardVerticalLayout__footer" +
+            "> div.ProductCardVerticalLayout__wrapper-cart" +
+            "> div.js--ProductCardInListing__button-buy" +
+            "> div.ProductCardVerticalCart__price-wrapper" +
+            "> div.ProductCardVertical_tablet" +
+            "> div.ProductCardVertical__price-with-amount" +
+            "> div.ProductPrice" +
+            "> span.ProductPrice__price" +
+            "> span.ProductCardVerticalPrice__price-current_current-price";
 
     @Override
     public Product parseProduct(File html) throws FileNotFoundException {
@@ -148,15 +185,31 @@ public class Citilink extends Parser {
             String res = SEARCH_URL + URLEncoder.encode(str, StandardCharsets.UTF_8);
             res = getUrlContent(res);
             Document document = Jsoup.parse(res);
-            Elements links = document.select(CITILINK_LINK);
-            Elements images = document.select(CITILINK_IMAGE);
-            Elements prices = document.select(CITILINK_PRICE);
-            for (int i = 0; i < links.size(); i++) {
-                products.add(new Product());
-                products.get(i).setLink(new URL(BASE_URL + links.get(i).attr("href")));
-                products.get(i).setName(images.get(i).attr("alt"));
-                products.get(i).addImageUrl(images.get(i).attr("src"));
-                products.get(i).setPrice(Integer.parseInt(prices.get(i).text().replaceAll(" ", "")));
+            Elements links;
+            Elements images;
+            Elements prices;
+            if (!(links = document.select(CITILINK_LINK)).isEmpty()) {
+                images = document.select(CITILINK_IMAGE);
+                prices = document.select(CITILINK_PRICE);
+                for (int i = 0; i < links.size(); i++) {
+                    products.add(new Product());
+                    products.get(i).setLink(new URL(BASE_URL + links.get(i).attr("href")));
+                    products.get(i).setName(images.get(i).attr("alt"));
+                    products.get(i).addImageUrl(images.get(i).attr("src"));
+                    products.get(i).setPrice(Integer.parseInt(prices.get(i).text().replaceAll(" ", "")));
+                }
+            }
+            else {
+                links = document.select(CITILINK_LINK_2);
+                images = document.select(CITILINK_IMAGE_2);
+                prices = document.select(CITILINK_PRICE_2);
+                for (int i = 0; i < links.size(); i++) {
+                    products.add(new Product());
+                    products.get(i).setLink(new URL(BASE_URL + links.get(i).attr("href")));
+                    products.get(i).setName(links.get(i).text());
+                    products.get(i).addImageUrl(images.get(i).attr("data-src"));
+                    products.get(i).setPrice(Integer.parseInt(prices.get(i).text().replaceAll(" ", "")));
+                }
             }
         } catch (IOException e) {
             e.printStackTrace();
