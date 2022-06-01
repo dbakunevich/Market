@@ -29,6 +29,7 @@ public class DBWorker {
             password = myProperties.getPassword();
             connection = DriverManager.getConnection(host, login, password);
             statement = connection.createStatement();
+
         } catch (SQLException e) {
             logger.log(Level.WARNING, "Connection is false!");
             System.exit(1);
@@ -45,6 +46,7 @@ public class DBWorker {
             preparedStatementInsert.executeUpdate();
 //            statement.execute("insert into  users values (" + "'" + username + "'," + "'" + password + "'," + " CURRENT_TIMESTAMP" + ")");
             return true;
+
         } catch (SQLException e) {
             logger.log(Level.WARNING, "Can't create new user!");
             return false;
@@ -96,9 +98,14 @@ public class DBWorker {
 
     public List<String> findHistory(String username) {
         List<String> results = null;
-        String query = "select distinct content from search_history where username = " + "'" + username + "'";
-        try (ResultSet resultSet = statement.executeQuery(query)) {
+        PreparedStatement preparedStatementQuery;
+        String query = "select distinct content from search_history where username = ?";
+
+        try {
             results = new ArrayList<>();
+            preparedStatementQuery = connection.prepareStatement(query);
+            preparedStatementQuery.setString(1, username);
+            ResultSet resultSet = preparedStatementQuery.executeQuery();
             while (resultSet.next())
                 results.add(resultSet.getString(1));
         } catch (SQLException e) {
