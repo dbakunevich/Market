@@ -18,17 +18,28 @@ import spring.Controller;
 import spring.ProductsAnswer;
 import spring.SearchService;
 
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 
 public class SearchServiceTest {
 
     SearchService searchService = new SearchService();
+    List<Product> testProducts = new ArrayList<>();
 
     @Before
     public void init(){
         String driverPath = "D:\\apps\\geckodriver.exe";
         System.setProperty("webdriver.gecko.driver", driverPath);
+        for(int i = 0; i < 100; i++){
+            Product product = new Product();
+            product.setPrice((i+50)%75).setName(Integer.toString((i+50)%75));
+            testProducts.add(product);
+        }
     }
 
     @Test
@@ -58,6 +69,36 @@ public class SearchServiceTest {
     public void testLowPriceGreaterError(){
         ResponseEntity<String> answer = searchService.getProductsResponse("iphone", null, 50000, 50, null, null, 0, 10);
         assertEquals(answer.getStatusCodeValue(), HttpStatus.BAD_REQUEST.value());
+    }
+
+    @Test
+    public void testLowPriceFilter() throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
+        Method method = SearchService.class.getDeclaredMethod("applyLowPriceFilter", List.class, Integer.class);
+        method.setAccessible(true);
+        Integer testint = 25;
+        List<Product> result = (List<Product>)method.invoke(searchService, testProducts, testint);
+        assertNotNull(result);
+        AtomicBoolean test = new AtomicBoolean(true);
+        result.forEach(product -> {
+            if(product.getPrice() < 25)
+                test.set(false);
+        });
+        assertTrue(test.get());
+    }
+
+    @Test
+    public void testHighPriceFilter() throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
+        Method method = SearchService.class.getDeclaredMethod("applyHighPriceFilter", List.class, Integer.class);
+        method.setAccessible(true);
+        Integer testint = 25;
+        List<Product> result = (List<Product>)method.invoke(searchService, testProducts, testint);
+        assertNotNull(result);
+        AtomicBoolean test = new AtomicBoolean(true);
+        result.forEach(product -> {
+            if(product.getPrice() > 25)
+                test.set(false);
+        });
+        assertTrue(test.get());
     }
 
     @After
