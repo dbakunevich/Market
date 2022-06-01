@@ -36,7 +36,7 @@ public class DBWorker {
 
     public Boolean addUser(String username, String password) {
         try {
-            PreparedStatement preparedStatement = null;
+            PreparedStatement preparedStatement;
             String insert = "insert into  users values (?, ?, CURRENT_TIMESTAMP)";
             preparedStatement = connection.prepareStatement(insert);
             preparedStatement.setString(1, username);
@@ -51,12 +51,23 @@ public class DBWorker {
     }
 
     public String findUser(String username, String password) {
+        String query = "select username from users where username = ? and password = ?";
+        String insert = "update users set last_date = current_timestamp where username = ?";
         String result;
-        String query = "select username from users where username = " + "'" + username + "'" + " and password = " + "'" + password + "'";
-        try (ResultSet resultSet = statement.executeQuery(query)) {
+        PreparedStatement preparedStatementQuery = null;
+        PreparedStatement preparedStatementUpdate = null;
+        //String query = "select username from users where username = " + "'" + username + "'" + " and password = " + "'" + password + "'";
+        try {
+            preparedStatementQuery = connection.prepareStatement(query);
+            preparedStatementQuery.setString(1, username);
+            preparedStatementQuery.setString(2, password);
+            ResultSet resultSet = preparedStatementQuery.executeQuery();
+
             while (resultSet.next()) {
                 result = resultSet.getString(1);
-                statement.executeUpdate("update users set last_date = current_timestamp where username = " + "'" + result + "'");
+                preparedStatementUpdate = connection.prepareStatement(insert);
+                preparedStatementUpdate.setString(1, result);
+                //statement.executeUpdate("update users set last_date = current_timestamp where username = " + "'" + result + "'");
                 return result;
             }
         } catch (SQLException e) {
