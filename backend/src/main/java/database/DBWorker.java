@@ -39,7 +39,7 @@ public class DBWorker {
     public Boolean addUser(String username, String password) {
         try {
             PreparedStatement preparedStatementInsert;
-            String insert = "insert into  users values (?, ?, CURRENT_TIMESTAMP)";
+            String insert = "insert into  users (username, password, last_date) values  (?, ?, CURRENT_TIMESTAMP)";
             preparedStatementInsert = connection.prepareStatement(insert);
             preparedStatementInsert.setString(1, username);
             preparedStatementInsert.setString(2, password);
@@ -81,7 +81,7 @@ public class DBWorker {
     }
 
     public Boolean addHistory(String username, String content) {
-        String insert = "insert into users values (?, ?, CURRENT_TIMESTAMP)";
+        String insert = "insert into  users (username, password, last_date) values (?, ?, CURRENT_TIMESTAMP)";
         PreparedStatement preparedStatementInsert;
         try {
             preparedStatementInsert = connection.prepareStatement(insert);
@@ -113,4 +113,6 @@ public class DBWorker {
         }
         return results;
     }
+
+
 }
