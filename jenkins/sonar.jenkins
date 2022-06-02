@@ -26,7 +26,8 @@ pipeline {
                 echo  " ================= start SonarQube analysis frontend ==================="
                 withSonarQubeEnv('sonar') {
                     dir ('frontend') {
-                        sh "sonar-scanner   -Dsonar.projectKey=market-front \
+                        sh "/opt/sonar-scanner/bin/sonar-scanner \
+                                            -Dsonar.projectKey=market-front \
                                             -Dsonar.sources=. \
                                             -Dsonar.host.url=http://51.250.108.33:9000 \
                                             -Dsonar.login=551e7af0a5eb0d2e2692738702d9c78577da4e8f \
