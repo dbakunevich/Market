@@ -12,7 +12,11 @@ pipeline {
             steps {
                 updateGitlabCommitStatus name: 'sonar_build', state: 'pending'
                 echo  " ================= build SonarQube ==================="
-                sh "sudo /opt/sonarqube/bin/linux-x86-64/sonar.sh start || true"
+                withSonarQubeEnv('sonar') {
+                    dir ('backend') {
+                        sh "sudo /opt/sonarqube/bin/linux-x86-64/sonar.sh start || true"
+                    }
+                }
             }
         }
 
@@ -20,7 +24,7 @@ pipeline {
             steps {
                 updateGitlabCommitStatus name: 'sonar_frontend', state: 'pending'                
                 echo  " ================= start SonarQube analysis frontend ==================="
-                withSonarQubeEnv('sonar_frontend') {
+                withSonarQubeEnv('sonar') {
                     dir ('frontend') {
                         sh "/opt/sonar-scanner/bin/sonar-scanner \
                                             -Dsonar.projectKey=market-front \
@@ -40,7 +44,7 @@ pipeline {
             steps {
                 echo  " ============== Wait for Quality Gate frontend ==================="                
                 script {
-                    withSonarQubeEnv('sonar_frontend') {
+                    withSonarQubeEnv('sonar') {
                         sleep 20
                         println("QG: start")
                         def qg = waitForQualityGate()
@@ -66,7 +70,7 @@ pipeline {
             steps {
                 updateGitlabCommitStatus name: 'sonar_back', state: 'pending'                
                 echo  " ================= start SonarQube analysis backend ==================="
-                withSonarQubeEnv('sonar_back') {
+                withSonarQubeEnv('sonar') {
                     dir ('backend') {
                         sh "mvn sonar:sonar -Dsonar.projectKey=market \
                                             -Dsonar.host.url=http://51.250.108.33:9000 \
@@ -89,7 +93,7 @@ pipeline {
             steps {
                 echo  " ============== Wait for Quality Gate backend ==================="                
                 script {
-                    withSonarQubeEnv('sonar_back') {
+                    withSonarQubeEnv('sonar') {
                         sleep 20
                         println("QG: start")
                         def qg = waitForQualityGate()
