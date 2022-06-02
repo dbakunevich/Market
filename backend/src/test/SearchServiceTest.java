@@ -40,6 +40,7 @@ public class SearchServiceTest {
             product.setPrice((i+50)%75).setName(Integer.toString((i+50)%75));
             testProducts.add(product);
         }
+        BrowserPool.getInstance();
     }
 
     @Test
@@ -99,6 +100,34 @@ public class SearchServiceTest {
                 test.set(false);
         });
         assertTrue(test.get());
+    }
+
+    @Test
+    public void testPriceSortingAsc(){
+        ResponseEntity<String> answer = searchService.getProductsResponse("iphone", null, null, null, true, null, 0, 10);
+        List<Product> products = JSON.parseObject(answer.getBody(), ProductsAnswer.class).getProducts();
+        Boolean test = true;
+        assertNotNull(products);
+        for(int i = 0; i < products.size() - 1; i++){
+            if (products.get(i).getPrice() < products.get(i + 1).getPrice()) {
+                test = false;
+                break;
+            }
+        }
+        assertTrue(test);
+    }
+
+    @Test
+    public void testPriceSortingDesc(){
+        ResponseEntity<String> answer = searchService.getProductsResponse("iphone", null, null, null, false, null, 0, 10);
+        List<Product> products = JSON.parseObject(answer.getBody(), ProductsAnswer.class).getProducts();
+        Boolean test = true;
+        assertNotNull(products);
+        for(int i = 0; i < products.size() - 1; i++){
+            if(products.get(i).getPrice() > products.get(i + 1).getPrice())
+                test = false;
+        }
+        assertTrue(test);
     }
 
     @After
