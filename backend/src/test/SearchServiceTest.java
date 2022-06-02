@@ -142,6 +142,7 @@ public class SearchServiceTest {
     @Test
     public void testNameSortingDesc() {
         ResponseEntity<String> answer = searchService.getProductsResponse("iphone", null, null, null, null, true, 0, 10);
+        assertEquals(answer.getStatusCodeValue(), HttpStatus.OK.value());
         List<Product> products = JSON.parseObject(answer.getBody(), ProductsAnswer.class).getProducts();
         Boolean test = true;
         assertNotNull(products);
@@ -152,6 +153,40 @@ public class SearchServiceTest {
             }
         }
         assertTrue(test);
+    }
+
+    @Test
+    public void testLowPageNumber(){
+        ResponseEntity<String> answer = searchService.getProductsResponse("iphone", null, null, null, null, null, -1, 10);
+        assertEquals(answer.getStatusCodeValue(), HttpStatus.BAD_REQUEST.value());
+    }
+
+    @Test
+    public void testLowPageSize(){
+        ResponseEntity<String> answer = searchService.getProductsResponse("iphone", null, null, null, null, null, 0, -1);
+        assertEquals(answer.getStatusCodeValue(), HttpStatus.BAD_REQUEST.value());
+    }
+
+    @Test
+    public void testPageDoesentExists(){
+        ResponseEntity<String> answer = searchService.getProductsResponse("iphone", null, null, null, null, null, 0, 10);
+        assertEquals(answer.getStatusCodeValue(), HttpStatus.OK.value());
+        ProductsAnswer productsAnswer = JSON.parseObject(answer.getBody(), ProductsAnswer.class);
+        int amount = productsAnswer.getAmount();
+        int pageSize = amount;
+        int page = 1;
+        answer = searchService.getProductsResponse("iphone", null, null, null, null, null, page, pageSize);
+        assertNotNull(answer);
+        assertEquals(answer.getStatusCodeValue(), HttpStatus.BAD_REQUEST.value());
+    }
+
+    @Test
+    public void testPaging(){
+        int page_size = 15;
+        ResponseEntity<String> answer = searchService.getProductsResponse("iphone", null, null, null, null, null, 0, page_size);
+        assertEquals(answer.getStatusCodeValue(), HttpStatus.OK.value());
+        ProductsAnswer productsAnswer = JSON.parseObject(answer.getBody(), ProductsAnswer.class);
+        assertEquals(productsAnswer.getProducts().size(), page_size);
     }
 
     @After
