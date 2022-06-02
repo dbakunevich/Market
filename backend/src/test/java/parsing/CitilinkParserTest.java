@@ -5,26 +5,20 @@ import org.junit.jupiter.api.Test;
 
 import org.junit.jupiter.api.BeforeAll;
 import static org.junit.jupiter.api.Assertions.*;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.junit4.SpringRunner;
-
-import java.lang.reflect.Array;
-import java.net.MalformedURLException;
 import java.util.List;
 
 
 public class CitilinkParserTest {
 
     @BeforeAll
-    static public void init(){
-        String driverPath = "/usr/local/bin/geckodriver";
+    public static void init(){
+        String driverPath = "D:\\apps\\geckodriver.exe";
         System.setProperty("webdriver.gecko.driver", driverPath);
     }
 
     @Test
-    public void testBrokenLink() throws Exception {
-        Citilink.getUrlContent("broken");
+    public void testBrokenLink(){
+        assertThrows(Exception.class, () -> Citilink.getUrlContent("broken"));
     }
 
     @Test

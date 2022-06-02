@@ -2,7 +2,6 @@ import com.alibaba.fastjson2.JSON;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import parsing.BrowserPool;
@@ -16,15 +15,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
 
-
-@SpringBootTest
 public class TestSearchService {
 
     SearchService searchService = new SearchService();
     static List<Product> testProducts = new ArrayList<>();
 
     @BeforeAll
-    static public void init() {
+    public static void init() {
         String driverPath = "D:\\apps\\geckodriver.exe";
         System.setProperty("webdriver.gecko.driver", driverPath);
         for (int i = 0; i < 100; i++) {
@@ -188,4 +185,5 @@ public class TestSearchService {
         ProductsAnswer productsAnswer = JSON.parseObject(answer.getBody(), ProductsAnswer.class);
         assertEquals(productsAnswer.getProducts().size(), page_size);
     }
+
 }
