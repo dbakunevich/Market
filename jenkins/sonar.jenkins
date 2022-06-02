@@ -18,53 +18,7 @@ pipeline {
                     }
                 }
             }
-        }
-
-        stage("SonarQube analysis frontend") {
-            steps {
-                updateGitlabCommitStatus name: 'sonar_frontend', state: 'pending'                
-                echo  " ================= start SonarQube analysis frontend ==================="
-                withSonarQubeEnv('sonar') {
-                    dir ('frontend') {
-                        sh "/opt/sonar-scanner/bin/sonar-scanner \
-                                            -Dsonar.projectKey=market-front \
-                                            -Dsonar.sources=. \
-                                            -Dsonar.host.url=http://51.250.108.33:9000 \
-                                            -Dsonar.login=551e7af0a5eb0d2e2692738702d9c78577da4e8f \
-                                            -Dsonar.login=admin -Dsonar.password=admin "
-                    }
-                }
-            }
-        }
-        stage("Quality Gate frontend") {
-            agent any
-            options {
-                timeout(time: 2, unit: 'MINUTES') 
-            }
-            steps {
-                echo  " ============== Wait for Quality Gate frontend ==================="                
-                script {
-                    withSonarQubeEnv('sonar') {
-                        sleep 20
-                        println("QG: start")
-                        def qg = waitForQualityGate()
-                        println("QG: ${qg.status}")
-                        if (qg.status != 'OK') {
-                            error "Pipeline aborted due to quality gate failure: ${qg.status}"
-                        }
-                    }
-                }
-            }
-            post {
-                success {
-                    updateGitlabCommitStatus name: 'sonar_frontend', state: 'success'
-                }
-                failure {
-                    updateGitlabCommitStatus name: 'sonar_frontend', state: 'failed'
-                }
-            }            
-        }        
-        
+        }      
 
         stage("SonarQube analysis backend") {
             steps {
@@ -112,6 +66,52 @@ pipeline {
                     updateGitlabCommitStatus name: 'sonar_back', state: 'failed'
                 }
             }            
-        }        
+        }
+
+        
+        stage("SonarQube analysis frontend") {
+            steps {
+                updateGitlabCommitStatus name: 'sonar_frontend', state: 'pending'                
+                echo  " ================= start SonarQube analysis frontend ==================="
+                withSonarQubeEnv('sonar') {
+                    dir ('frontend') {
+                        sh "/opt/sonar-scanner/bin/sonar-scanner \
+                                            -Dsonar.projectKey=market-front \
+                                            -Dsonar.sources=. \
+                                            -Dsonar.host.url=http://51.250.108.33:9000 \
+                                            -Dsonar.login=551e7af0a5eb0d2e2692738702d9c78577da4e8f \
+                                            -Dsonar.login=admin -Dsonar.password=admin "
+                    }
+                }
+            }
+        }
+        stage("Quality Gate frontend") {
+            agent any
+            options {
+                timeout(time: 2, unit: 'MINUTES') 
+            }
+            steps {
+                echo  " ============== Wait for Quality Gate frontend ==================="                
+                script {
+                    withSonarQubeEnv('sonar') {
+                        sleep 20
+                        println("QG: start")
+                        def qg = waitForQualityGate()
+                        println("QG: ${qg.status}")
+                        if (qg.status != 'OK') {
+                            error "Pipeline aborted due to quality gate failure: ${qg.status}"
+                        }
+                    }
+                }
+            }
+            post {
+                success {
+                    updateGitlabCommitStatus name: 'sonar_frontend', state: 'success'
+                }
+                failure {
+                    updateGitlabCommitStatus name: 'sonar_frontend', state: 'failed'
+                }
+            }            
+        }          
     }
 }
