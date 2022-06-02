@@ -188,10 +188,4 @@ public class TestSearchService {
         ProductsAnswer productsAnswer = JSON.parseObject(answer.getBody(), ProductsAnswer.class);
         assertEquals(productsAnswer.getProducts().size(), page_size);
     }
-
-    /*@After
-    public void close() {
-        BrowserPool.getInstance().closeAll();
-    }*/
-
 }
