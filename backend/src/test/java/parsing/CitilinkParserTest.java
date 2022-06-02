@@ -17,13 +17,13 @@ import java.util.List;
 public class CitilinkParserTest {
 
     @BeforeAll
-    public void init(){
-        String driverPath = "D:\\apps\\geckodriver.exe";
+    static public void init(){
+        String driverPath = "/usr/local/bin/geckodriver";
         System.setProperty("webdriver.gecko.driver", driverPath);
     }
 
     @Test
-    public void testBrokenLink() throws Exception{
+    public void testBrokenLink() throws Exception {
         Citilink.getUrlContent("broken");
     }
 

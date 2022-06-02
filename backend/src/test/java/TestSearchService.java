@@ -21,10 +21,10 @@ import java.util.concurrent.atomic.AtomicBoolean;
 public class TestSearchService {
 
     SearchService searchService = new SearchService();
-    List<Product> testProducts = new ArrayList<>();
+    static List<Product> testProducts = new ArrayList<>();
 
     @BeforeAll
-    public void init() {
+    static public void init() {
         String driverPath = "D:\\apps\\geckodriver.exe";
         System.setProperty("webdriver.gecko.driver", driverPath);
         for (int i = 0; i < 100; i++) {
