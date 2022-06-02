@@ -12,7 +12,7 @@ public class CitilinkParserTest {
 
     @BeforeAll
     public static void init(){
-        String driverPath = "D:\\apps\\geckodriver.exe";
+        String driverPath = "/usr/local/bin/geckodriver";
         System.setProperty("webdriver.gecko.driver", driverPath);
     }
 
