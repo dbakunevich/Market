@@ -14,8 +14,8 @@ import java.util.Map;
 @RestController
 public class Main {
     
-    public static final DBWorker dbWorker = new DBWorker();
-    public static final Map<String, List<Product>> requestsMap = new HashMap<>();
+    public    static final DBWorker dbWorker                      = new DBWorker();
+    protected static final Map<String, List<Product>> requestsMap = new HashMap<>();
 
     public static void main(String[] args) {
         String driverPath = "/usr/local/bin/geckodriver";
