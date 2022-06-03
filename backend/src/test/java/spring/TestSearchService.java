@@ -1,3 +1,5 @@
+package spring;
+
 import com.alibaba.fastjson2.JSON;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
@@ -24,7 +26,7 @@ public class TestSearchService {
 
     @BeforeAll
     public static void init() {
-        String driverPath = "/usr/local/bin/geckodriver";
+        String driverPath = "D:\\apps\\geckodriver.exe";
         System.setProperty("webdriver.gecko.driver", driverPath);
         for (int i = 0; i < 100; i++) {
             Product product = new Product();
@@ -187,6 +189,28 @@ public class TestSearchService {
         assertEquals(answer.getStatusCodeValue(), HttpStatus.OK.value());
         ProductsAnswer productsAnswer = JSON.parseObject(answer.getBody(), ProductsAnswer.class);
         assertEquals(productsAnswer.getProducts().size(), page_size);
+    }
+
+    @Test
+    public void testTooHighRating(){
+        ResponseEntity<String> answer = searchService.getProductsResponse("iphone", null, null, null, null, null, 0, 10, 50.0f, null);
+        assertEquals(answer.getStatusCodeValue(), HttpStatus.BAD_REQUEST.value());
+    }
+
+    @Test
+    public void testRatingFilter(){
+        ResponseEntity<String> answer = searchService.getProductsResponse("iphone", null, null, null, true, null, 0, 10, 2.0f, null);
+        List<Product> products = JSON.parseObject(answer.getBody(), ProductsAnswer.class).getProducts();
+        assertNotNull(products);
+        products.forEach(product -> assertTrue(product.getRating() >= 2));
+    }
+
+    @Test
+    public void testMarketplaceFilter(){
+        ResponseEntity<String> answer = searchService.getProductsResponse("iphone", null, null, null, true, null, 0, 10, null, "DNS");
+        List<Product> products = JSON.parseObject(answer.getBody(), ProductsAnswer.class).getProducts();
+        assertNotNull(products);
+        products.forEach(product -> assertEquals("DNS", product.getMarketplace()));
     }
 
     @AfterAll
