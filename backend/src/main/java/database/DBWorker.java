@@ -53,7 +53,9 @@ public class DBWorker {
             return false;
         } finally {
             try {
-                preparedStatementInsert.close();
+                if (preparedStatementInsert != null) {
+                    preparedStatementInsert.close();
+                }
             } catch (SQLException e) {
                 e.printStackTrace();
             }
