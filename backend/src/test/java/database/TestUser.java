@@ -88,5 +88,4 @@ public class TestUser {
         assertFalse(bool);
     }
 
-
 }

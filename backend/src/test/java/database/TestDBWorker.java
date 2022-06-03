@@ -126,9 +126,13 @@ public class TestDBWorker {
     @Test
     public void findHistoryFalseTest() {
         List<String> arrayList;
+        boolean bool = false;
         DBWorker worker = new DBWorker();
         arrayList = worker.findHistory("123");
-        assertNull(arrayList);
+        if (arrayList.isEmpty()) {
+            bool = true;
+        }
+        assertTrue(bool);
     }
 
 
