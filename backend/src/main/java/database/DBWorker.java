@@ -61,13 +61,11 @@ public class DBWorker {
         String query = "select username from users where username = ? and password = ?";
         String update = "update users set last_date = current_timestamp where username = ?";
         String result;
-        PreparedStatement preparedStatementUpdate = null;
-        try (PreparedStatement preparedStatementQuery = connection.prepareStatement(query); ResultSet resultSet = preparedStatementQuery.executeQuery()) {
+        try (PreparedStatement preparedStatementUpdate = connection.prepareStatement(update); PreparedStatement preparedStatementQuery = connection.prepareStatement(query); ResultSet resultSet = preparedStatementQuery.executeQuery()) {
             preparedStatementQuery.setString(1, username);
             preparedStatementQuery.setString(2, password);
             while (resultSet.next()) {
                 result = resultSet.getString(1);
-                preparedStatementUpdate = connection.prepareStatement(update);
                 preparedStatementUpdate.setString(1, result);
                 preparedStatementUpdate.executeUpdate();
                 return result;
