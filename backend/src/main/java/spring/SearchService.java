@@ -14,12 +14,14 @@ import java.math.BigDecimal;
 import java.math.MathContext;
 import java.math.RoundingMode;
 import java.util.*;
+import java.security.SecureRandom;
 import java.util.stream.Collectors;
 
 @Service
 public class SearchService {
     static Logger log = LoggerFactory.getLogger(SearchService.class);
     Map<String, List<Product>> searchHistory = new HashMap<>();
+    private Random rand = SecureRandom.getInstanceStrong();
 
     List<Product> parseProducts(String toSearch){
         log.info("Started parsing " + toSearch);
@@ -91,11 +93,10 @@ public class SearchService {
     }
 
     void fillNotParsedFields(List<Product> products){
-        Random random = new Random();
         MathContext mathContext = new MathContext(2, RoundingMode.HALF_UP);
         products.forEach(product -> {
-            product.setRating(new BigDecimal(((double)random.nextInt(50)/10), mathContext).floatValue());
-            if(random.nextInt(2) == 1){
+            product.setRating(new BigDecimal(BigDecimal.valueOf((double)rand.nextInt(50)/10), mathContext).floatValue());
+            if(rand.nextInt(2) == 1){
                 product.setMarketplace("Ситилинк");
             }
             else {
