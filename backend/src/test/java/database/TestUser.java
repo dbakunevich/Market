@@ -138,11 +138,23 @@ public class TestUser {
 
     @Test
     public void setRoleTrueTest() {
-        String password = "456";
+        String role = "user";
         boolean bool = false;
         User user = new User("mmikhajlov", "123", "admin");
-        user.setPassword(password);
-        if (user.getPassword().equals("789")) {
+        user.setRole(role);
+        if (user.getPassword().equals("user")) {
+            bool = true;
+        }
+        assertTrue(bool);
+    }
+
+    @Test
+    public void setRoleFalseTest() {
+        String role = "user";
+        boolean bool = false;
+        User user = new User("mmikhajlov", "123", "admin");
+        user.setRole(role);
+        if (user.getPassword().equals("admin")) {
             bool = true;
         }
         assertFalse(bool);
