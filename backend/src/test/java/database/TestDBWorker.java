@@ -99,10 +99,18 @@ public class TestDBWorker {
 
     @Test
     public void addHistoryTrueTest() {
-        boolean bool = false;
+        boolean bool;
         DBWorker worker = new DBWorker();
         bool = worker.addHistory("mmikhajlov", "Videos");
         assertTrue(bool);
+    }
+
+    @Test
+    public void addHistoryFalseTest() {
+        boolean bool;
+        DBWorker worker = new DBWorker();
+        bool = worker.addHistory("efwhwek5wjqrfq2", "Videos");
+        assertFalse(bool);
     }
 
 
