@@ -68,15 +68,16 @@ function Filters({ChangeFilters}){
     return (
         <ul>
             <div>Цена, Р</div>
-            <input type="number" min={0} max={1000000} placeholder="Минимальная цена" onChange={lc}/>
-            <input type="number" min={0} max={1000000} placeholder="Максимальная цена" onChange={hc}/>
+            <input name="input-min" autocomplete="off" type="numeric" pattern="[0-9 ]*"/>
+            <a>-</a>
+            <input name="input-max" autoComplete="off" type="numeric" pattern="[0-9 ]*"/>
             <div>Оценка товара по отцывам</div>
             <p onClick={()=>{click(1)}}>Любой</p>
             <p onClick={()=>{click(2)}}>4,5 и выше</p>
             <p onClick={()=>{click(3)}}>4 и выше</p>
             <p onClick={()=>{click(4)}}>3,5 и выше</p>
-            <p onClick={()=>{checkFilter()}}>Применить</p>
-            <p onClick={()=>{click(0)}}>Сбросить</p>
+            <p className="btn" onClick={()=>{checkFilter()}}>Применить</p>
+            <p className="btn" onClick={()=>{click(0)}}>Сбросить</p>
         </ul>
     )
 }
