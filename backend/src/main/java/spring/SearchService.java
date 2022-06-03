@@ -36,13 +36,15 @@ public class SearchService {
         return products;
     }
 
-    void checkFilters(Integer low_price, Integer high_price) throws SearchException {
+    void checkFilters(Integer low_price, Integer high_price, Float rating) throws SearchException {
         if(low_price != null && low_price < 0)
             throw new SearchException("Lowest price value cannot be lower than zero. Provided " + low_price);
         if(high_price != null && high_price < 0)
             throw new SearchException("Highest price value cannot be lower than zero. Provided " + high_price);
         if(high_price != null && low_price != null && low_price > high_price)
             throw new SearchException("Lowest price cannot be greater than highest price value. Provided " + low_price + " > " + high_price);
+        if(rating != null && rating < 0 && rating > 5)
+            throw new SearchException("Rating filter must be in range [0, 5]. Provided: " + rating);
     }
 
     List<Product> applyLowPriceFilter(List<Product> products, Integer low_price){
@@ -105,11 +107,25 @@ public class SearchService {
         });
     }
 
+    List<Product> filterByRating(List<Product> products, Float rating){
+        if(rating != null)
+            return products.stream().filter(product -> product.getRating() >= rating).collect(Collectors.toList());
+        else
+            return products;
+    }
+
+    List<Product> filterByMarketplace(List<Product> products, String marketplace){
+        if(marketplace != null)
+            return products.stream().filter(product -> product.getMarketplace().equals(marketplace)).collect(Collectors.toList());
+        else
+            return products;
+    }
+
     public ResponseEntity<String> getProductsResponse(String toSearch, String login, Integer low_price, Integer high_price, Boolean price_order,
                                                       Boolean name_order, Integer page, Integer page_size, Float ratingFilter, String marketplaceFilter){
 
         try{
-            checkFilters(low_price, high_price);
+            checkFilters(low_price, high_price, ratingFilter);
         } catch (SearchException e){
             log.warn(e.getMessage());
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
@@ -124,6 +140,8 @@ public class SearchService {
 
         products = applyLowPriceFilter(products, low_price);
         products = applyHighPriceFilter(products, high_price);
+        products = filterByRating(products, ratingFilter);
+        products = filterByMarketplace(products, marketplaceFilter);
 
         int amount = products.size();
 
