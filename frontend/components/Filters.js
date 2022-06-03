@@ -68,9 +68,9 @@ function Filters({ChangeFilters}){
     return (
         <ul>
             <div>Цена, Р</div>
-            <input name="input-min" autocomplete="off" type="numeric" pattern="[0-9 ]*"/>
+            <input name="input-min"  type="numeric" pattern="[0-9 ]*"/>
             <a>-</a>
-            <input name="input-max" autoComplete="off" type="numeric" pattern="[0-9 ]*"/>
+            <input name="input-max"  type="numeric" pattern="[0-9 ]*"/>
             <div>Оценка товара по отцывам</div>
             <p onClick={()=>{click(1)}}>Любой</p>
             <p onClick={()=>{click(2)}}>4,5 и выше</p>

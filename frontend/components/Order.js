@@ -17,6 +17,12 @@ function Order({ChangeOrder}){
             else
                 setOrder("name");
         }
+        if (index === 3) {
+            if (order === "star")
+                setOrder("starFalse")
+            else
+                setOrder("star");
+        }
         activeIndex(index);
         checkOrder()
     }
@@ -37,6 +43,14 @@ function Order({ChangeOrder}){
             }
             case "costFalse":{
                 ChangeOrder("price_order=false&");
+                break
+            }
+            case "star":{
+                ChangeOrder("rating=true&");
+                break
+            }
+            case "starFalse":{
+                ChangeOrder("rating=false&");
                 break
             }
             default: {
