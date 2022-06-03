@@ -9,6 +9,8 @@ import static org.junit.jupiter.api.Assertions.*;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 
@@ -111,6 +113,14 @@ public class TestDBWorker {
         DBWorker worker = new DBWorker();
         bool = worker.addHistory("efwhwek5wjqrfq2", "Videos");
         assertFalse(bool);
+    }
+
+    @Test
+    public void findHistoryTrueTest() {
+        List<String> arrayList;
+        DBWorker worker = new DBWorker();
+        arrayList = worker.findHistory("mmikhajlov");
+        assertNotNull(arrayList);
     }
 
 
