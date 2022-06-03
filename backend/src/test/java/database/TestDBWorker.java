@@ -33,7 +33,7 @@ public class TestDBWorker {
     }
 
     @Test
-    public static void connectionTrueTest() {
+    public void connectionTrueTest() {
         Logger logger = null;
         Statement statement;
         Connection connection;
@@ -51,7 +51,7 @@ public class TestDBWorker {
     }
 
     @Test
-    public static void connectionFalseTest() {
+    public void connectionFalseTest() {
         Logger logger = null;
         Statement statement;
         Connection connection = null;
@@ -67,13 +67,13 @@ public class TestDBWorker {
     }
 
     @Test
-    public static void addUserTrueTest() {
+    public void addUserTrueTest() {
         boolean bool;
         DBWorker worker = new DBWorker();
         bool = worker.addUser("mmikhajlov2", "123");
         assertTrue(bool);
     }
-    
+
     @AfterAll
     public static void close() {
         try {
