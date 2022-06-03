@@ -1,6 +1,7 @@
 package parsing;
 
 
+import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.Test;
 
 import org.junit.jupiter.api.BeforeAll;
@@ -27,4 +28,10 @@ public class CitilinkParserTest {
         assertNotNull(productList);
         assertNotEquals(productList.size(), 0);
     }
+
+    @AfterAll
+    public static void close(){
+        BrowserPool.getInstance().closeAll();
+    }
+
 }

@@ -1,4 +1,5 @@
 import com.alibaba.fastjson2.JSON;
+import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
@@ -17,8 +18,9 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 public class TestSearchService {
 
-    SearchService searchService = new SearchService();
+    static SearchService searchService;
     static List<Product> testProducts = new ArrayList<>();
+    static BrowserPool browserPool;
 
     @BeforeAll
     public static void init() {
@@ -29,7 +31,8 @@ public class TestSearchService {
             product.setPrice((i + 50) % 75).setName(Integer.toString((i + 50) % 75));
             testProducts.add(product);
         }
-        BrowserPool.getInstance();
+        searchService = new SearchService();
+        browserPool = BrowserPool.getInstance();
     }
 
     @Test
@@ -144,7 +147,7 @@ public class TestSearchService {
         Boolean test = true;
         assertNotNull(products);
         for (int i = 0; i < products.size() - 1; i++) {
-            if (products.get(i).getName().compareTo(products.get(i + 1).getName()) < 0) {
+            if (products.get(i).getName().compareTo(products.get(i + 1).getName()) <= 0) {
                 test = false;
                 break;
             }
@@ -184,6 +187,12 @@ public class TestSearchService {
         assertEquals(answer.getStatusCodeValue(), HttpStatus.OK.value());
         ProductsAnswer productsAnswer = JSON.parseObject(answer.getBody(), ProductsAnswer.class);
         assertEquals(productsAnswer.getProducts().size(), page_size);
+    }
+
+    @AfterAll
+    public static void close(){
+        System.out.println("close");
+        browserPool.closeAll();
     }
 
 }

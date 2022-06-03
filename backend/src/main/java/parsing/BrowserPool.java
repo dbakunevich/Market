@@ -39,6 +39,7 @@ public class BrowserPool {
     }
 
     public void closeAll(){
-        browsers.forEach(FirefoxDriver::close);
+        browsers.forEach(FirefoxDriver::quit);
+        singletonPool = null;
     }
 }

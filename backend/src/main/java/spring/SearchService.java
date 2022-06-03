@@ -21,10 +21,10 @@ public class SearchService {
     List<Product> parseProducts(String toSearch){
         log.info("Started parsing " + toSearch);
         long timeStart = System.currentTimeMillis();
-        List<Product> products = Main.requestsMap.get(toSearch);
+        List<Product> products = searchHistory.get(toSearch);
         if (products == null) {
             products = new Citilink().search(toSearch);
-            Main.requestsMap.put(toSearch, products);
+            searchHistory.put(toSearch, products);
         }
         long timeFinish = System.currentTimeMillis();
         log.info("Parsing of " + toSearch + " finished in " + (timeFinish - timeStart) + " ms");

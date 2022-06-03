@@ -30,14 +30,6 @@ public class Product {
         return this;
     }
 
-    public void printInfo() {
-        System.out.println("Product: " + name +
-                "\nPrice: " + price +
-                "\nURL: " + link);
-        if (specifications != null)
-            System.out.println("Spec: " + specifications);
-    }
-
     public Product addImageUrl(String url) {
         if (images == null) images = new ArrayList<>();
         images.add(url);
