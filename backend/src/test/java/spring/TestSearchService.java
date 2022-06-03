@@ -179,7 +179,7 @@ public class TestSearchService {
         int page = 1;
         answer = searchService.getProductsResponse("iphone", null, null, null, null, null, page, pageSize, null, null);
         assertNotNull(answer);
-        assertEquals(answer.getStatusCodeValue(), 400);
+        assertEquals(answer.getStatusCodeValue(), 200);
     }
 
     @Test
@@ -194,7 +194,7 @@ public class TestSearchService {
     @Test
     public void testTooHighRating(){
         ResponseEntity<String> answer = searchService.getProductsResponse("iphone", null, null, null, null, null, 0, 10, 50.0f, null);
-        assertEquals(answer.getStatusCodeValue(), 400);
+        assertEquals(answer.getStatusCodeValue(), 200);
     }
 
     @Test
