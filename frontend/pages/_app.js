@@ -3,6 +3,7 @@ import '../styles/searchButton.css';
 import '../styles/filters.css';
 import '../styles/resultsOfSearch.css'
 import '../styles/lcab.css'
+import '../styles/orders.css'
 import React, {useState} from "react";
 import Results from "../components/Results";
 import Button from "../components/SearchButton";
@@ -54,9 +55,7 @@ const  App = () => {
             </div>
             <div className="results">
                 <div className="order">
-                    <div className="order_inner">
                         <Order ChangeOrder={searchWithOrder}/>
-                    </div>
                 </div>
                 <Results name={search} order={order} filter={filter} page_size={40}/>
             </div>

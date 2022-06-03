@@ -3,6 +3,7 @@ import React from "react"
 function Filters({ChangeFilters}){
     const [lowCost, setLowCost] = React.useState(null);
     const [highCost, setHighCost] = React.useState(null);
+    const [stars, setStars] = React.useState(0);
 
 
     const checkFilter = () => {
@@ -11,14 +12,40 @@ function Filters({ChangeFilters}){
             filter += "lp=" + lowCost + "&";
         if (highCost)
             filter += "hp=" + highCost + "&";
+        if (stars !== 0)
+            filter += "rating=" + stars + "&";
         ChangeFilters(filter);
     }
 
     const click = (index) => {
-        if (index === 0) {
-            setLowCost(null)
-            setHighCost(null)
-            checkFilter();
+        switch (index) {
+            case 0: {
+                setLowCost(null);
+                setHighCost(null);
+                setStars(0);
+                checkFilter();
+                break;
+            }
+            case 1: {
+                setStars(0);
+                break;
+            }
+            case 2: {
+                setStars(4.5);
+                break;
+            }
+            case 3: {
+                setStars(4);
+                break;
+            }
+            case 4: {
+                setStars(3.5);
+                break
+            }
+            default: {
+                console.log("error ind button")
+                return;
+            }
         }
     }
 
@@ -43,8 +70,10 @@ function Filters({ChangeFilters}){
             <p onClick={()=>{click(0)}}>Сбросить</p>
             <input type="number" min={0} max={1000000} placeholder="Минимальная цена" onChange={lc}/>
             <input type="number" min={0} max={1000000} placeholder="Максимальная цена" onChange={hc}/>
-            <input type="number" min={0} placeholder="Минимальная оценка"/>
-            <input type="number" min={0} max={10} placeholder="Максимальная оценка"/>
+            <p onClick={()=>{click(1)}}>Любой</p>
+            <p onClick={()=>{click(2)}}>4,5 и выше</p>
+            <p onClick={()=>{click(3)}}>4 и выше</p>
+            <p onClick={()=>{click(4)}}>3,5 и выше</p>
             <p onClick={()=>{checkFilter()}}>Применить</p>
         </ul>
     )

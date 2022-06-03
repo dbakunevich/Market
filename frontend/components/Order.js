@@ -2,6 +2,7 @@ import React from "react"
 
 function Order({ChangeOrder}){
     const [order, setOrder] = React.useState("");
+    const [index, activeIndex] = React.useState(1);
 
     const click = async (index) => {
         if (index === 1) {
@@ -16,6 +17,7 @@ function Order({ChangeOrder}){
             else
                 setOrder("name");
         }
+        activeIndex(index);
         checkOrder()
     }
 
@@ -46,11 +48,11 @@ function Order({ChangeOrder}){
     }
 
     return (
-        <ul>
-            <p onClick={()=>{click(1)}}>По цене </p>
-            <p onClick={()=>{click(2)}}>По имени</p>
-            <p onClick={()=>{click(3)}}>По оценкам</p>
-        </ul>
+        <div className="order_inner">
+            <p className={index === 1 ? "active" : ""} onClick={()=>{click(1)}}>По цене </p>
+            <p className={index === 2 ? "active" : ""} onClick={()=>{click(2)}}>По имени</p>
+            <p className={index === 3 ? "active" : ""} onClick={()=>{click(3)}}>По оценкам</p>
+        </div>
     )
 }
 export default Order
