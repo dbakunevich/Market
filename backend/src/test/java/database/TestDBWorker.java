@@ -23,7 +23,7 @@ public class TestDBWorker {
         Random random = new Random();
         for(int i = 0; i < numberOfWords; i++)
         {
-            char[] word = new char[random.nextInt(8)+3]; // words of length 3 through 10. (1 and 2 letter words are boring.)
+            char[] word = new char[random.nextInt(8)+3];
             for(int j = 0; j < word.length; j++)
             {
                 word[j] = (char)('a' + random.nextInt(26));
@@ -31,20 +31,6 @@ public class TestDBWorker {
             randomStrings[i] = new String(word);
         }
         return randomStrings;
-    }
-    @BeforeAll
-    public static void init() {
-        Logger logger = null;
-        Statement statement;
-        Connection connection_main;
-        String host = "jdbc:mysql://51.250.16.106:3306/upprpo";
-        String login = "root";
-        String password = "root";
-        try {
-            connection_main = DriverManager.getConnection(host, login, password);
-            statement = connection_main.createStatement();
-        } catch (SQLException ignored) {
-        }
     }
 
     @Test
@@ -101,18 +87,14 @@ public class TestDBWorker {
 
     @Test
     public void findUserTrueTest() {
+        boolean bool = false;
         String str;
         DBWorker worker = new DBWorker();
-        str = worker.findUser("mmikhajlov", "123");
-        assertEquals(str, "mmikhajlov");
+        str = worker.findUser("123", "123");
+        if (str.equals("123")) {
+            bool = true;
+        }
+        assertTrue(bool);
     }
 
-    @AfterAll
-    public static void close() {
-        try {
-            connection_main.close();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
 }
