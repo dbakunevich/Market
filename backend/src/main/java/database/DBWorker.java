@@ -97,14 +97,23 @@ public class DBWorker {
 
     public List<String> findHistory(String username) {
         List<String> results = null;
+        ResultSet resultSet = null;
         String query = "select distinct content from search_history where username = ?";
-        try (PreparedStatement preparedStatementQuery = connection.prepareStatement(query); ResultSet resultSet = preparedStatementQuery.executeQuery()) {
+        try (PreparedStatement preparedStatementQuery = connection.prepareStatement(query)) {
             results = new ArrayList<>();
             preparedStatementQuery.setString(1, username);
+            resultSet = preparedStatementQuery.executeQuery();
             while (resultSet.next())
                 results.add(resultSet.getString(1));
         } catch (SQLException e) {
-            logger.log(Level.WARNING, "Can't find history of search!");
+            return null;
+        } finally {
+            try {
+                if (resultSet != null) {
+                    resultSet.close();
+                }
+            } catch (SQLException ignored) {
+            }
         }
         return results;
     }
