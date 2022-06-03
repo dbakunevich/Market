@@ -74,7 +74,7 @@ public class DBWorker {
             preparedStatementQuery = connection.prepareStatement(query);
             preparedStatementQuery.setString(1, username);
             preparedStatementQuery.setString(2, password);
-            ResultSet resultSet = preparedStatementQuery.executeQuery();
+            resultSet = preparedStatementQuery.executeQuery();
 
             while (resultSet.next()) {
                 result = resultSet.getString(1);
@@ -134,7 +134,7 @@ public class DBWorker {
             results = new ArrayList<>();
             preparedStatementQuery = connection.prepareStatement(query);
             preparedStatementQuery.setString(1, username);
-            ResultSet resultSet = preparedStatementQuery.executeQuery();
+            resultSet = preparedStatementQuery.executeQuery();
             while (resultSet.next())
                 results.add(resultSet.getString(1));
         } catch (SQLException e) {
