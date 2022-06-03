@@ -33,81 +33,6 @@ public class Citilink extends Parser {
     private static final String SEARCH_URL           = "https://www.citilink.ru/search/?text=";
     private static final String BASE_URL             = "https://www.citilink.ru";
 
-
-    @Override
-    public Product parseProduct(File html) throws FileNotFoundException {
-        return parseProduct(getFileContent(html));
-    }
-
-    @Override
-    public Product parseProduct(String str) {
-        str = str.replaceAll("\n","");
-        String info, temp;
-        Matcher matcher;
-        Product product = new Product();
-
-        matcher = INFO.matcher(str);
-        if (matcher.find()) {
-            info = matcher.group(1).replaceAll("\n", "");
-
-            matcher = NAME.matcher(info);
-            if (matcher.find()) {
-                product.setName(matcher.group(2) + " " + matcher.group(1));
-            }
-
-            matcher = PRICE.matcher(info);
-            if (matcher.find()) {
-                product.setPrice(Integer.parseInt(matcher.group(1)));
-            }
-
-            matcher = PROPERTIES_URL.matcher(info);
-            if (matcher.find()) {
-                try {
-                    product.setLink(new URL(matcher.group(1)));
-                    info = getUrlContent(matcher.group(1) + "properties/");
-                    temp = info.replaceAll("\n","");
-                    matcher = PROPERTIES.matcher(info);
-
-                    if (matcher.find()) {
-                        info = matcher.group(1).replaceAll("\n", "");
-                        int end = -1;
-                        StringBuilder spec = new StringBuilder("{");
-
-                        matcher = PROPERTIES_SUBGROUP.matcher(info);
-                        while (matcher.find()) {
-                            spec.append(__tech(matcher.group(1)));
-
-                            if (matcher.end() > 0) end = matcher.end();
-                        }
-
-                        if (end > 0) info = info.substring(end);
-                        matcher = PROPERTIES.matcher(info);
-                        if (matcher.find()) {
-                            spec.append(__tech(matcher.group(1)));
-                        }
-
-                        spec = new StringBuilder(spec.toString().replaceAll(",}", "}"));
-                        product.setSpecifications(spec.substring(0, spec.length() - 1));
-
-                        matcher = IMAGE.matcher(temp);
-                        while (matcher.find())
-                            product.addImageUrl(matcher.group(1));
-                    }
-                } catch (IOException e) {
-                    log.error("IOException: ", e);
-                }
-            }
-        }
-
-        return product;
-    }
-
-
-    @Override
-    public Product parseProduct(URL link) throws IOException {
-        return parseProduct(getUrlContent(link));
-    }
-
     @Override
     public ArrayList<Product> search(String str) {
         ArrayList<Product> products = new ArrayList<>();
@@ -142,25 +67,5 @@ public class Citilink extends Parser {
         }
 
         return products;
-    }
-
-    private String __tech(String a) {
-        StringBuilder res = new StringBuilder();
-        boolean flag = false;
-        Matcher subMatcher = PROPERTIES_SUBNAME.matcher(a);
-        if (subMatcher.find()) 
-            res.append("\"").append(subMatcher.group(1).strip()).append("\":{");
-
-        subMatcher = PROPERTIES_SUBPROP.matcher(a);
-        while (subMatcher.find()) {
-            if (flag)
-                res.append("\"").append(subMatcher.group(1).strip()).append("\",");
-            else
-                res.append("\"").append(subMatcher.group(1).strip()).append("\":");
-            flag = !flag;
-        }
-        res.append("},");
-
-        return res.toString();
     }
 }

@@ -13,31 +13,10 @@ public abstract class Parser {
 
     static Logger log = LoggerFactory.getLogger(Parser.class);
     // Парсинг информации о продукте из файла html
-    public abstract Product parseProduct(File html) throws FileNotFoundException;
-
-    // Парсинг информации о продукте из строки
-    public abstract Product parseProduct(String str);
-
-    // Парсинг информации о продукте по его URL
-    public abstract Product parseProduct(URL link) throws IOException, URISyntaxException, ScriptException;
 
     // Поиск товаров по заданной строке и формирование списка с товарами
     public abstract List<Product> search(String str);
 
-    public static String getFileContent(String path) throws FileNotFoundException {
-        return getFileContent(new File(path));
-    }
-
-    public static String getFileContent(File file) throws FileNotFoundException {
-        char[] a = new char[(int)file.length() / 2 + 1];
-        try(FileReader reader = new FileReader(file)) {
-            reader.read(a);
-        } catch (IOException e) {
-            log.error("IOException: ", e);
-            return null;
-        }
-        return new String(a);
-    }
 
     public static String getUrlContent(String link) throws IOException {
         return getUrlContent(new URL(link));
