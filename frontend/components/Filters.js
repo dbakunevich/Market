@@ -24,22 +24,28 @@ function Filters({ChangeFilters}){
                 setHighCost(null);
                 setStars(0);
                 checkFilter();
+                document.getElementById("1").value = "";
+                document.getElementById("2").value = "";
                 break;
             }
             case 1: {
                 setStars(0);
+                checkFilter();
                 break;
             }
             case 2: {
                 setStars(4.5);
+                checkFilter();
                 break;
             }
             case 3: {
                 setStars(4);
+                checkFilter();
                 break;
             }
             case 4: {
                 setStars(3.5);
+                checkFilter();
                 break
             }
             default: {
@@ -51,26 +57,21 @@ function Filters({ChangeFilters}){
 
     const lc = (event) => {
         let ptr = event.target.value;
-        if (ptr > 0) {
-            setLowCost(ptr)
-        }
-
+        setLowCost(ptr);
     }
 
     const hc = (event) => {
         let ptr = event.target.value;
-        if (ptr > 0) {
-            setHighCost(ptr)
-        }
+        setHighCost(ptr)
     }
 
 
     return (
         <ul>
             <div className="fname">Цена, Р</div>
-            <input name="input-min"  type="numeric" pattern="[0-9 ]*" onChange={lc}/>
+            <input id="1" type="numeric" pattern="[0-9 ]*" onChange={lc}/>
             <a>-</a>
-            <input name="input-max"  type="numeric" pattern="[0-9 ]*" onChange={hc}/>
+            <input id="2" type="numeric" pattern="[0-9 ]*" onChange={hc}/>
             <div className="fname">Оценка товара по отзывам</div>
             <li onClick={()=>{click(1)}}>Любой</li>
             <li onClick={()=>{click(2)}}>4,5 и выше</li>
