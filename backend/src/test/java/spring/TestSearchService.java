@@ -26,7 +26,7 @@ public class TestSearchService {
 
     @BeforeAll
     public static void init() {
-        String driverPath = "D:\\apps\\geckodriver.exe";
+        String driverPath = "/usr/local/bin/geckodriver";
         System.setProperty("webdriver.gecko.driver", driverPath);
         for (int i = 0; i < 100; i++) {
             Product product = new Product();
