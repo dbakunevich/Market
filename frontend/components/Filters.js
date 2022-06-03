@@ -68,9 +68,9 @@ function Filters({ChangeFilters}){
     return (
         <ul>
             <div className="fname">Цена, Р</div>
-            <input name="input-min"  type="numeric" pattern="[0-9 ]*" onChange={()=>{lc()}}/>
+            <input name="input-min"  type="numeric" pattern="[0-9 ]*" onChange={lc}/>
             <a>-</a>
-            <input name="input-max"  type="numeric" pattern="[0-9 ]*" onChange={()=>{hc()}}/>
+            <input name="input-max"  type="numeric" pattern="[0-9 ]*" onChange={hc}/>
             <div className="fname">Оценка товара по отзывам</div>
             <li onClick={()=>{click(1)}}>Любой</li>
             <li onClick={()=>{click(2)}}>4,5 и выше</li>
