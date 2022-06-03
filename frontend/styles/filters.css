@@ -16,16 +16,15 @@
 }
 
 .filters_inner .btn {
-    display: inline;
-    justify-content: center;
+    display: inline-block;
     background-color: #527bcb;
     background-image: url("../src/Bg.png");
-    padding: 13px 10px;
+    padding: 10px 8px;
     border-radius: 10px;
-    width: 40%;
-    margin-top: 10px;
+    width: 43%;
     margin-right: 5px;
     margin-left: 5px;
+    margin-top: 10px;
     font-weight: bold;
     cursor: pointer;
     font-size: 12px;
@@ -46,4 +45,19 @@
     width: 45%;
     margin-bottom: 30px;
 
+}
+
+.filters_inner .fname {
+    font-weight: bold;
+}
+
+.filters_inner li {
+    margin-left: 20px;
+    padding-left: 1px;
+    margin-bottom: 5px;
+}
+
+.filters_inner li:hover {
+    color: #535353;
+    font-weight: bold;
 }
