@@ -30,10 +30,9 @@ function Filters({ChangeFilters}){
     return (
         <ul>
             <p onClick={()=>{click(0)}}>Сбросить</p>
-            <p onClick={()=>{click(1)}}>По цене </p>
-            <p onClick={()=>{click(2)}}>По имени</p>
             <p>Минимальная цена</p>
             <p>Максимальная цена</p>
+            <p>Оценка</p>
         </ul>
     )
 }

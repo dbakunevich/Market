@@ -1,20 +1,26 @@
-import React from 'react'
+import React, {useEffect} from 'react'
 
 function Lcab () {
     const[activeIndex, setActiveIndex] = React.useState(true);
     const[login, setLogin] = React.useState("");
     const[password, setPassword] = React.useState("");
-    const[logged, setLogged] = React.useState(0);
+    const[logged, setLogged] = React.useState(false);
     const[user, setUser] = React.useState("Авторизация");
     const[error, setError] = React.useState(0);
+    useEffect(()=> {
+        if (!logged)
+            tryEnter()
+    })
 
 
 
 
     const enterLCab = async (index) => {
+        setError(0);
         if (index === 2) {
             setLogged(0)
             setUser("Авторизация")
+            localStorage.clear();
             return;
         }
         if ((login !== "") && (password !== "") && (login.length < 12)) {
@@ -33,7 +39,9 @@ function Lcab () {
                 if (responsePromise === '"Данный пользователь уже зарегистрирован!"')
                     setError(2);
                 else {
-                    setUser(responsePromise);
+                    localStorage.setItem("login", login);
+                    localStorage.setItem("password", password);
+                    setUser(login);
                     setLogged(true);
                     setActiveIndex(!activeIndex);
                 }
@@ -51,8 +59,15 @@ function Lcab () {
         setPassword(event.target.value);
     }
 
+    const tryEnter = () => {
+        if (localStorage.getItem("login"))
+            if (localStorage.getItem("password")){
+                setLogin(localStorage.getItem("login"));
+                setPassword(localStorage.getItem("password"));
+                enterLCab(0);
+            }
 
-
+    }
 
     return (
         <>
