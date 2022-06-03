@@ -8,6 +8,7 @@ import Results from "../components/Results";
 import Button from "../components/SearchButton";
 import Filters from "../components/Filters";
 import Lcab from "../components/Lcab"
+import Order from "../components/Order"
 
 
 import Link from "next/link";
@@ -18,12 +19,16 @@ import Head from "next/head";
 
 const  App = () => {
     const  [search, setSearch] = useState('телефоны')
-    const  [filter, setFilter] = useState('price_order=false&name_order=false')
+    const  [filter, setFilter] = useState('')
+    const  [order, setOrder] = useState('')
     const searchQuery = (search) => {
         setSearch(search)
     }
     const searchWithFilters = (filter) => {
         setFilter(filter)
+    }
+    const searchWithOrder = (order) => {
+        setOrder(order)
     }
 
     return (
@@ -48,7 +53,12 @@ const  App = () => {
                 </div>
             </div>
             <div className="results">
-                <Results name={search} filter={filter} page_size={40}/>
+                <div className="order">
+                    <div className="order_inner">
+                        <Order ChangeOrder={searchWithOrder}/>
+                    </div>
+                </div>
+                <Results name={search} order={order} filter={filter} page_size={40}/>
             </div>
         </>
     )

@@ -12,6 +12,7 @@ export default class Results extends Component{
             isLoaded: false,
             items: [],
             lastName: '',
+            lastOrder: '',
             lastFilter: ''
         };
     }
@@ -19,10 +20,12 @@ export default class Results extends Component{
     getResults() {
         this.lastName = this.props.name;
         this.lastFilter = this.props.filter;
+        this.lastOrder = this.props.order;
         let url = "http://51.250.16.106:8181/search?";
         let search = "toSearch=";
         search += this.lastName + "&";
-        search += this.lastFilter + "&";
+        search += this.lastOrder;
+        search += this.lastFilter;
         let page_num = "page=0&";
         let page_size = "page_size=" + this.props.page_size+ "&";
         let query = url +  search + page_num + page_size;
@@ -44,10 +47,16 @@ export default class Results extends Component{
                 )
     }
 
+    checkChanges(){
+        return ((this.lastName !== this.props.name) ||
+                (this.lastFilter !== this.props.filter) ||
+                (this.lastOrder!== this.props.order))
+    }
+
 
 
     render() {
-        if ((this.lastName !== this.props.name) || (this.lastFilter !== this.props.filter))
+        if (this.checkChanges())
             this.getResults();
         const {error, isLoaded, items} = this.state;
         if (error) {
