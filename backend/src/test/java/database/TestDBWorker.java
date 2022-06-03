@@ -1,9 +1,11 @@
-package db_functions;
+package database;
 
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+
 import static org.junit.jupiter.api.Assertions.*;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -64,8 +66,16 @@ public class TestDBWorker {
         assertNull(connection);
     }
 
+    @Test
+    public static void addUserTrueTest() {
+        boolean bool;
+        DBWorker worker = new DBWorker();
+        bool = worker.addUser("mmikhajlov2", "123");
+        assertTrue(bool);
+    }
+    
     @AfterAll
-    public static void close(){
+    public static void close() {
         try {
             connection_main.close();
         } catch (SQLException e) {

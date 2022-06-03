@@ -10,7 +10,6 @@ import org.springframework.beans.factory.annotation.*;
 import database.MyProperties;
 
 public class DBWorker {
-    private static Statement statement;
     private static Connection connection;
     static Logger logger;
 
@@ -28,7 +27,6 @@ public class DBWorker {
             login = myProperties.getLogin();
             password = myProperties.getPassword();
             connection = DriverManager.getConnection(host, login, password);
-            statement = connection.createStatement();
         } catch (SQLException e) {
             logger.log(Level.WARNING, "Connection is false!");
             System.exit(1);
