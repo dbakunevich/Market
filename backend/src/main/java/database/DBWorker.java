@@ -91,7 +91,6 @@ public class DBWorker {
             preparedStatementInsert.executeUpdate();
             return true;
         } catch (SQLException e) {
-            logger.log(Level.WARNING, "Cant't add new history of search!");
             return false;
         }
     }
