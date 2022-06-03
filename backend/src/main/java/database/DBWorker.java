@@ -57,21 +57,30 @@ public class DBWorker {
 
     public String findUser(String username, String password) {
         String query = "select username from users where username = ? and password = ?";
-       // String update = "update users set last_date = current_timestamp where username = ?";
+        String update = "update users set last_date = current_timestamp where username = ?";
         String result;
-        try (/*PreparedStatement preparedStatementUpdate = connection.prepareStatement(update);*/ PreparedStatement preparedStatementQuery = connection.prepareStatement(query); ResultSet resultSet = preparedStatementQuery.executeQuery()) {
+        ResultSet resultSet = null;
+        try (PreparedStatement preparedStatementUpdate = connection.prepareStatement(update);
+             PreparedStatement preparedStatementQuery = connection.prepareStatement(query);
+        ) {
             preparedStatementQuery.setString(1, username);
             preparedStatementQuery.setString(2, password);
-            while (resultSet.next()) {
-                result = resultSet.getString(1);
-//                preparedStatementUpdate.setString(1, result);
-//                preparedStatementUpdate.executeUpdate();
-                return result;
-            }
+            resultSet = preparedStatementQuery.executeQuery();
+            resultSet.next();
+            result = resultSet.getString(1);
+            preparedStatementUpdate.setString(1, result);
+            preparedStatementUpdate.executeUpdate();
+            return result;
         } catch (SQLException e) {
-            logger.log(Level.WARNING, "Can't find this user!");
+            return "Неверный логин или пароль!";
+        } finally {
+            try {
+                if (resultSet != null) {
+                    resultSet.close();
+                }
+            } catch (SQLException ignored) {
+            }
         }
-        return "Неверный логин или пароль!";
     }
 
     public Boolean addHistory(String username, String content) {

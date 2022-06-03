@@ -74,6 +74,19 @@ public class TestDBWorker {
     }
 
     @Test
+    public void findUserFalseTest() {
+        boolean bool = false;
+        String str;
+        DBWorker worker = new DBWorker();
+        str = worker.findUser("123", "123");
+        if (str.equals("Неверный логин или пароль!")) {
+            bool = true;
+        }
+        assertTrue(bool);
+    }
+
+
+    @Test
     public void findUserTrueTest() {
         boolean bool = false;
         String str;
