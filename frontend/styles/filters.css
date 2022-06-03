@@ -1,17 +1,49 @@
+.filters {
+    position: fixed;
+    right: 5%;
+    top: 20%;
+    padding: 10px;
+    width: 17%;
+    height: 60%;
+    font-size: 15px;
+    border-radius: 2px;
+    background-color: #f8f8f8;
+}
+
 .filters_inner ul {
-    display: inline-block;
     padding-left: 0;
     margin: 0;
 }
 
-.filters_inner p {
+.filters_inner .btn {
+    display: inline;
+    justify-content: center;
     background-color: #527bcb;
     background-image: url("../src/Bg.png");
-    padding: 13px 30px;
-    border-radius: 30px;
-    width: 100%;
-    margin-left: 0;
+    padding: 13px 10px;
+    border-radius: 10px;
+    width: 40%;
+    margin-top: 10px;
+    margin-right: 5px;
+    margin-left: 5px;
     font-weight: bold;
-    transition: background-color 0.1s ease-in-out;
     cursor: pointer;
+    font-size: 12px;
+}
+
+.filters_inner input {
+    display: inline;
+    -webkit-box-flex: 1;
+    flex-grow: 1;
+    height: 30px;
+    padding: 0px 10px;
+    border-width: 1px;
+    border-radius: 4px;
+    background-color: rgb(255, 255, 255);
+    text-align: left;
+    font-size: 14px;
+    line-height: 16px;
+    width: 45%;
+    margin-bottom: 30px;
+
 }
