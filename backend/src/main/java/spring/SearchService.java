@@ -107,14 +107,24 @@ public class SearchService {
     }
 
     List<Product> filterByRating(List<Product> products, Float rating){
-        return products.stream().filter(product -> product.getRating() >= rating).collect(Collectors.toList());
+        if(rating != null)
+            return products.stream().filter(product -> product.getRating() >= rating).collect(Collectors.toList());
+        else
+            return products;
+    }
+
+    List<Product> filterByMarketplace(List<Product> products, String marketplace){
+        if(marketplace != null)
+            return products.stream().filter(product -> product.getMarketplace().equals(marketplace)).collect(Collectors.toList());
+        else
+            return products;
     }
 
     public ResponseEntity<String> getProductsResponse(String toSearch, String login, Integer low_price, Integer high_price, Boolean price_order,
                                                       Boolean name_order, Integer page, Integer page_size, Float ratingFilter, String marketplaceFilter){
 
         try{
-            checkFilters(low_price, high_price);
+            checkFilters(low_price, high_price, ratingFilter);
         } catch (SearchException e){
             log.warn(e.getMessage());
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
@@ -129,6 +139,8 @@ public class SearchService {
 
         products = applyLowPriceFilter(products, low_price);
         products = applyHighPriceFilter(products, high_price);
+        products = filterByRating(products, ratingFilter);
+        products = filterByMarketplace(products, marketplaceFilter);
 
         int amount = products.size();
 
