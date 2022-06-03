@@ -96,7 +96,7 @@ public class DBWorker {
     }
 
     public List<String> findHistory(String username) {
-        List<String> results = null;
+        List<String> results;
         ResultSet resultSet = null;
         String query = "select distinct content from search_history where username = ?";
         try (PreparedStatement preparedStatementQuery = connection.prepareStatement(query)) {
