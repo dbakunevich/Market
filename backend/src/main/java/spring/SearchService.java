@@ -97,7 +97,7 @@ public class SearchService {
     void fillNotParsedFields(List<Product> products){
         MathContext mathContext = new MathContext(2, RoundingMode.HALF_UP);
         products.forEach(product -> {
-            product.setRating(new BigDecimal(BigDecimal.valueOf((double)rand.nextInt(50)/10), mathContext).floatValue());
+            product.setRating(new BigDecimal(String.valueOf((double)rand.nextInt(50)/10), mathContext).floatValue());
             if(rand.nextInt(2) == 1){
                 product.setMarketplace("Ситилинк");
             }
