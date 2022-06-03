@@ -67,14 +67,16 @@ function Filters({ChangeFilters}){
 
     return (
         <ul>
-            <p onClick={()=>{click(0)}}>Сбросить</p>
+            <div>Цена, Р</div>
             <input type="number" min={0} max={1000000} placeholder="Минимальная цена" onChange={lc}/>
             <input type="number" min={0} max={1000000} placeholder="Максимальная цена" onChange={hc}/>
+            <div>Оценка товара по отцывам</div>
             <p onClick={()=>{click(1)}}>Любой</p>
             <p onClick={()=>{click(2)}}>4,5 и выше</p>
             <p onClick={()=>{click(3)}}>4 и выше</p>
             <p onClick={()=>{click(4)}}>3,5 и выше</p>
             <p onClick={()=>{checkFilter()}}>Применить</p>
+            <p onClick={()=>{click(0)}}>Сбросить</p>
         </ul>
     )
 }

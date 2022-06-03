@@ -71,17 +71,15 @@ function Lcab () {
 
     return (
         <>
-            <div className="nav_link" href="../pages/about.js">About</div>
             <div className="nav_link" href="/">About</div>
-            <div className="nav_link" href="/">Button</div>
             <div className="nav_link" onClick={()=>{setActiveIndex(!activeIndex)}} >{user}</div>
             <div className="LCabWindow">
                 <div className={activeIndex  ? "AuthInner" : "AuthInner active"}>
                     <input type="text" placeholder="Введите логин" onChange={chLogin}/>
                     <input type="text" placeholder="Введите пароль" onChange={chPassword}/>
-                    <a className={logged === 0 ? "btn active" : "btn"} onClick={()=>{enterLCab(0)}}>Войти</a>
-                    <a className={logged === 0 ? "btn active" : "btn"} onClick={()=>{enterLCab(1)}}>Регистрация</a>
-                    <a className={logged === 0 ? "btn" : "btn active"}  onClick={()=>{enterLCab(2)}}>Выйти</a>
+                    <a className={!logged ? "btn active" : "btn"} onClick={()=>{enterLCab(0)}}>Войти</a>
+                    <a className={!logged ? "btn active" : "btn"} onClick={()=>{enterLCab(1)}}>Регистрация</a>
+                    <a className={!logged ? "btn" : "btn active"}  onClick={()=>{enterLCab(2)}}>Выйти</a>
                     <a className={error === 1 ? "error active" : "error "}  >Неверный логин или пароль!</a>
                     <a className={error === 2 ? "error active" : "error "}  >Данный пользователь уже существует!</a>
                 </div>
