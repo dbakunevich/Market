@@ -57,7 +57,7 @@ public class testRSA {
         BigInteger publicKey = new BigInteger("1234567");
         rsa.setPublicKey(publicKey);
         BigInteger privateKey = new BigInteger("257");
-        rsa.setPrivateKey("257");
+        rsa.setPrivateKey(privateKey);
         BigInteger value = new BigInteger("12345");
         BigInteger encrypted = rsa.encrypt(value);
         BigInteger decrypted = rsa.decrypt(encrypted);
