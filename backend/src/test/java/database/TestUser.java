@@ -136,5 +136,17 @@ public class TestUser {
         assertFalse(bool);
     }
 
+    @Test
+    public void setRoleTrueTest() {
+        String password = "456";
+        boolean bool = false;
+        User user = new User("mmikhajlov", "123", "admin");
+        user.setPassword(password);
+        if (user.getPassword().equals("789")) {
+            bool = true;
+        }
+        assertFalse(bool);
+    }
+
 
 }
