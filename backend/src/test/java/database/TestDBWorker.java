@@ -123,5 +123,13 @@ public class TestDBWorker {
         assertNotNull(arrayList);
     }
 
+    @Test
+    public void findHistoryFalseTest() {
+        List<String> arrayList;
+        DBWorker worker = new DBWorker();
+        arrayList = worker.findHistory("123");
+        assertNull(arrayList);
+    }
+
 
 }
