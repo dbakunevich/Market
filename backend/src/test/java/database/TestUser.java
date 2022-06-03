@@ -20,7 +20,7 @@ public class TestUser {
     public void getUserTrueTest() {
         String username;
         boolean bool = false;
-        User user = new User("mmikhajlov", "123");
+        User user = new User("mmikhajlov", "123", "admin");
         username = user.getUsername();
         if (username.equals("mmikhajlov")) {
             bool = true;
@@ -32,7 +32,7 @@ public class TestUser {
     public void getUserFalseTest() {
         String username;
         boolean bool = false;
-        User user = new User("mmikhajlov", "123");
+        User user = new User("mmikhajlov", "123", "admin");
         username = user.getUsername();
         if (username.equals("123")) {
             bool = true;
@@ -44,7 +44,7 @@ public class TestUser {
     public void getPassTrueTest() {
         String password;
         boolean bool = false;
-        User user = new User("mmikhajlov", "123");
+        User user = new User("mmikhajlov", "123", "admin");
         password = user.getPassword();
         if (password.equals("123")) {
             bool = true;
@@ -56,9 +56,33 @@ public class TestUser {
     public void getPassFalseTest() {
         String password;
         boolean bool = false;
-        User user = new User("mmikhajlov", "123");
+        User user = new User("mmikhajlov", "123", "admin");
         password = user.getPassword();
         if (password.equals("456")) {
+            bool = true;
+        }
+        assertFalse(bool);
+    }
+
+    @Test
+    public void getRoleTrueTest() {
+        String role;
+        boolean bool = false;
+        User user = new User("mmikhajlov", "123", "admin");
+        role = user.getPassword();
+        if (role.equals("admin")) {
+            bool = true;
+        }
+        assertTrue(bool);
+    }
+
+    @Test
+    public void getRoleFalseTest() {
+        String role;
+        boolean bool = false;
+        User user = new User("mmikhajlov", "123", "admin");
+        role = user.getPassword();
+        if (role.equals("user")) {
             bool = true;
         }
         assertFalse(bool);
