@@ -68,6 +68,7 @@ public class DBWorker {
         String result;
         PreparedStatement preparedStatementQuery = null;
         PreparedStatement preparedStatementUpdate = null;
+        ResultSet resultSet = null;
         //String query = "select username from users where username = " + "'" + username + "'" + " and password = " + "'" + password + "'";
         try {
             preparedStatementQuery = connection.prepareStatement(query);
@@ -85,13 +86,23 @@ public class DBWorker {
             }
         } catch (SQLException e) {
             logger.log(Level.WARNING, "Can't find this user!");
+        } finally {
+            try {
+                if (preparedStatementQuery != null && preparedStatementUpdate != null && resultSet != null) {
+                    preparedStatementQuery.close();
+                    preparedStatementUpdate.close();
+                    resultSet.close();
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         }
         return "Неверный логин или пароль!";
     }
 
     public Boolean addHistory(String username, String content) {
         String insert = "insert into  users (username, password, last_date) values (?, ?, CURRENT_TIMESTAMP)";
-        PreparedStatement preparedStatementInsert;
+        PreparedStatement preparedStatementInsert = null;
         try {
             preparedStatementInsert = connection.prepareStatement(insert);
             preparedStatementInsert.setString(1, username);
@@ -102,12 +113,21 @@ public class DBWorker {
         } catch (SQLException e) {
             logger.log(Level.WARNING, "Cant't add new history of search!");
             return false;
+        } finally {
+            try {
+                if (preparedStatementInsert != null) {
+                    preparedStatementInsert.close();
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         }
     }
 
     public List<String> findHistory(String username) {
         List<String> results = null;
-        PreparedStatement preparedStatementQuery;
+        PreparedStatement preparedStatementQuery = null;
+        ResultSet resultSet = null;
         String query = "select distinct content from search_history where username = ?";
 
         try {
@@ -119,6 +139,15 @@ public class DBWorker {
                 results.add(resultSet.getString(1));
         } catch (SQLException e) {
             logger.log(Level.WARNING, "Can't find history of search!");
+        } finally {
+            try {
+                if (preparedStatementQuery != null && resultSet != null) {
+                    preparedStatementQuery.close();
+                    resultSet.close();
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         }
         return results;
     }
