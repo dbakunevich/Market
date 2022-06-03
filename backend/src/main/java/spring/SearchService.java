@@ -21,7 +21,7 @@ import java.util.stream.Collectors;
 public class SearchService {
     static Logger log = LoggerFactory.getLogger(SearchService.class);
     Map<String, List<Product>> searchHistory = new HashMap<>();
-    private Random rand = SecureRandom.getInstanceStrong();
+    static private Random rand = new Random();
 
     List<Product> parseProducts(String toSearch){
         log.info("Started parsing " + toSearch);
