@@ -37,8 +37,9 @@ public class DBWorker {
     }
 
     public Boolean addUser(String username, String password) {
+        PreparedStatement preparedStatementInsert = null;
         try {
-            PreparedStatement preparedStatementInsert;
+
             String insert = "insert into  users (username, password, last_date) values  (?, ?, CURRENT_TIMESTAMP)";
             preparedStatementInsert = connection.prepareStatement(insert);
             preparedStatementInsert.setString(1, username);
@@ -50,6 +51,12 @@ public class DBWorker {
         } catch (SQLException e) {
             logger.log(Level.WARNING, "Can't create new user!");
             return false;
+        } finally {
+            try {
+                preparedStatementInsert.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         }
     }
 
