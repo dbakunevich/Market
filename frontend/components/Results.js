@@ -24,11 +24,12 @@ export default class Results extends Component{
         let url = "http://51.250.16.106:8181/search?";
         let search = "toSearch=";
         search += this.lastName + "&";
-        search += this.lastOrder;
         search += this.lastFilter;
+        search += this.lastOrder;
         let page_num = "page=0&";
         let page_size = "page_size=" + this.props.page_size+ "&";
         let query = url +  search + page_num + page_size;
+        console.log(search);
         fetch(query)
             .then(result => result.json())
             .then(

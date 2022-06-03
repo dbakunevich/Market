@@ -10,6 +10,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import parsing.Citilink;
 import parsing.Product;
 
+import java.math.BigDecimal;
+import java.math.MathContext;
+import java.math.RoundingMode;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -21,10 +24,10 @@ public class SearchService {
     List<Product> parseProducts(String toSearch){
         log.info("Started parsing " + toSearch);
         long timeStart = System.currentTimeMillis();
-        List<Product> products = Main.requestsMap.get(toSearch);
+        List<Product> products = searchHistory.get(toSearch);
         if (products == null) {
             products = new Citilink().search(toSearch);
-            Main.requestsMap.put(toSearch, products);
+            searchHistory.put(toSearch, products);
         }
         long timeFinish = System.currentTimeMillis();
         log.info("Parsing of " + toSearch + " finished in " + (timeFinish - timeStart) + " ms");
@@ -87,8 +90,22 @@ public class SearchService {
         return products.subList(page * page_size, Integer.min((page + 1) * page_size, products.size()));
     }
 
-    public ResponseEntity<String> getProductsResponse(String toSearch, String login, Integer low_price, Integer high_price,
-                                                      Boolean price_order, Boolean name_order, Integer page, Integer page_size){
+    void fillNotParsedFields(List<Product> products){
+        Random random = new Random();
+        MathContext mathContext = new MathContext(2, RoundingMode.HALF_UP);
+        products.forEach(product -> {
+            product.setRating(new BigDecimal(((double)random.nextInt(50)/10), mathContext).floatValue());
+            if(random.nextInt(2) == 1){
+                product.setMarketplace("Ситилинк");
+            }
+            else {
+                product.setMarketplace("DNS");
+            }
+        });
+    }
+
+    public ResponseEntity<String> getProductsResponse(String toSearch, String login, Integer low_price, Integer high_price, Boolean price_order,
+                                                      Boolean name_order, Integer page, Integer page_size, Float ratingFilter, String marketplaceFilter){
 
         try{
             checkFilters(low_price, high_price);
@@ -98,7 +115,7 @@ public class SearchService {
         }
 
         List<Product> products = parseProducts(toSearch);
-        int amount = products.size();
+        fillNotParsedFields(products);
 
         if(login != null){
            Main.dbWorker.addHistory(login, toSearch);
@@ -106,6 +123,9 @@ public class SearchService {
 
         products = applyLowPriceFilter(products, low_price);
         products = applyHighPriceFilter(products, high_price);
+
+        int amount = products.size();
+
         filterByPrice(products, price_order);
         filterByName(products, name_order);
 

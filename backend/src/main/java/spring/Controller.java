@@ -34,14 +34,16 @@ public class Controller {
                             "http://51.250.108.33:3000/"})
     @GetMapping("/search")
     public ResponseEntity<String> search(@RequestParam String toSearch,
-                                 @RequestParam(required = false) String login,
-                                 @RequestParam(required = false, name = "lp") Integer low_price,
-                                 @RequestParam(required = false, name = "hp") Integer high_price,
-                                 @RequestParam(required = false) Boolean price_order,
-                                 @RequestParam(required = false) Boolean name_order,
-                                 @RequestParam(required = false, defaultValue = "0") Integer page,
-                                 @RequestParam(required = false, defaultValue = "10") Integer page_size) {
-        return searchService.getProductsResponse(toSearch, login, low_price, high_price, price_order, name_order, page, page_size);
+                                         @RequestParam(required = false) String login,
+                                         @RequestParam(required = false, name = "lp") Integer low_price,
+                                         @RequestParam(required = false, name = "hp") Integer high_price,
+                                         @RequestParam(required = false) Boolean price_order,
+                                         @RequestParam(required = false) Boolean name_order,
+                                         @RequestParam(required = false, defaultValue = "0") Integer page,
+                                         @RequestParam(required = false, defaultValue = "10") Integer page_size,
+                                         @RequestParam(required = false) Float rating,
+                                         @RequestParam(required = false) String market) {
+        return searchService.getProductsResponse(toSearch, login, low_price, high_price, price_order, name_order, page, page_size, rating, market);
     }
 
     @CrossOrigin(origins = {"http://localhost:3000",
