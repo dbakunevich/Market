@@ -44,7 +44,6 @@ public class DBWorker {
             preparedStatementInsert.setString(1, username);
             preparedStatementInsert.setString(2, password);
             preparedStatementInsert.executeUpdate();
-//            statement.execute("insert into  users values (" + "'" + username + "'," + "'" + password + "'," + " CURRENT_TIMESTAMP" + ")");
             return true;
 
         } catch (SQLException e) {
