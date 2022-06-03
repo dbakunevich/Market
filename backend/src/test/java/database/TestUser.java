@@ -142,7 +142,7 @@ public class TestUser {
         boolean bool = false;
         User user = new User("mmikhajlov", "123", "admin");
         user.setRole(role);
-        if (user.getPassword().equals("user")) {
+        if (user.getRole().equals("user")) {
             bool = true;
         }
         assertTrue(bool);
@@ -154,7 +154,7 @@ public class TestUser {
         boolean bool = false;
         User user = new User("mmikhajlov", "123", "admin");
         user.setRole(role);
-        if (user.getPassword().equals("admin")) {
+        if (user.getRole().equals("admin")) {
             bool = true;
         }
         assertFalse(bool);
