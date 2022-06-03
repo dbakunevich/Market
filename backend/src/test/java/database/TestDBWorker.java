@@ -92,8 +92,8 @@ public class TestDBWorker {
         boolean bool = false;
         String str;
         DBWorker worker = new DBWorker();
-        str = worker.findUser("123", "123");
-        if (str.equals("123")) {
+        str = worker.findUser("mmikhajlov", "123");
+        if (str.equals("mmikhajlov")) {
             bool = true;
         }
         assertTrue(bool);
