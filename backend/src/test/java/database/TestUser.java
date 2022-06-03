@@ -39,5 +39,30 @@ public class TestUser {
         }
         assertFalse(bool);
     }
-    
+
+    @Test
+    public void getPassTrueTest() {
+        String password;
+        boolean bool = false;
+        User user = new User("mmikhajlov", "123");
+        password = user.getPassword();
+        if (password.equals("123")) {
+            bool = true;
+        }
+        assertTrue(bool);
+    }
+
+    @Test
+    public void getPassFalseTest() {
+        String password;
+        boolean bool = false;
+        User user = new User("mmikhajlov", "123");
+        password = user.getPassword();
+        if (password.equals("456")) {
+            bool = true;
+        }
+        assertFalse(bool);
+    }
+
+
 }
