@@ -58,6 +58,18 @@ public class TestDBWorker {
     }
 
     @Test
+    public void findHistoryFalseTest() {
+        List<String> arrayList;
+        boolean bool = false;
+        DBWorker worker = new DBWorker();
+        arrayList = worker.findHistory("123");
+        if (arrayList.isEmpty()) {
+            bool = true;
+        }
+        assertTrue(bool);
+    }
+
+    @Test
     public void addUserTrueTest() {
         boolean bool;
         String[] str;
@@ -100,14 +112,6 @@ public class TestDBWorker {
     }
 
     @Test
-    public void addHistoryTrueTest() {
-        boolean bool;
-        DBWorker worker = new DBWorker();
-        bool = worker.addHistory("mmikhajlov", "Videos");
-        assertTrue(bool);
-    }
-
-    @Test
     public void addHistoryFalseTest() {
         boolean bool;
         DBWorker worker = new DBWorker();
@@ -121,18 +125,6 @@ public class TestDBWorker {
         DBWorker worker = new DBWorker();
         arrayList = worker.findHistory("mmikhajlov");
         assertNotNull(arrayList);
-    }
-
-    @Test
-    public void findHistoryFalseTest() {
-        List<String> arrayList;
-        boolean bool = false;
-        DBWorker worker = new DBWorker();
-        arrayList = worker.findHistory("123");
-        if (arrayList.isEmpty()) {
-            bool = true;
-        }
-        assertTrue(bool);
     }
 
 
