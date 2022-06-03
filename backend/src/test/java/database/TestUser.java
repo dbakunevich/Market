@@ -88,4 +88,29 @@ public class TestUser {
         assertFalse(bool);
     }
 
+    @Test
+    public void setUserTrueTest() {
+        String username = "Dima";
+        boolean bool = false;
+        User user = new User("mmikhajlov", "123", "admin");
+        user.setUsername(username);
+        if (user.getUsername().equals("Dima")) {
+            bool = true;
+        }
+        assertTrue(bool);
+    }
+
+    @Test
+    public void setUserFalseTest() {
+        String username = "Dima";
+        boolean bool = false;
+        User user = new User("mmikhajlov", "123", "admin");
+        user.setUsername(username);
+        if (user.getUsername().equals("Marat")) {
+            bool = true;
+        }
+        assertFalse(bool);
+    }
+
+
 }
