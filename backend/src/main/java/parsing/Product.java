@@ -9,6 +9,8 @@ public class Product {
     URL link;
     String specifications;
     ArrayList<String> images;
+    String marketplace;
+    float rating;
 
     public Product setName(String name) {
         this.name = name;
@@ -30,12 +32,13 @@ public class Product {
         return this;
     }
 
-    public void printInfo() {
-        System.out.println("Product: " + name +
-                "\nPrice: " + price +
-                "\nURL: " + link);
-        if (specifications != null)
-            System.out.println("Spec: " + specifications);
+    public Product setMarketplace(String marketplace) {
+        this.marketplace = marketplace;
+        return this;
+    }
+    public Product setRating(float rating) {
+        this.rating = rating;
+        return this;
     }
 
     public Product addImageUrl(String url) {
@@ -62,5 +65,13 @@ public class Product {
 
     public String getImages() {
         return images.get(0);
+    }
+
+    public String getMarketplace() {
+        return marketplace;
+    }
+
+    public float getRating() {
+        return rating;
     }
 }

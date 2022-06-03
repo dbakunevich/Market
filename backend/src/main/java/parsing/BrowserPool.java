@@ -24,7 +24,6 @@ public class BrowserPool {
         for (int i = 0; i < POOL_SIZE; i++) {
             new Thread(() -> {
                 FirefoxDriver driver = new FirefoxDriver(options);
-                driver.get("https://citilink.ru");
                 browsers.add(driver);
             }).start();
         }
@@ -39,6 +38,7 @@ public class BrowserPool {
     }
 
     public void closeAll(){
-        browsers.forEach(FirefoxDriver::close);
+        browsers.forEach(FirefoxDriver::quit);
+        singletonPool = null;
     }
 }

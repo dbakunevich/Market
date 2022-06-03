@@ -1,4 +1,5 @@
 import com.alibaba.fastjson2.JSON;
+import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
@@ -17,8 +18,9 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 public class TestSearchService {
 
-    SearchService searchService = new SearchService();
+    static SearchService searchService = new SearchService();
     static List<Product> testProducts = new ArrayList<>();
+    static BrowserPool browserPool;
 
     @BeforeAll
     public static void init() {
@@ -29,12 +31,13 @@ public class TestSearchService {
             product.setPrice((i + 50) % 75).setName(Integer.toString((i + 50) % 75));
             testProducts.add(product);
         }
-        BrowserPool.getInstance();
+        searchService = new SearchService();
+        browserPool = BrowserPool.getInstance();
     }
 
     @Test
     public void searchTest() {
-        ResponseEntity<String> answer = searchService.getProductsResponse("iphone", null, null, null, null, null, 0, 10);
+        ResponseEntity<String> answer = searchService.getProductsResponse("iphone", null, null, null, null, null, 0, 10, null, null);
         ProductsAnswer products = JSON.parseObject(answer.getBody(), ProductsAnswer.class);
         assertEquals(answer.getStatusCodeValue(), HttpStatus.OK.value());
         assertNotNull(products);
@@ -45,19 +48,19 @@ public class TestSearchService {
 
     @Test
     public void testLowPriceError() {
-        ResponseEntity<String> answer = searchService.getProductsResponse("iphone", null, -1, null, null, null, 0, 10);
+        ResponseEntity<String> answer = searchService.getProductsResponse("iphone", null, -1, null, null, null, 0, 10, null, null);
         assertEquals(answer.getStatusCodeValue(), HttpStatus.BAD_REQUEST.value());
     }
 
     @Test
     public void testHighPriceError() {
-        ResponseEntity<String> answer = searchService.getProductsResponse("iphone", null, null, -1, null, null, 0, 10);
+        ResponseEntity<String> answer = searchService.getProductsResponse("iphone", null, null, -1, null, null, 0, 10, null, null);
         assertEquals(answer.getStatusCodeValue(), HttpStatus.BAD_REQUEST.value());
     }
 
     @Test
     public void testLowPriceGreaterError() {
-        ResponseEntity<String> answer = searchService.getProductsResponse("iphone", null, 50000, 50, null, null, 0, 10);
+        ResponseEntity<String> answer = searchService.getProductsResponse("iphone", null, 50000, 50, null, null, 0, 10, null, null);
         assertEquals(answer.getStatusCodeValue(), HttpStatus.BAD_REQUEST.value());
     }
 
@@ -93,7 +96,7 @@ public class TestSearchService {
 
     @Test
     public void testPriceSortingAsc() {
-        ResponseEntity<String> answer = searchService.getProductsResponse("iphone", null, null, null, true, null, 0, 10);
+        ResponseEntity<String> answer = searchService.getProductsResponse("iphone", null, null, null, true, null, 0, 10, null, null);
         List<Product> products = JSON.parseObject(answer.getBody(), ProductsAnswer.class).getProducts();
         Boolean test = true;
         assertNotNull(products);
@@ -108,7 +111,7 @@ public class TestSearchService {
 
     @Test
     public void testPriceSortingDesc() {
-        ResponseEntity<String> answer = searchService.getProductsResponse("iphone", null, null, null, false, null, 0, 10);
+        ResponseEntity<String> answer = searchService.getProductsResponse("iphone", null, null, null, false, null, 0, 10, null, null);
         List<Product> products = JSON.parseObject(answer.getBody(), ProductsAnswer.class).getProducts();
         Boolean test = true;
         assertNotNull(products);
@@ -123,7 +126,7 @@ public class TestSearchService {
 
     @Test
     public void testNameSortingAsc() {
-        ResponseEntity<String> answer = searchService.getProductsResponse("iphone", null, null, null, null, false, 0, 10);
+        ResponseEntity<String> answer = searchService.getProductsResponse("iphone", null, null, null, null, false, 0, 10, null, null);
         List<Product> products = JSON.parseObject(answer.getBody(), ProductsAnswer.class).getProducts();
         Boolean test = true;
         assertNotNull(products);
@@ -138,7 +141,7 @@ public class TestSearchService {
 
     @Test
     public void testNameSortingDesc() {
-        ResponseEntity<String> answer = searchService.getProductsResponse("iphone", null, null, null, null, true, 0, 10);
+        ResponseEntity<String> answer = searchService.getProductsResponse("iphone", null, null, null, null, true, 0, 10, null, null);
         assertEquals(answer.getStatusCodeValue(), HttpStatus.OK.value());
         List<Product> products = JSON.parseObject(answer.getBody(), ProductsAnswer.class).getProducts();
         Boolean test = true;
@@ -154,25 +157,25 @@ public class TestSearchService {
 
     @Test
     public void testLowPageNumber(){
-        ResponseEntity<String> answer = searchService.getProductsResponse("iphone", null, null, null, null, null, -1, 10);
+        ResponseEntity<String> answer = searchService.getProductsResponse("iphone", null, null, null, null, null, -1, 10, null, null);
         assertEquals(answer.getStatusCodeValue(), HttpStatus.BAD_REQUEST.value());
     }
 
     @Test
     public void testLowPageSize(){
-        ResponseEntity<String> answer = searchService.getProductsResponse("iphone", null, null, null, null, null, 0, -1);
+        ResponseEntity<String> answer = searchService.getProductsResponse("iphone", null, null, null, null, null, 0, -1, null, null);
         assertEquals(answer.getStatusCodeValue(), HttpStatus.BAD_REQUEST.value());
     }
 
     @Test
     public void testPageDoesentExists(){
-        ResponseEntity<String> answer = searchService.getProductsResponse("iphone", null, null, null, null, null, 0, 10);
+        ResponseEntity<String> answer = searchService.getProductsResponse("iphone", null, null, null, null, null, 0, 10, null, null);
         assertEquals(answer.getStatusCodeValue(), HttpStatus.OK.value());
         ProductsAnswer productsAnswer = JSON.parseObject(answer.getBody(), ProductsAnswer.class);
         int amount = productsAnswer.getAmount();
         int pageSize = amount;
         int page = 1;
-        answer = searchService.getProductsResponse("iphone", null, null, null, null, null, page, pageSize);
+        answer = searchService.getProductsResponse("iphone", null, null, null, null, null, page, pageSize, null, null);
         assertNotNull(answer);
         assertEquals(answer.getStatusCodeValue(), HttpStatus.BAD_REQUEST.value());
     }
@@ -180,10 +183,14 @@ public class TestSearchService {
     @Test
     public void testPaging(){
         int page_size = 15;
-        ResponseEntity<String> answer = searchService.getProductsResponse("iphone", null, null, null, null, null, 0, page_size);
+        ResponseEntity<String> answer = searchService.getProductsResponse("iphone", null, null, null, null, null, 0, page_size, null, null);
         assertEquals(answer.getStatusCodeValue(), HttpStatus.OK.value());
         ProductsAnswer productsAnswer = JSON.parseObject(answer.getBody(), ProductsAnswer.class);
         assertEquals(productsAnswer.getProducts().size(), page_size);
     }
 
+    @AfterAll
+    public static void close(){
+        browserPool.closeAll();
+    }
 }
