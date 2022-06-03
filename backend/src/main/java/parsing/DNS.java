@@ -1,4 +1,4 @@
-package parsing;
+/*package parsing;
 
 import javax.script.ScriptEngine;
 import javax.script.ScriptEngineManager;
@@ -8,7 +8,7 @@ import java.net.URL;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-/*public class DNS implements Parser{
+public class DNS implements Parser{
     private static final Pattern PRICE = Pattern.compile("\"price\":(\\d+),");
     private static final Pattern DESCRIPTION_ALL = Pattern.compile(
             "<div class=\"product-card-tabs__content\" data-tab=\"description\"" +
@@ -168,4 +168,5 @@ import java.util.regex.Pattern;
         System.out.println(res);
         return parseProduct(res);
     }
-}*/
+}
+*/
