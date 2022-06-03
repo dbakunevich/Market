@@ -23,7 +23,7 @@ export default class Results extends Component{
         this.lastOrder = this.props.order;
         let url = "http://51.250.16.106:8181/search?";
         let search = "toSearch=";
-        search += this.lastName + "&";
+        search += this.lastName;
         search += this.lastFilter;
         search += this.lastOrder;
         let page_num = "page=0&";
@@ -61,7 +61,7 @@ export default class Results extends Component{
             this.getResults();
         const {error, isLoaded, items} = this.state;
         if (error) {
-            return <p> Error  {error.message}</p>
+            return <p> По вашему запросу ничего нет</p>
         } else if (!isLoaded) {
             return <p>Loading...</p>
         } else
@@ -70,10 +70,14 @@ export default class Results extends Component{
                     <ul>
                         {items.map(item => (
                             <div key={item.link} className="phoneBlock">
-                                <Link href={item.link}>
-                                    <img width='100px' src={item.images}/>
+                                <Link target="_blank" href={item.link}>
+                                    <a>
+                                        <img className="image" width='100px' src={item.images}/>
+                                    </a>
                                 </Link>
                                 <div className="name">{item.name}</div>
+                                <div>{item.rating}</div>
+                                <div>{item.marketplace}</div>
                                 <div className="price">{item.price}p</div>
                             </div>
                         ))}
