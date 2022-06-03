@@ -33,6 +33,7 @@ public class SearchService {
         }
         long timeFinish = System.currentTimeMillis();
         log.info("Parsing of " + toSearch + " finished in " + (timeFinish - timeStart) + " ms");
+        fillNotParsedFields(products);
         return products;
     }
 
@@ -88,7 +89,7 @@ public class SearchService {
             throw new SearchException("Page cannot be lower than 0. Provided " + page);
         if(page_size < 1)
             throw new SearchException("Page size cannot be lower than 1. Provided " + page_size);
-        if(page * page_size >= products.size()){
+        if(page * page_size > products.size()){
             throw new SearchException("Page doesn't exists. It strats with " + (page * page_size - 1) + " element when only " + products.size() + "exists");
         }
         return products.subList(page * page_size, Integer.min((page + 1) * page_size, products.size()));
@@ -132,7 +133,6 @@ public class SearchService {
         }
 
         List<Product> products = parseProducts(toSearch);
-        fillNotParsedFields(products);
 
         if(login != null){
            Main.dbWorker.addHistory(login, toSearch);
