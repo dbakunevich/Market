@@ -84,7 +84,7 @@ public class DBWorker {
     }
 
     public Boolean addHistory(String username, String content) {
-        String insert = "insert into search_history (username, content, last_date) values (?, ?, CURRENT_TIMESTAMP)";
+        String insert = "insert into search_history (username, content, content_date) values (?, ?, CURRENT_TIMESTAMP)";
         try (PreparedStatement preparedStatementInsert = connection.prepareStatement(insert)) {
             preparedStatementInsert.setString(1, username);
             preparedStatementInsert.setString(2, content);
