@@ -54,6 +54,7 @@ public class DBWorker {
                 logger.log(Level.WARNING, "Can't close statement!");
             }
         }
+        return true;
     }
 
     public String findUser(String username, String password) {
