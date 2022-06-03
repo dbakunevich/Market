@@ -18,7 +18,7 @@ import Head from "next/head";
 
 
 const  App = () => {
-    const  [search, setSearch] = useState('телефоны')
+    const  [search, setSearch] = useState('телефоны&')
     const  [filter, setFilter] = useState('')
     const  [order, setOrder] = useState('')
     const searchQuery = (search) => {

@@ -19,7 +19,7 @@ function Button ({onChange})  {
     }
 
     const gg = (event) => {
-        setSearch(event.target.value)
+        setSearch(event.target.value + "&")
     }
 
 
