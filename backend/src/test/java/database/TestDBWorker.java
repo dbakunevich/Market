@@ -112,11 +112,11 @@ public class TestDBWorker {
     }
 
     @Test
-    public void addHistoryFalseTest() {
+    public void addHistoryTrueTest() {
         boolean bool;
         DBWorker worker = new DBWorker();
         bool = worker.addHistory("efwhwek5wjqrfq2", "Videos");
-        assertFalse(bool);
+        assertTrue(bool);
     }
 
     @Test
