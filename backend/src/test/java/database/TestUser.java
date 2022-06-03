@@ -69,7 +69,7 @@ public class TestUser {
         String role;
         boolean bool = false;
         User user = new User("mmikhajlov", "123", "admin");
-        role = user.getPassword();
+        role = user.getRole();
         if (role.equals("admin")) {
             bool = true;
         }
@@ -81,7 +81,7 @@ public class TestUser {
         String role;
         boolean bool = false;
         User user = new User("mmikhajlov", "123", "admin");
-        role = user.getPassword();
+        role = user.getRole();
         if (role.equals("user")) {
             bool = true;
         }
@@ -107,6 +107,30 @@ public class TestUser {
         User user = new User("mmikhajlov", "123", "admin");
         user.setUsername(username);
         if (user.getUsername().equals("Marat")) {
+            bool = true;
+        }
+        assertFalse(bool);
+    }
+
+    @Test
+    public void setPasswordTrueTest() {
+        String password = "456";
+        boolean bool = false;
+        User user = new User("mmikhajlov", "123", "admin");
+        user.setPassword(password);
+        if (user.getPassword().equals("456")) {
+            bool = true;
+        }
+        assertTrue(bool);
+    }
+
+    @Test
+    public void setPasswordFalseTest() {
+        String password = "456";
+        boolean bool = false;
+        User user = new User("mmikhajlov", "123", "admin");
+        user.setPassword(password);
+        if (user.getPassword().equals("789")) {
             bool = true;
         }
         assertFalse(bool);
