@@ -41,6 +41,7 @@ public class DBWorker {
             preparedStatementInsert.setString(1, username);
             preparedStatementInsert.setString(2, password);
             preparedStatementInsert.executeUpdate();
+            return true;
         } catch (SQLException e) {
             return false;
         } finally {
@@ -52,7 +53,6 @@ public class DBWorker {
                 logger.log(Level.WARNING, "Can't close statement!");
             }
         }
-        return true;
     }
 
     public String findUser(String username, String password) {
