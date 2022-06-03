@@ -85,7 +85,6 @@ public class TestDBWorker {
         assertTrue(bool);
     }
 
-
     @Test
     public void findUserTrueTest() {
         boolean bool = false;
@@ -97,5 +96,14 @@ public class TestDBWorker {
         }
         assertTrue(bool);
     }
+
+    @Test
+    public void addHistoryTrueTest() {
+        boolean bool = false;
+        DBWorker worker = new DBWorker();
+        bool = worker.addHistory("mmikhajlov", "Videos");
+        assertTrue(bool);
+    }
+
 
 }
