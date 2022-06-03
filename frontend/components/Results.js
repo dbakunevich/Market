@@ -1,7 +1,5 @@
 import React, {Component} from "react";
 import Link from "next/link";
-import {wait} from "next/dist/build/output/log";
-
 
 
 export default class Results extends Component{
