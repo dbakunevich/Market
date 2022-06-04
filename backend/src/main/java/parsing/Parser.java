@@ -1,6 +1,7 @@
 package parsing;
 
 
+import nsu.fit.upprpo.parser.Product;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
@@ -61,6 +62,21 @@ public abstract class Parser {
             Thread.currentThread().interrupt();
         }
         return content;
+    }
+
+    public static void addProducts(ArrayList<Product> products, Document html, String basePath, String namePath, String pricePath, String urlPath, String imageUrlPath, String baseUrl) throws Exception {
+        ArrayList<String> nameList = getHtmlValues(html, basePath + namePath);
+        ArrayList<String> pricesList = getHtmlValues(html, basePath + pricePath);
+        ArrayList<String> linkList = getHtmlValues(html, basePath + urlPath);
+        ArrayList<String> imageList = getHtmlValues(html, basePath + imageUrlPath);
+
+        for (int i = 0; i < linkList.size(); i++) {
+            products.add(new Product());
+            products.get(i).setName(nameList.get(i));
+            products.get(i).setPrice(pricesList.get(i));
+            products.get(i).setLink(new URL(baseUrl + linkList.get(i)));
+            products.get(i).addImageUrl(imageList.get(i));
+        }
     }
 
     public static ArrayList<String> getHtmlValues(Document html, String path) throws Exception {
