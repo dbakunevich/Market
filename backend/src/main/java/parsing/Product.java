@@ -30,6 +30,12 @@ public class Product {
         return this;
     }
 
+    public nsu.fit.upprpo.parser.Product setPrice(String price) {
+        price = price.replaceAll("\\s","");
+        this.price = Integer.parseInt(price);
+        return this;
+    }
+
     public void printInfo() {
         System.out.println("Product: " + name +
                 "\nPrice: " + price +
