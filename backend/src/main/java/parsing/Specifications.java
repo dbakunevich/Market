@@ -56,4 +56,15 @@ public class Specifications {
 
         return null;
     }
+
+    @Override
+    public String toString() {
+        String res = "";
+        for (Map.Entry<String, HashMap<String, String>> category: specifications.entrySet()) {
+            res += category.getKey() + ":\n";
+            for (Map.Entry<String, String> characteristic : category.getValue().entrySet())
+                res += "\t" + characteristic.getKey() + ":\t" + characteristic.getValue() + "\n";
+        }
+        return res;
+    }
 }
