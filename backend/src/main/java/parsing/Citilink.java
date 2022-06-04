@@ -81,28 +81,33 @@ public class Citilink extends Parser {
             "> div.SubgridScrollable__item" +
             "> div.product_data__gtm-js" +
             "> div.ProductCardVerticalLayout";
-    public static final String CITILINK_LINK_2 = CITILINK_BASE_2 +
+    public static final String CITILINK_LINK_2 =
             "> div.ProductCardVerticalLayout__header" +
-            "> div.ProductCardVerticalLayout__wrapper-description" +
-            "> div.ProductCardVertical__description" +
-            "> a";
-    public static final String CITILINK_IMAGE_2 = CITILINK_BASE_2 +
+                    "> div.ProductCardVerticalLayout__wrapper-description" +
+                    "> div.ProductCardVertical__description" +
+                    "> a.attr(href)";
+    public static final String CITILINK_NAME_2 =
             "> div.ProductCardVerticalLayout__header" +
-            "> div.ProductCardVerticalLayout__wrapper-cover-image" +
-            "> a" +
-            "> div.ProductCardVertical__image-wrapper" +
-            "> div.ProductCardVertical__image-wrap" +
-            "> div.ProductCardVertical__picture-hover_part";
-    public static final String CITILINK_PRICE_2 = CITILINK_BASE_2 +
+                    "> div.ProductCardVerticalLayout__wrapper-description" +
+                    "> div.ProductCardVertical__description" +
+                    "> a.text()";
+    public static final String CITILINK_IMAGE_2 =
+            "> div.ProductCardVerticalLayout__header" +
+                    "> div.ProductCardVerticalLayout__wrapper-cover-image" +
+                    "> a" +
+                    "> div.ProductCardVertical__image-wrapper" +
+                    "> div.ProductCardVertical__image-wrap" +
+                    "> div.ProductCardVertical__picture-hover_part.attr(data-src)";
+    public static final String CITILINK_PRICE_2 =
             "> div.ProductCardVerticalLayout__footer" +
-            "> div.ProductCardVerticalLayout__wrapper-cart" +
-            "> div.js--ProductCardInListing__button-buy" +
-            "> div.ProductCardVerticalCart__price-wrapper" +
-            "> div.ProductCardVertical_tablet" +
-            "> div.ProductCardVertical__price-with-amount" +
-            "> div.ProductPrice" +
-            "> span.ProductPrice__price" +
-            "> span.ProductCardVerticalPrice__price-current_current-price";
+                    "> div.ProductCardVerticalLayout__wrapper-cart" +
+                    "> div.js--ProductCardInListing__button-buy" +
+                    "> div.ProductCardVerticalCart__price-wrapper" +
+                    "> div.ProductCardVertical_tablet" +
+                    "> div.ProductCardVertical__price-with-amount" +
+                    "> div.ProductPrice" +
+                    "> span.ProductPrice__price" +
+                    "> span.ProductCardVerticalPrice__price-current_current-price.text()";
 
     @Override
     public Product parseProduct(File html) throws FileNotFoundException {
@@ -181,6 +186,11 @@ public class Citilink extends Parser {
     @Override
     public ArrayList<Product> search(String str) {
         ArrayList<Product> products = new ArrayList<>();
+        ArrayList<String> nameList;
+        ArrayList<String> pricesList;
+        ArrayList<String> linkList;
+        ArrayList<String> imageList;
+
         try {
             String res = SEARCH_URL + URLEncoder.encode(str, StandardCharsets.UTF_8);
             res = getUrlContent(res);
@@ -200,15 +210,16 @@ public class Citilink extends Parser {
                 }
             }
             else {
-                links = document.select(CITILINK_LINK_2);
-                images = document.select(CITILINK_IMAGE_2);
-                prices = document.select(CITILINK_PRICE_2);
-                for (int i = 0; i < links.size(); i++) {
+                nameList = getHtmlValues(document, CITILINK_BASE_2 + CITILINK_NAME_2);
+                pricesList = getHtmlValues(document, CITILINK_BASE_2 + CITILINK_PRICE_2);
+                linkList = getHtmlValues(document, CITILINK_BASE_2 + CITILINK_LINK_2);
+                imageList = getHtmlValues(document, CITILINK_BASE_2 + CITILINK_IMAGE_2);
+                for (int i = 0; i < nameList.size(); i++) {
                     products.add(new Product());
-                    products.get(i).setLink(new URL(BASE_URL + links.get(i).attr("href")));
-                    products.get(i).setName(links.get(i).text());
-                    products.get(i).addImageUrl(images.get(i).attr("data-src"));
-                    products.get(i).setPrice(Integer.parseInt(prices.get(i).text().replaceAll(" ", "")));
+                    products.get(i).setLink(new URL(BASE_URL + linkList.get(i)));
+                    products.get(i).setName(nameList.get(i));
+                    products.get(i).addImageUrl(imageList.get(i));
+                    products.get(i).setPrice(pricesList.get(i));
                 }
             }
         } catch (IOException e) {
