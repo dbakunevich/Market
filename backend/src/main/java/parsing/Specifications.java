@@ -3,6 +3,7 @@ import java.util.Map;
 
 public class Specifications {
     private HashMap<String, HashMap<String, String>> specifications;
+    private String lastCategory = null;
 
     public Specifications() {
         specifications = new HashMap<>();
@@ -10,11 +11,21 @@ public class Specifications {
 
     public void addCategory(String categoryName) {
         categoryName = categoryName.strip();
-        if (!specifications.containsKey(categoryName))
+        if (!specifications.containsKey(categoryName)) {
             specifications.put(categoryName, new HashMap<>());
+            lastCategory = categoryName;
+        }
         else {
             throw new IllegalStateException("New category (categoryName) already exist!");
         }
+    }
+
+    public void addCharacteristic(String characteristicName, String characteristicValue) {
+        addCharacteristic(lastCategory, characteristicName, characteristicValue);
+    }
+
+    public void addOrUpdateCharacteristic(String characteristicName, String characteristicValue) {
+        addOrUpdateCharacteristic(lastCategory, characteristicName, characteristicValue);
     }
 
     public void addCharacteristic(String categoryName, String characteristicName, String characteristicValue) {
@@ -23,14 +34,17 @@ public class Specifications {
         characteristicValue = characteristicValue.strip();
 
         try {
-            if (!specifications.get(categoryName).containsKey(characteristicName))
+            if (!specifications.get(categoryName).containsKey(characteristicName)) {
                 specifications.get(categoryName).put(characteristicName, characteristicValue);
+                lastCategory = categoryName;
+            }
             else if (!specifications.get(categoryName).get(characteristicName).equals(characteristicValue))
                 throw new IllegalStateException("New data (characteristicValue) contradict existing!");
         }
         catch (NullPointerException e) {
             specifications.put(categoryName, new HashMap<>());
             specifications.get(categoryName).put(characteristicName, characteristicValue);
+            lastCategory = categoryName;
         }
     }
 
@@ -40,6 +54,7 @@ public class Specifications {
         }
         catch (IllegalStateException e) {
             specifications.get(categoryName).put(characteristicName, characteristicValue);
+            lastCategory = categoryName;
         }
     }
 
