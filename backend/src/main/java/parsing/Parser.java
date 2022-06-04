@@ -63,7 +63,7 @@ public abstract class Parser {
         return content;
     }
 
-    public static ArrayList<String> getHtmlValues(Document html, String path) {
+    public static ArrayList<String> getHtmlValues(Document html, String path) throws Exception {
         Elements elements;
         ArrayList<String> res = new ArrayList<>();
         String func = "";
@@ -87,6 +87,7 @@ public abstract class Parser {
             for (Element e: elements)
                 res.add(e.toString());
         }
+        if (elements.isEmpty()) throw new Exception();
         return res;
     }
 }
