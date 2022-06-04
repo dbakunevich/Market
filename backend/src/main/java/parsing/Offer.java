@@ -34,6 +34,13 @@ public class Offer {
     }
 
     @Override
+    public boolean equals(Object other) {
+        Offer o = (Offer) other;
+        if ((o.price == this.price) && (o.url == o.url)) return true;
+        return false;
+    }
+
+    @Override
     public String toString() {
         return "URL: " + this.url + " | Price: " + price;
     }
