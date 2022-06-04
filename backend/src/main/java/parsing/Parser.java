@@ -64,20 +64,28 @@ public abstract class Parser {
     }
 
     public static ArrayList<String> getHtmlValues(Document html, String path) {
+        Elements elements;
         ArrayList<String> res = new ArrayList<>();
         String func = "";
         try {
-            func = path.substring(path.lastIndexOf('.') + 1);
+            func = path.substring(path.lastIndexOf('.'));
             path = path.substring(0, path.lastIndexOf('.'));
         } catch (IndexOutOfBoundsException e) {}
-        Elements elements = html.select(path);
-        if (func.startsWith("text()")) {
-            for (Element e: elements) res.add(e.text());
+        if (func.startsWith(".text()")) {
+            elements = html.select(path);
+            for (Element e: elements)
+                res.add(e.text());
         }
-        else if (func.startsWith("attr(")) {
+        else if (func.startsWith(".attr(")) {
+            elements = html.select(path);
             func = func.substring(func.indexOf('(') + 1, func.lastIndexOf(')'));
             for (Element e: elements)
                 res.add(e.attr(func));
+        }
+        else {
+            elements = html.select(path + func);
+            for (Element e: elements)
+                res.add(e.toString());
         }
         return res;
     }
