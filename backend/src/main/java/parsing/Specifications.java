@@ -57,6 +57,28 @@ public class Specifications {
         return null;
     }
 
+    public String toJson() {
+        String res = "{";
+        boolean flag = true;
+        for (Map.Entry<String, HashMap<String, String>> category: specifications.entrySet()) {
+            if (!flag)
+                res += ";\"" + category.getKey() + "\":{";
+            else
+                res += "\"" + category.getKey() + "\":{";
+            flag = true;
+            for (Map.Entry<String, String> characteristic : category.getValue().entrySet()) {
+                if (!flag)
+                    res += ";\"" + characteristic.getKey() + "\":\"" + characteristic.getValue() + "\"";
+                else {
+                    res += "\"" + characteristic.getKey() + "\":\"" + characteristic.getValue() + "\"";
+                    flag = false;
+                }
+            }
+            res += "}";
+        }
+        return res;
+    }
+
     @Override
     public String toString() {
         String res = "";
