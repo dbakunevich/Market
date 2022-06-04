@@ -1,12 +1,16 @@
 package parsing;
 
 
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import javax.script.ScriptException;
 import java.io.*;
 import java.net.*;
+import java.util.ArrayList;
 import java.util.List;
 
 public abstract class Parser {
@@ -57,5 +61,24 @@ public abstract class Parser {
             Thread.currentThread().interrupt();
         }
         return content;
+    }
+
+    public static ArrayList<String> getHtmlValues(Document html, String path) {
+        ArrayList<String> res = new ArrayList<>();
+        String func = "";
+        try {
+            func = path.substring(path.lastIndexOf('.') + 1);
+            path = path.substring(0, path.lastIndexOf('.'));
+        } catch (IndexOutOfBoundsException e) {}
+        Elements elements = html.select(path);
+        if (func.startsWith("text()")) {
+            for (Element e: elements) res.add(e.text());
+        }
+        else if (func.startsWith("attr(")) {
+            func = func.substring(func.indexOf('(') + 1, func.lastIndexOf(')'));
+            for (Element e: elements)
+                res.add(e.attr(func));
+        }
+        return res;
     }
 }
