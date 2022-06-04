@@ -33,6 +33,14 @@ public class Offer {
         return this.price;
     }
 
+    public Offer copy() {
+        return new Offer(url, price);
+    }
+
+    public String toJson() {
+        return "{\"url\":\"" + url + ";\"price\":\"" + price + "\"}";
+    }
+
     @Override
     public boolean equals(Object other) {
         Offer o = (Offer) other;
