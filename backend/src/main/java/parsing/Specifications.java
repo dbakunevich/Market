@@ -94,6 +94,15 @@ public class Specifications {
         return res;
     }
 
+    public Specifications copy() {
+        Specifications newSpec = new Specifications();
+        for (Map.Entry<String, HashMap<String, String>> category: specifications.entrySet())
+            for (Map.Entry<String, String> characteristic: category.getValue().entrySet())
+                newSpec.addCharacteristic(category.getKey(), characteristic.getKey(), characteristic.getValue());
+
+        return newSpec;
+    }
+
     @Override
     public String toString() {
         String res = "";
