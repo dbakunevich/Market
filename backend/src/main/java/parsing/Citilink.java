@@ -212,30 +212,10 @@ public class Citilink extends Parser {
             Document document = Jsoup.parse(res);
 
             try {
-                nameList = getHtmlValues(document, CITILINK_BASE + CITILINK_NAME);
-                pricesList = getHtmlValues(document, CITILINK_BASE + CITILINK_PRICE);
-                linkList = getHtmlValues(document, CITILINK_BASE + CITILINK_LINK);
-                imageList = getHtmlValues(document, CITILINK_BASE + CITILINK_IMAGE);
-                for (int i = 0; i < linkList.size(); i++) {
-                    products.add(new Product());
-                    products.get(i).setLink(new URL(BASE_URL + linkList.get(i)));
-                    products.get(i).setName(nameList.get(i));
-                    products.get(i).addImageUrl(imageList.get(i));
-                    products.get(i).setPrice(Integer.parseInt(pricesList.get(i)));
-                }
+                addProducts(products, document, CITILINK_BASE , CITILINK_NAME, CITILINK_PRICE, CITILINK_LINK, CITILINK_IMAGE, BASE_URL);
             } catch (Exception e) {
                 try {
-                    nameList = getHtmlValues(document, CITILINK_BASE_2 + CITILINK_NAME_2);
-                    pricesList = getHtmlValues(document, CITILINK_BASE_2 + CITILINK_PRICE_2);
-                    linkList = getHtmlValues(document, CITILINK_BASE_2 + CITILINK_LINK_2);
-                    imageList = getHtmlValues(document, CITILINK_BASE_2 + CITILINK_IMAGE_2);
-                    for (int i = 0; i < nameList.size(); i++) {
-                        products.add(new Product());
-                        products.get(i).setLink(new URL(BASE_URL + linkList.get(i)));
-                        products.get(i).setName(nameList.get(i));
-                        products.get(i).addImageUrl(imageList.get(i));
-                        products.get(i).setPrice(pricesList.get(i));
-                    }
+                    addProducts(products, document, CITILINK_BASE_2 , CITILINK_NAME_2, CITILINK_PRICE_2, CITILINK_LINK_2, CITILINK_IMAGE_2, BASE_URL);
                 } catch (Exception e2) {
                     e.printStackTrace();
                 }
