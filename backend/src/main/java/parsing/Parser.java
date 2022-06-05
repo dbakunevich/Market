@@ -1,12 +1,17 @@
 package parsing;
 
 
+import nsu.fit.upprpo.parser.Product;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import javax.script.ScriptException;
 import java.io.*;
 import java.net.*;
+import java.util.ArrayList;
 import java.util.List;
 
 public abstract class Parser {
@@ -36,5 +41,53 @@ public abstract class Parser {
             Thread.currentThread().interrupt();
         }
         return content;
+    }
+
+    public static void addProducts(ArrayList<Product> products, Document html, String basePath, String namePath, String pricePath, String urlPath, String imageUrlPath, String baseUrl) throws Exception {
+        ArrayList<String> nameList = getHtmlValues(html, basePath + namePath);
+        ArrayList<String> pricesList = getHtmlValues(html, basePath + pricePath);
+        ArrayList<String> linkList = getHtmlValues(html, basePath + urlPath);
+        ArrayList<String> imageList = getHtmlValues(html, basePath + imageUrlPath);
+
+        for (int i = 0; i < linkList.size(); i++) {
+            products.add(new Product());
+            products.get(i).setName(nameList.get(i));
+            products.get(i).setPrice(pricesList.get(i));
+            products.get(i).setLink(new URL(baseUrl + linkList.get(i)));
+            products.get(i).addImageUrl(imageList.get(i));
+        }
+    }
+
+    public static ArrayList<String> getHtmlValues(Document html, String path) throws Exception {
+        Elements elements;
+        ArrayList<String> res = new ArrayList<>();
+        String func = "";
+        try {
+            func = path.substring(path.lastIndexOf('.'));
+            path = path.substring(0, path.lastIndexOf('.'));
+        } catch (IndexOutOfBoundsException e) {}
+        if (func.startsWith(".text()")) {
+            elements = html.select(path);
+            for (Element e: elements)
+                res.add(e.text());
+        }
+        else if (func.startsWith(".attr(")) {
+            elements = html.select(path);
+            func = func.substring(func.indexOf('(') + 1, func.lastIndexOf(')'));
+            for (Element e: elements)
+                res.add(e.attr(func));
+        }
+        else if (func.startsWith(".ownText()")) {
+            elements = html.select(path);
+            for (Element e: elements)
+                res.add(e.ownText());
+        }
+        else {
+            elements = html.select(path + func);
+            for (Element e: elements)
+                res.add(e.toString());
+        }
+        if (elements.isEmpty()) throw new Exception();
+        return res;
     }
 }
