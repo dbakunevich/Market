@@ -17,7 +17,8 @@
 
 
     <properties>
-        <spring-boot.version>2.7.0</spring-boot.version>       
+        <spring-boot.version>2.7.0</spring-boot.version>   
+		<jsoup.version>1.15.1</jsoup.version>			
     </properties>
 
     <dependencyManagement>
@@ -39,6 +40,11 @@
                 <artifactId>spring-boot-starter-test</artifactId>
                 <version>${spring-boot.version}</version>
             </dependency>
+			<dependency>
+				<groupId>org.jsoup</groupId>
+				<artifactId>jsoup</artifactId>
+				<version>${jsoup.version}</version>
+			</dependency>
         </dependencies>
     </dependencyManagement>
 
