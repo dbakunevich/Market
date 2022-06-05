@@ -1,5 +1,8 @@
 package parsing;
 
+import nsu.fit.upprpo.parser.Product;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -33,33 +36,126 @@ public class Citilink extends Parser {
     private static final String SEARCH_URL           = "https://www.citilink.ru/search/?text=";
     private static final String BASE_URL             = "https://www.citilink.ru";
 
+    public static final String CITILINK_BASE = "body" +
+            "> div.MainWrapper" +
+            "> div.MainLayout" +
+            "> main.MainLayout__main" +
+            "> div.SearchResults" +
+            "> div.Container" +
+            "> div.block_data__gtm-js" +
+            "> div.ProductCardCategoryList__grid-container" +
+            "> div.ProductCardCategoryList__grid" +
+            "> section.GroupGrid " +
+            "> div.product_data__gtm-js";
+    public static final String CITILINK_LINK =
+            "> div.ProductCardVerticalLayout" +
+                    "> div.ProductCardVerticalLayout__header" +
+                    "> div.ProductCardVerticalLayout__wrapper-description" +
+                    "> div.ProductCardVertical__description" +
+                    "> a" +
+                    ".attr(href)";
+    public static final String CITILINK_NAME =
+            "> div.ProductCardVerticalLayout" +
+                    "> div.ProductCardVerticalLayout__header" +
+                    "> div.ProductCardVerticalLayout__wrapper-description" +
+                    "> div.ProductCardVertical__description" +
+                    "> a" +
+                    ".text()";
+    public static final String CITILINK_IMAGE =
+            "> div.ProductCardVerticalLayout" +
+                    "> div.ProductCardVerticalLayout__header" +
+                    "> div.ProductCardVerticalLayout__wrapper-cover-image" +
+                    "> a.ProductCardVertical__image-link" +
+                    "> div.ProductCardVertical__image-wrapper" +
+                    "> div.ProductCardVertical__picture-container" +
+                    "> img.ProductCardVertical__picture" +
+                    ".attr(src)";
+    public static final String CITILINK_PRICE =
+            "> div.ProductCardVerticalLayout" +
+                    "> div.ProductCardVerticalLayout__footer" +
+                    "> div.ProductCardVerticalLayout__wrapper-price" +
+                    "> div.ProductCardVertical_mobile" +
+                    "> div.ProductCardVertical__price-with-amount" +
+                    "> div.ProductPrice" +
+                    "> span.ProductPrice__price" +
+                    "> span.ProductCardVerticalPrice__price-current_current-price" +
+                    ".text()";
+    public static final String CITILINK_NEXT_PAGE = "body" +
+            "> div.MainWrapper" +
+            "> div.MainLayout" +
+            "> main.MainLayout__main" +
+            "> div.SearchResults" +
+            "> div.Container" +
+            "> div.block_data__gtm-js" +
+            "> div.ProductCardCategoryList__grid-container " +
+            "> div.ProductCardCategoryList__pagination " +
+            "> section.PaginationWidget" +
+            "> div.PaginationWidget__wrapper" +
+            "> div.PaginationWidget__wrapper-pagination > a";
+
+    public static final String CITILINK_BASE_2 = "body" +
+            "> div.MainWrapper" +
+            "> div.MainLayout" +
+            "> main.MainLayout__main" +
+            "> div.BrandCategories" +
+            "> div.BrandCategories__content" +
+            "> div.BrandCategories__brand-category-list" +
+            "> div.BrandCategories__brand-header" +
+            "> div.BrandCategories__brand-category-item" +
+            "> div.BrandCategories__brand-category-product-list" +
+            "> div.SubgridScrollable" +
+            "> div.SubgridScrollable__list" +
+            "> div.SubgridScrollable__item" +
+            "> div.product_data__gtm-js" +
+            "> div.ProductCardVerticalLayout";
+    public static final String CITILINK_LINK_2 =
+            "> div.ProductCardVerticalLayout__header" +
+                    "> div.ProductCardVerticalLayout__wrapper-description" +
+                    "> div.ProductCardVertical__description" +
+                    "> a" +
+                    ".attr(href)";
+    public static final String CITILINK_NAME_2 =
+            "> div.ProductCardVerticalLayout__header" +
+                    "> div.ProductCardVerticalLayout__wrapper-description" +
+                    "> div.ProductCardVertical__description" +
+                    "> a" +
+                    ".text()";
+    public static final String CITILINK_IMAGE_2 =
+            "> div.ProductCardVerticalLayout__header" +
+                    "> div.ProductCardVerticalLayout__wrapper-cover-image" +
+                    "> a" +
+                    "> div.ProductCardVertical__image-wrapper" +
+                    "> div.ProductCardVertical__image-wrap" +
+                    "> div.ProductCardVertical__picture-hover_part" +
+                    ".attr(data-src)";
+    public static final String CITILINK_PRICE_2 =
+            "> div.ProductCardVerticalLayout__footer" +
+                    "> div.ProductCardVerticalLayout__wrapper-cart" +
+                    "> div.js--ProductCardInListing__button-buy" +
+                    "> div.ProductCardVerticalCart__price-wrapper" +
+                    "> div.ProductCardVertical_tablet" +
+                    "> div.ProductCardVertical__price-with-amount" +
+                    "> div.ProductPrice" +
+                    "> span.ProductPrice__price" +
+                    "> span.ProductCardVerticalPrice__price-current_current-price" +
+                    ".text()";
+
     @Override
     public ArrayList<Product> search(String str) {
         ArrayList<Product> products = new ArrayList<>();
-        String res;
-        int i = 0;
-        try {
-            res = SEARCH_URL + URLEncoder.encode(str, StandardCharsets.UTF_8);
-            res = getUrlContent(res);
-            Matcher matcher = PRODUCT_CARD.matcher(res);
-            Matcher m2;
-            Matcher m3;
-            while (matcher.find()) {
-                res = matcher.group(1).replaceAll("\n", "");
-                m2 = PRODUCT_LINK.matcher(res);
-                m3 = PRODUCT_IMAGE.matcher(res);
 
-                if (m2.find()) {
-                    products.add(new Product());
-                    products.get(i)
-                            .setName(m2.group(2).strip())
-                            .setLink(new URL(BASE_URL + m2.group(1).strip()))
-                            .setPrice(Integer.parseInt(m2.group(3).replaceAll(" ", "")));
-                    if (m3.find()) {
-                        products.get(i)
-                                .addImageUrl(m3.group(1));
-                    }
-                    i++;
+        try {
+            String res = SEARCH_URL + URLEncoder.encode(str, StandardCharsets.UTF_8);
+            res = getUrlContent(res);
+            Document document = Jsoup.parse(res);
+
+            try {
+                addProducts(products, document, CITILINK_BASE , CITILINK_NAME, CITILINK_PRICE, CITILINK_LINK, CITILINK_IMAGE, BASE_URL);
+            } catch (Exception e) {
+                try {
+                    addProducts(products, document, CITILINK_BASE_2 , CITILINK_NAME_2, CITILINK_PRICE_2, CITILINK_LINK_2, CITILINK_IMAGE_2, BASE_URL);
+                } catch (Exception e2) {
+                    log.error("Parsing exception: ", e2);
                 }
             }
         } catch (IOException e) {
